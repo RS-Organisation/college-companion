@@ -6,11 +6,11 @@ const router = express.Router();
 const auth = require('../middleware/authMiddleware');
 
 const {
-  getPosts,
-  createPost,
-  updatePost,
-  deletePost,
-  likePost,
+	getPosts,
+	createPost,
+	updatePost,
+	deletePost,
+	likePost,
 } = require('../controllers/posts');
 
 router.get('/', getPosts);

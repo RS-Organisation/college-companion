@@ -57,6 +57,8 @@ const facultySchema = new Schema({
 	}
 });
 
+facultySchema.set('timestamps', true);
+
 const Faculty = mongoose.model('Faculty', facultySchema);
 
 module.exports = Faculty;

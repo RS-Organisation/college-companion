@@ -1,13 +1,10 @@
-// Function to Generate Registration Number for Admin
+// Function to Generate Registration Number for Admin and Faculty
 const generateRegistrationNumber = (prefix, joiningYear, count) => {
-    var registrationNumber = '';
-    if (count < 10) {
-        registrationNumber = prefix + '00' + String(count) + String(joiningYear);
-    } else if (count < 100) {
-        registrationNumber = prefix + '0' + String(count) + String(joiningYear);
-    } else {
-        registrationNumber = prefix + String(count) + String(joiningYear);
-    }
+    const formattedCount = count.toLocaleString('en-US', {
+        minimumIntegerDigits: 3,
+        useGrouping: false
+    });
+    const registrationNumber = prefix + String(joiningYear) + formattedCount;
     return registrationNumber;
 };
 

@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    getAdminDetails,
-    addAdmin,
+	getAdminDetails,
+	addAdmin,
 } = require('../controllers/admin');
 
 router.get('/:id', getAdminDetails);

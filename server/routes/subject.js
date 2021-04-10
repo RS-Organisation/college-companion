@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    getAllSubjects,
-    addSubject
+	getAllSubjects,
+	addSubject
 } = require('../controllers/subject');
 
 router.get('/all', getAllSubjects);

@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    getFacultyDetails,
-    getAllFaculty,
-    addFaculty,
+	getFacultyDetails,
+	getAllFaculty,
+	addFaculty,
 } = require('../controllers/faculty');
 
 router.get('/all', getAllFaculty);
