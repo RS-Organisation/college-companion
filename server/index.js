@@ -3,16 +3,20 @@ const express = require('express');
 require('./db/mongoose.js');
 const cors = require('cors');
 
-// importing routes
 const adminRoutes = require('./routes/admin');
+const facultyRoutes = require('./routes/faculty');
+const studentRoutes = require('./routes/student');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors()); //use cors middleware
-app.use(express.json()); //to parse json data that our server sending and receiving
+// MIDDLEWARES
+app.use(cors());            //use cors middleware
+app.use(express.json());    //to parse json data that our server sending and receiving
 
 app.use('/admin', adminRoutes);
+app.use('/faculty', facultyRoutes);
+app.use('/student', studentRoutes);
 
 app.listen(port, () => {
   console.log(`Server is up on port: ${port}`);
