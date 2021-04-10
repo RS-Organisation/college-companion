@@ -1,18 +1,6 @@
 const Faculty = require('../models/faculty');
 const mongoose = require('mongoose');
-
-// Function to Generate Registration Number for Faculty
-const generateRegistrationNumber = (prefix, joiningYear, count) => {
-  var registrationNumber = '';
-  if (count < 10) {
-    registrationNumber = prefix + '00' + String(count) + String(joiningYear);
-  } else if (count < 100) {
-    registrationNumber = prefix + '0' + String(count) + String(joiningYear);
-  } else {
-    registrationNumber = prefix + String(count) + String(joiningYear);
-  }
-  return registrationNumber;
-};
+const { generateRegistrationNumber } = require('../util/helperFunctions');
 
 // GET ROUTES
 
@@ -41,7 +29,7 @@ const addFaculty = async (req, res) => {
   const details = req.body;
   try {
     const count = await Faculty.countDocuments({});
-    const prefix = 'ADM';
+    const prefix = 'FAC';
     const registrationNumber = generateRegistrationNumber(
       prefix,
       details.joiningYear,
@@ -53,7 +41,6 @@ const addFaculty = async (req, res) => {
       createdAt: new Date().toISOString(),
     });
     await newFaculty.save();
-    console.log(registrationNumber);
     res.status(201).json(newFaculty);
   } catch (err) {
     res.status(409).json({ message: err.message });

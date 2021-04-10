@@ -6,6 +6,7 @@ const cors = require('cors');
 const adminRoutes = require('./routes/admin');
 const facultyRoutes = require('./routes/faculty');
 const studentRoutes = require('./routes/student');
+const subjectRoutes = require('./routes/subject');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,6 +18,7 @@ app.use(express.json());    //to parse json data that our server sending and rec
 app.use('/admin', adminRoutes);
 app.use('/faculty', facultyRoutes);
 app.use('/student', studentRoutes);
+app.use('/subject', subjectRoutes);
 
 app.listen(port, () => {
   console.log(`Server is up on port: ${port}`);
