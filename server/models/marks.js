@@ -28,6 +28,9 @@ const marksSchema = new Schema({
   totalMarks: {
     type: Number,
   },
+  semester: {
+    type: Number,
+  },
   section: {
     type: String,
   },
