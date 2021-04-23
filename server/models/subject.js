@@ -5,18 +5,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const subjectSchema = new Schema({
-	attendance: {
-		type: Schema.Types.ObjectId,
-		ref: 'Attendance'
-	},
 	subjectName: {
 		type: String,
 		required: true,
-		trim: true
+		trim: true,
+		unique: true
 	},
 	subjectCode: {
 		type: String,
-		required: true
+		required: true,
+		unique: true
 	},
 	department: {
 		type: String,

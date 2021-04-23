@@ -23,6 +23,12 @@ const attendanceSchema = new Schema({
 	lecturesAttended: {
 		type: Number,
 		default: 0
+	},
+	section: {
+		type: String,
+	},
+	department: {
+		type: String,
 	}
 });
 

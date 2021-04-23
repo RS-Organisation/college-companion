@@ -33,7 +33,7 @@ const marksSchema = new Schema({
   },
   department: {
     type: String,
-  },
+  }
 });
 
 marksSchema.set('timestamps', true);
