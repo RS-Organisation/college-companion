@@ -4,11 +4,11 @@ const router = express.Router();
 
 const {
 	getStudentDetails,
-	getAllStudents,
+	getStudents,
 	addStudent
 } = require('../controllers/student');
 
-router.get('/all', getAllStudents);
+router.get('/fetch', getStudents);
 router.get('/:id', getStudentDetails);
 router.post('/add', addStudent);
 

@@ -14,9 +14,10 @@ const getStudentDetails = async (req, res) => {
   }
 };
 
-const getAllStudents = async (req, res) => {
+const getStudents = async (req, res) => {
   try {
-    const details = await Student.find({});
+    const queryObj = req.body.queryObj;
+    const details = await Student.find(queryObj);
     res.status(200).json(details);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -47,6 +48,6 @@ const addStudent = async (req, res) => {
 
 module.exports = {
   getStudentDetails,
-  getAllStudents,
-  addStudent,
+  getStudents,
+  addStudent
 };

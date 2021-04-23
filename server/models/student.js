@@ -56,10 +56,6 @@ const studentSchema = new Schema({
 		type: String,
 		required: true
 	},
-	semester: {
-		type: Number,
-		required: true
-	},
 	joiningYear: {
 		type: Number,
 		required: true
