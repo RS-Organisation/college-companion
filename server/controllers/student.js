@@ -46,8 +46,28 @@ const addStudent = async (req, res) => {
   }
 };
 
+// UPDATE ROUTE
+const updateProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+
+    const updatedDetails = await Student.findByIdAndUpdate(
+      id,
+      { ...body, id },
+      {
+        new: true,
+      }
+    );
+    res.status(204).json(updatedDetails);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getStudentDetails,
   getStudents,
-  addStudent
+  addStudent,
+  updateProfile,
 };
