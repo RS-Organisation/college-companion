@@ -7,12 +7,10 @@ const mongoose = require('mongoose');
 const getAttendanceById = async (req,res) => {
     try {
         const { id } = req.params;
-        const { section, department, semester } = req.body;
+        const { semester } = req.body;
 
         const attendanceList = await Attendance.find({ 
             student: id,
-            section,
-            department,
             semester
         });
 
@@ -25,15 +23,9 @@ const getAttendanceById = async (req,res) => {
 
 const getAttendanceOfAll = async (req,res) => {
     try {
-        const { section, department, subjectCode } = req.body;
+        const { subjectCode } = req.body;
         const sub = await Subject.findOne({ subjectCode });
-
-        const attendanceList = await Attendance.find({ 
-            subject: sub._id,
-            section,
-            department
-        });
-
+        const attendanceList = await Attendance.find({ subject: sub._id });
         res.status(200).json(attendanceList);
     }
     catch(err) {
@@ -41,13 +33,14 @@ const getAttendanceOfAll = async (req,res) => {
     }
 };
 
-// PATCH ROUTES
+// POST ROUTES
 
 const markAttendance = async (req,res) => {
     try {
         const {
             studentsList, 
-            subjectCode 
+            subjectCode,
+            semester
         } = req.body;
 
         const sub = await Subject.findOne({ subjectCode });
@@ -55,13 +48,14 @@ const markAttendance = async (req,res) => {
         studentsList.forEach(async (stud) => {
             const alreadyExist = await Attendance.findOne({ 
                 student: stud.studentId, 
-                subject: sub._id 
+                subject: sub._id
             });
 
             if (!alreadyExist) {
                 const attendance = new Attendance({
                     student: stud.studentId, 
                     subject: sub._id,
+                    semester
                 });
                 attendance.totalLecturesHeld += 1;
                 attendance.lecturesAttended += stud.isPresent;
@@ -81,5 +75,9 @@ const markAttendance = async (req,res) => {
     } 
 };
 
-module.exports = { markAttendance };
+module.exports = {
+    getAttendanceById,
+    getAttendanceOfAll,
+    markAttendance
+};
 

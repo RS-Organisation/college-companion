@@ -8,6 +8,7 @@ const facultyRoutes = require('./routes/faculty');
 const studentRoutes = require('./routes/student');
 const subjectRoutes = require('./routes/subject');
 const marksRoutes = require('./routes/marks');
+const attendanceRoutes = require('./routes/attendance');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,6 +22,7 @@ app.use('/faculty', facultyRoutes);
 app.use('/student', studentRoutes);
 app.use('/subject', subjectRoutes);
 app.use('/marks', marksRoutes);
+app.use('/attendance', attendanceRoutes);
 
 app.listen(port, () => {
   console.log(`Server is up on port: ${port}`);

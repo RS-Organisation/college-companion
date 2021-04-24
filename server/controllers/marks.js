@@ -4,14 +4,10 @@ const mongoose = require('mongoose');
 
 const getMarksOfAll = async (req, res) => {
   try {
-    const { section, department, subjectCode } = req.body;
+    const { subjectCode } = req.body;
     const sub = await Subject.findOne({ subjectCode });
 
-    const marksList = await Marks.find({
-      subject: sub._id,
-      section,
-      department,
-    });
+    const marksList = await Marks.find({ subject: sub._id });
     res.status(200).json(marksList);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -21,13 +17,11 @@ const getMarksOfAll = async (req, res) => {
 const getMarksById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { section, department, semester } = req.body;
+    const { semester } = req.body;
 
     const marksList = await Marks.find({
       student: id,
-      section,
-      department,
-      semester,
+      semester
     });
     res.status(200).json(marksList);
   } catch (err) {

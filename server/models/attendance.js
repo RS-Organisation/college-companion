@@ -24,11 +24,8 @@ const attendanceSchema = new Schema({
 		type: Number,
 		default: 0
 	},
-	section: {
-		type: String,
-	},
-	department: {
-		type: String,
+	semester: {
+		type: Number,
 	}
 });
 
