@@ -8,8 +8,10 @@ const {
   uploadMarks,
 } = require('../controllers/marks');
 
-router.get('/all', getMarksOfAll); //get marks of particular subject for all students (For Faculty)
-router.get('/:id', getMarksById); // get marks of all subjects for a particular student (For Students)
-router.post('/upload', uploadMarks);
+const { facultyAuth, studentAuth } = require('../middleware/authMiddleware');
+
+router.get('/all', facultyAuth, getMarksOfAll); //get marks of particular subject for all students (For Faculty)
+router.get('/:id', studentAuth, getMarksById); // get marks of all subjects for a particular student (For Students)
+router.post('/upload', facultyAuth, uploadMarks);
 
 module.exports = router;

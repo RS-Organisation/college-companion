@@ -28,6 +28,7 @@ const addAdmin = async (req, res) => {
     );
     const newAdmin = new Admin({
       ...details,
+      password: details.dob,
       registrationNumber,
     });
     await newAdmin.save();

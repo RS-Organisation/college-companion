@@ -9,9 +9,11 @@ const {
   updateProfile,
 } = require('../controllers/faculty');
 
-router.get('/all', getAllFaculty);
-router.get('/:id', getFacultyDetails);
-router.patch('/:id', updateProfile);
-router.post('/add', addFaculty);
+const { facultyAuth, adminAuth } = require('../middleware/authMiddleware');
+
+router.get('/all', adminAuth, getAllFaculty);
+router.get('/:id', facultyAuth, getFacultyDetails);
+router.patch('/:id', facultyAuth, updateProfile);
+router.post('/add', adminAuth, addFaculty);
 
 module.exports = router;

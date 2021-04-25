@@ -37,6 +37,7 @@ const addFaculty = async (req, res) => {
     );
     const newFaculty = new Faculty({
       ...details,
+      password: details.dob,
       registrationNumber,
     });
     await newFaculty.save();

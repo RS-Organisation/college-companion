@@ -8,8 +8,10 @@ const {
   updateProfile,
 } = require('../controllers/admin');
 
-router.get('/:id', getAdminDetails);
-router.patch('/:id', updateProfile);
-router.post('/add', addAdmin);
+const { adminAuth } = require('../middleware/authMiddleware');
+
+router.get('/:id', adminAuth, getAdminDetails);
+router.patch('/:id', adminAuth, updateProfile);
+router.post('/add', adminAuth, addAdmin);
 
 module.exports = router;

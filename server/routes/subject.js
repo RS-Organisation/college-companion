@@ -2,12 +2,11 @@
 const express = require('express');
 const router = express.Router();
 
-const {
-	getAllSubjects,
-	addSubject
-} = require('../controllers/subject');
+const { getAllSubjects, addSubject } = require('../controllers/subject');
 
-router.get('/all', getAllSubjects);
-router.post('/add', addSubject);
+const { adminAuth } = require('../middleware/authMiddleware');
+
+router.get('/all', adminAuth, getAllSubjects);
+router.post('/add', adminAuth, addSubject);
 
 module.exports = router;

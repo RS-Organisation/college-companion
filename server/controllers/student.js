@@ -38,7 +38,11 @@ const addStudent = async (req, res) => {
       details.joiningYear,
       count + 1
     );
-    const newStudent = new Student({ ...details, enrollmentNumber });
+    const newStudent = new Student({
+      ...details,
+      password: details.dob,
+      enrollmentNumber,
+    });
     await newStudent.save();
     res.status(201).json(newStudent);
   } catch (err) {
