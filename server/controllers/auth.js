@@ -100,4 +100,14 @@ const studentLogin = async (req, res) => {
   }
 };
 
-module.exports = { adminLogin, facultyLogin, studentLogin };
+const logOut = async (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.redirect('/');
+};
+
+module.exports = { 
+  adminLogin, 
+  facultyLogin, 
+  studentLogin, 
+  logOut 
+};

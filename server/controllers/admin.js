@@ -43,16 +43,9 @@ const addAdmin = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
-    const body = req.body;
-
-    const updatedDetails = await Admin.findByIdAndUpdate(
-      id,
-      { ...body, id },
-      {
-        new: true,
-      }
-    );
-    res.status(204).json(updatedDetails);
+    const updates = req.body;
+    const updatedDetails = await Admin.findByIdAndUpdate(id, updates, { new: true });
+    res.status(201).json(updatedDetails);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
