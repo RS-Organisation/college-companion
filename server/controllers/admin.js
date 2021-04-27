@@ -21,16 +21,30 @@ const addAdmin = async (req, res) => {
   try {
     const count = await Admin.countDocuments({});
     const prefix = 'ADM';
-    const registrationNumber = generateRegistrationNumber(
+    var registrationNumber = generateRegistrationNumber(
       prefix,
       details.joiningYear,
       count + 1
     );
+
+    const checkExisting = await Admin.findOne({ registrationNumber });
+
+    if (checkExisting) {
+      const last = await Admin.findOne({}).sort({ createdAt: -1 }).limit(1);
+      const newCount = parseInt(last.registrationNumber.slice(-3));
+      registrationNumber = generateRegistrationNumber(
+        prefix,
+        details.joiningYear,
+        newCount + 1
+      );
+    }
+
     const newAdmin = new Admin({
       ...details,
       password: details.dob,
       registrationNumber,
     });
+
     await newAdmin.save();
     res.status(201).json(newAdmin);
   } catch (err) {
@@ -44,8 +58,21 @@ const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Admin.findByIdAndUpdate(id, updates, { new: true });
+    const updatedDetails = await Admin.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
     res.status(201).json(updatedDetails);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// Delete Route
+const deleteAdmin = async (req, res) => {
+  try {
+    const { registrationNumber } = req.body;
+    await Admin.findOneAndRemove({ registrationNumber });
+    res.json({ message: 'Admin deleted successfully' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -55,4 +82,5 @@ module.exports = {
   getAdminDetails,
   addAdmin,
   updateProfile,
+  deleteAdmin,
 };

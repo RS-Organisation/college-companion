@@ -7,6 +7,7 @@ const {
   getStudents,
   addStudent,
   updateProfile,
+  deleteStudent,
 } = require('../controllers/student');
 
 const {
@@ -19,5 +20,6 @@ router.get('/fetch', facultyAuth, getStudents);
 router.get('/:id', studentAuth, getStudentDetails);
 router.patch('/:id', studentAuth, updateProfile);
 router.post('/add', adminAuth, addStudent);
+router.delete('/delete', adminAuth, deleteStudent);
 
 module.exports = router;
