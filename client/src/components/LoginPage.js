@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import ForwardIcon from '@material-ui/icons/Forward';
 import useStyles from '../styles/LoginPage';
 
 const LoginPage = () => {
@@ -23,6 +24,12 @@ const LoginPage = () => {
 
   return (
     <div className={classes.main}>
+      <Button
+        variant='outlined'
+        className={classes.adminButton}
+      >
+        Admin <ForwardIcon />
+      </Button>
       <div className={classes.contentBox}>
         <Grid container spacing={0}>
           <Grid item xs={12} lg={6} className={classes.imageGrid}>
@@ -35,22 +42,20 @@ const LoginPage = () => {
                 <Button
                   variant='outlined'
                   onClick={() => setUserType('student')}
-                  className={`${classes.studentButton} ${
-                    userType === 'student'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.studentButton} ${userType === 'student'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Student Login
                 </Button>
                 <Button
                   variant='contained'
                   onClick={() => setUserType('faculty')}
-                  className={`${classes.facultyButton} ${
-                    userType === 'faculty'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.facultyButton} ${userType === 'faculty'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Faculty Login
                 </Button>
@@ -62,8 +67,8 @@ const LoginPage = () => {
                   id='outlined-basic'
                   label={
                     userType === 'student'
-                      ? 'Enrollment number'
-                      : 'Registration number'
+                      ? 'Enrollment Number'
+                      : 'Registration Number'
                   }
                   variant='outlined'
                   size='small'
@@ -80,7 +85,7 @@ const LoginPage = () => {
                     endAdornment: (
                       <InputAdornment position='end'>
                         <IconButton onClick={handleShowPassword}>
-                          {!showPassword ? <Visibility /> : <VisibilityOff />}
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
                     ),
