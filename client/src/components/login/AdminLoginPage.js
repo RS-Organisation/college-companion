@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import loginImage from '../images/loginImage.svg';
+import loginImage from '../../images/loginImage.svg';
 import {
   Grid,
   Button,
@@ -11,9 +11,9 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ForwardIcon from '@material-ui/icons/Forward';
-import useStyles from '../styles/LoginPage';
+import useStyles from '../../styles/LoginPage';
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [userType, setUserType] = useState('student');
@@ -24,11 +24,8 @@ const LoginPage = () => {
 
   return (
     <div className={classes.main}>
-      <Button
-        variant='outlined'
-        className={classes.adminButton}
-      >
-        Admin <ForwardIcon />
+      <Button variant='outlined' className={classes.adminButton}>
+        Student/Faculty <ForwardIcon />
       </Button>
       <div className={classes.contentBox}>
         <Grid container spacing={0}>
@@ -38,38 +35,12 @@ const LoginPage = () => {
           <Grid item xs={12} lg={6} className={classes.loginGrid}>
             <div className={classes.loginGridDiv}>
               <h3 className={classes.title}>Welcome</h3>
-              <div classesName={classes.buttonDiv}>
-                <Button
-                  variant='outlined'
-                  onClick={() => setUserType('student')}
-                  className={`${classes.studentButton} ${userType === 'student'
-                    ? classes.selectedButton
-                    : classes.nonSelectedButton
-                    }`}
-                >
-                  Student Login
-                </Button>
-                <Button
-                  variant='contained'
-                  onClick={() => setUserType('faculty')}
-                  className={`${classes.facultyButton} ${userType === 'faculty'
-                    ? classes.selectedButton
-                    : classes.nonSelectedButton
-                    }`}
-                >
-                  Faculty Login
-                </Button>
-              </div>
-              <Divider variant='middle' className={classes.divider} />
+              <Divider variant='middle' className={classes.adminDivider} />
               <form className={classes.root} autoComplete='off'>
                 <TextField
                   className={classes.formField}
                   id='outlined-basic'
-                  label={
-                    userType === 'student'
-                      ? 'Enrollment Number'
-                      : 'Registration Number'
-                  }
+                  label='Registration Number'
                   variant='outlined'
                   size='small'
                   type='text'
@@ -107,4 +78,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminLoginPage;

@@ -1,8 +1,9 @@
 import React from 'react';
-import AdminLoginPage from './components/AdminLoginPage';
+import AdminLoginPage from './components/login/AdminLoginPage';
+import StudentDashboard from './components/student/StudentDashboard';
 
 const App = () => {
-  return <AdminLoginPage />;
+  return <StudentDashboard />;
 };
 
 export default App;
