@@ -1,14 +1,6 @@
 import React from 'react';
-// import {
-//   AppBar,
-//   Toolbar,
-//   Typography,
-//   Button,
-//   IconButton,
-// } from '@material-ui/core';
-// import MenuIcon from '@material-ui/icons/Menu';
 
-import useStyles from './styles';
+import useStyles from '../../styles/StudentDashboard';
 import Header from './Header';
 
 const StudentDashboard = () => {
@@ -16,7 +8,7 @@ const StudentDashboard = () => {
   return (
     <div className={classes.main}>
       <Header>
-        <p>My name is Shikhar Rastogi</p>
+        <p>This is student dashboard.</p>
       </Header>
     </div>
   );

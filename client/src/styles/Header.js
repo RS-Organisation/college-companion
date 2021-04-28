@@ -4,14 +4,13 @@ const drawerWidth = 240;
 
 export default makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   hide: {
     display: 'none',
   },
   appBar: {
     backgroundColor: '#41aea9',
-    borderRadius: '22px',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -40,4 +39,21 @@ export default makeStyles((theme) => ({
       display: 'flex',
     },
   },
+  accountCircle: {
+    marginRight: '1rem',
+  },
+  settingIcon: {
+    marginRight: '1rem'
+  },
+  menuItem: {
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      backgroundColor: '#41aea9',
+      color: 'white'
+    },
+    fontSize: '0.9rem'
+  },
+  menu: {
+    marginTop: '2.5rem'
+  }
 }));

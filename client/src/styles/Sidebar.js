@@ -5,6 +5,10 @@ const drawerWidth = 240;
 export default makeStyles((theme) => ({
   root: {
     display: 'flex',
+    '& .MuiTypography-body1': {
+      fontFamily: 'Nunito Sans',
+      fontSize: '1rem'
+    }
   },
   hide: {
     display: 'none',
@@ -25,7 +29,7 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   content: {
     flexGrow: 1,
@@ -43,4 +47,22 @@ export default makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  drawerTitle: {
+    marginLeft: '1rem',
+    fontFamily: 'Nunito Sans',
+    fontSize: '1.5rem',
+    color: '#41aea9'
+  },
+  listItem: {
+    padding: 0
+  },
+  listItemButton: {
+    padding: '1rem',
+    paddingLeft: '1rem',
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      backgroundColor: '#41aea9',
+      color: 'white'
+    }
+  }
 }));
