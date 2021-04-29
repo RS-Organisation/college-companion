@@ -7,8 +7,8 @@ export default makeStyles((theme) => ({
     display: 'flex',
     '& .MuiTypography-body1': {
       fontFamily: 'Nunito Sans',
-      fontSize: '1rem'
-    }
+      fontSize: '1rem',
+    },
   },
   hide: {
     display: 'none',
@@ -51,10 +51,18 @@ export default makeStyles((theme) => ({
     marginLeft: '1rem',
     fontFamily: 'Nunito Sans',
     fontSize: '1.5rem',
-    color: '#41aea9'
+    color: '#41aea9',
+  },
+  navLink: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+  activeLink: {
+    backgroundColor: '#41aea9',
+    color: 'white',
   },
   listItem: {
-    padding: 0
+    padding: 0,
   },
   listItemButton: {
     padding: '1rem',
@@ -62,7 +70,7 @@ export default makeStyles((theme) => ({
     transition: '0.3s ease-in-out',
     '&:hover': {
       backgroundColor: '#41aea9',
-      color: 'white'
-    }
-  }
+      color: 'white',
+    },
+  },
 }));

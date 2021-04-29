@@ -25,47 +25,52 @@ const DetailsComponent = () => {
                   <TextField
                     label='First name'
                     margin='normal'
-                    defaultValue='adminFirstName'
+                    value='First name'
+                    className={classes.root}
                   />
                   <TextField
                     label='Last name'
                     margin='normal'
-                    defaultValue='adminLastName'
+                    value='Last Name'
                   />
                 </div>
                 <div className={classes.rowWise}>
                   <TextField
                     label='Designation'
                     margin='normal'
-                    defaultValue='adminDesignation'
+                    value='Designation'
                   />
                   <TextField
                     label='Department'
                     margin='normal'
-                    defaultValue='adminDepartment'
+                    value='Department'
                   />
                 </div>
                 <div className={classes.rowWise}>
                   <TextField
                     label='Date of birth'
                     margin='normal'
-                    defaultValue='DOB'
+                    value='DOB'
                   />
-                  <TextField
-                    label='Join year'
-                    margin='normal'
-                    defaultValue='DOJ'
-                  />
+                  <TextField label='Join year' margin='normal' value='DOJ' />
                 </div>
+                <TextField
+                  label='Registration number'
+                  margin='normal'
+                  value='Registration number'
+                  className={classes.size}
+                />
                 <TextField
                   label='Email address'
                   margin='normal'
-                  defaultValue='Email'
+                  value='Email'
+                  className={classes.size}
                 />
                 <TextField
                   label='Contact number'
                   margin='normal'
-                  defaultValue='Contact'
+                  value='Contact'
+                  className={classes.size}
                 />
               </form>
             </div>

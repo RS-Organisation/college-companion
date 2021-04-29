@@ -1,14 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
 import Header from './Header';
 import DetailsComponent from './DetailsComponent';
+import UpdatePassword from './UpdatePassword';
 import useStyles from '../../styles/AdminProfile';
 
-import { Divider, Typography } from '@material-ui/core';
-
-const AdminProfile = () => {
+const AdminProfile = (props) => {
   const classes = useStyles();
-  const [clickedButton, setClickedButton] = useState('profile');
+  const selected = props?.location?.aboutProps?.selected || 'profile';
+  const [clickedButton, setClickedButton] = useState(selected);
+  useEffect(() => {
+    setClickedButton(selected);
+  }, [selected]);
   return (
     <Header>
       <Fragment>
@@ -34,7 +37,11 @@ const AdminProfile = () => {
           </span>
         </div>
         <div>
-          {clickedButton === 'profile' ? <DetailsComponent /> : <p>Security</p>}
+          {clickedButton === 'profile' ? (
+            <DetailsComponent />
+          ) : (
+            <UpdatePassword />
+          )}
         </div>
       </Fragment>
     </Header>

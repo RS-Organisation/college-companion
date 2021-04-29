@@ -55,5 +55,9 @@ export default makeStyles((theme) => ({
   },
   menu: {
     marginTop: '2.5rem'
-  }
+  },
+  navLink: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
 }));

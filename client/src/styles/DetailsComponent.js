@@ -5,10 +5,21 @@ export default makeStyles((theme) => ({
     '& .MuiTypography-body1': {
       fontFamily: 'Nunito Sans',
     },
+    '& .MuiFormLabel-root': {
+      color: '#41aea9',
+      fontFamily: 'Nunito Sans, sans-serif',
+      fontWeight: '300',
+    },
     '& .MuiFormControl-marginNormal': {
       marginTop: '1rem',
       marginBottom: '0.8rem',
       marginRight: '2.4rem',
+    },
+    '& .MuiInput-underline:before': {
+      borderBottomColor: '#41aea9',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#41aea9',
     },
   },
   contentBox: {
@@ -40,7 +51,7 @@ export default makeStyles((theme) => ({
   doubleTextField: {
     marginRight: '1.2rem',
   },
-  singleTextField: {
-    width: '60%',
+  size: {
+    width: '50% !important',
   },
 }));
