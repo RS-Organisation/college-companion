@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import loginImage from '../../images/loginImage.svg';
 import {
   Grid,
@@ -15,6 +16,7 @@ import useStyles from '../../styles/LoginPage';
 
 const LoginPage = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
   const [userType, setUserType] = useState('student');
 
@@ -22,9 +24,13 @@ const LoginPage = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
+  const handleAdminButton = () => {
+    history.push('/admin/login');
+  }
+
   return (
     <div className={classes.main}>
-      <Button variant='outlined' className={classes.adminButton}>
+      <Button variant='outlined' onClick={handleAdminButton} className={classes.adminButton}>
         Admin <ForwardIcon />
       </Button>
       <div className={classes.contentBox}>
