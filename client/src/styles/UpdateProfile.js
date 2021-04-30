@@ -56,7 +56,7 @@ export default makeStyles((theme) => ({
     fontSize: '1.1rem',
     textTransform: 'none',
     padding: '7px 18px',
-    marginTop: '1.6rem',
+    margin: '1.6rem 0',
     fontWeight: '400',
     backgroundColor: '#41aea9',
     color: 'white',

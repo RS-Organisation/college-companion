@@ -23,31 +23,31 @@ const UpdateProfile = () => {
               <TextField
                 label='First Name'
                 margin='normal'
-                value='Atul'
+                value='Shikhar'
               />
               <TextField
                 label='Last Name'
                 margin='normal'
-                value='Kumar'
+                value='Rastogi'
               />
             </div>
             <div className={classes.rowWise}>
               <TextField
-                label='Designation'
-                margin='normal'
-                value='Professor'
-              />
-              <TextField
                 label='Department'
                 margin='normal'
-                value='CSE'
+                value='IT'
+              />
+              <TextField
+                label='Section'
+                margin='normal'
+                value='2'
               />
             </div>
             <div className={classes.rowWise}>
               <TextField
                 label='Date of Birth'
                 margin='normal'
-                value='30-12-1977'
+                value='20-05-1999'
               />
               <TextField
                 label='Gender'
@@ -59,12 +59,24 @@ const UpdateProfile = () => {
               <TextField
                 label='Email Address'
                 margin='normal'
-                value='atulkr@123.com'
+                value='shikhar@123.com'
               />
               <TextField
                 label='Contact Number'
                 margin='normal'
-                value='8974545454'
+                value='8974545457'
+              />
+            </div>
+            <div className={classes.rowWise}>
+              <TextField
+                label="Father's Name"
+                margin='normal'
+                value='Mahesh Rastogi'
+              />
+              <TextField
+                label="Father's Contact Number"
+                margin='normal'
+                value='8754214596'
               />
             </div>
             <Button type='submit' className={classes.filledButton}>

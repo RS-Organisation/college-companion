@@ -1,4 +1,6 @@
 import { React, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+
 import {
   AppBar,
   Toolbar,
@@ -91,12 +93,34 @@ const Header = (props) => {
               open={openSetting}
               onClose={handleSettingClose}
             >
-              <MenuItem onClick={handleSettingClose} className={classes.menuItem}>
-                Update Profile
-              </MenuItem>
-              <MenuItem onClick={handleSettingClose} className={classes.menuItem}>
-                Update Password
-              </MenuItem>
+              <NavLink
+                to={{
+                  pathname: '/student/profile',
+                  aboutProps: {
+                    selected: 'profile',
+                  },
+                }}
+                exact
+                className={classes.navLink}
+              >
+                <MenuItem onClick={handleSettingClose} className={classes.menuItem}>
+                  Update Profile
+                </MenuItem>
+              </NavLink>
+              <NavLink
+                to={{
+                  pathname: '/student/profile',
+                  aboutProps: {
+                    selected: 'security',
+                  },
+                }}
+                exact
+                className={classes.navLink}
+              >
+                <MenuItem onClick={handleSettingClose} className={classes.menuItem}>
+                  Update Password
+                </MenuItem>
+              </NavLink>
             </Menu>
             <IconButton
               edge='end'
