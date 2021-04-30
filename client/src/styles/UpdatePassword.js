@@ -14,35 +14,34 @@ export default makeStyles((theme) => ({
       borderColor: '#41aea9',
     },
   },
-  container: {
-    margin: '1.2rem',
-    padding: '1.2rem',
-  },
   subtitle: {
-    marginBottom: '1.5rem',
+    marginBottom: '2rem',
+    fontFamily: 'Nunito Sans, sans-serif',
+    color: '#41aea9'
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '30%',
+    margin: 'auto'
   },
   formField: {
-    width: '30%',
-    marginBottom: '2rem',
+    width: '100%',
+    marginBottom: '2rem'
   },
-  size: {
-    width: '50% !important',
-  },
-  rowWise: {
+  buttonDiv: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   outlinedButton: {
-    width: '14%',
-    marginRight: '1rem',
     fontFamily: 'Nunito Sans, sans-serif',
     textTransform: 'none',
-    padding: '6px 6px',
+    padding: '6px 18px',
     fontWeight: '600',
     color: '#41aea9',
     backgroundColor: 'white',
@@ -51,14 +50,13 @@ export default makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: 'white',
       transform: 'scale(1.02)',
+      outline: 'none'
     },
   },
   filledButton: {
-    width: '15%',
-    marginRight: '1rem',
     fontFamily: 'Nunito Sans, sans-serif',
     textTransform: 'none',
-    padding: '6px 6px',
+    padding: '8px 18px',
     fontWeight: '600',
     backgroundColor: '#41aea9',
     color: 'white',
@@ -67,6 +65,7 @@ export default makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#41aea9',
       transform: 'scale(1.02)',
+      outline: 'none'
     },
   },
 }));

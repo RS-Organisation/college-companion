@@ -20,7 +20,7 @@ const UpdatePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
   return (
-    <div className={classes.container}>
+    <div>
       <Typography variant='h5' className={classes.subtitle}>
         Password
       </Typography>
@@ -30,13 +30,13 @@ const UpdatePassword = () => {
             onClick={() => setShowForm(true)}
             className={classes.filledButton}
           >
-            Change password
+            Change Password
           </Button>
         ) : (
           <form className={`${classes.root} ${classes.form}`}>
             <TextField
               className={classes.formField}
-              label='Password'
+              label='New Password'
               variant='outlined'
               size='small'
               type={showPassword ? 'text' : 'password'}
@@ -57,9 +57,9 @@ const UpdatePassword = () => {
               size='small'
               type='password'
             />
-            <div className={classes.rowWise}>
+            <div className={classes.buttonDiv}>
               <Button type='submit' className={classes.filledButton}>
-                Save changes
+                Save Changes
               </Button>
               <Button
                 variant='outlined'
