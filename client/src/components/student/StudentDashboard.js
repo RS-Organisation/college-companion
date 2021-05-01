@@ -1,16 +1,17 @@
 import React from 'react';
 
-import useStyles from '../../styles/StudentDashboard';
+import useStyles from '../../styles/Dashboard';
 import Header from './Header';
+import ProfileDetails from './ProfileDetails';
 
 const StudentDashboard = () => {
   const classes = useStyles();
   return (
-    <div className={classes.main}>
-      <Header>
-        <p>This is student dashboard.</p>
-      </Header>
-    </div>
+    <Header>
+      <div className={classes.main}>
+        <ProfileDetails />
+      </div>
+    </Header>
   );
 };
 
