@@ -10,6 +10,10 @@ import StudentDashboard from './components/student/StudentDashboard';
 import AdminProfile from './components/admin/AdminProfile';
 import FacultyProfile from './components/faculty/FacultyProfile';
 import StudentProfile from './components/student/StudentProfile';
+import AddAdmin from './components/admin/AddAdmin';
+import AddFaculty from './components/admin/AddFaculty';
+import AddStudent from './components/admin/AddStudent';
+import AddSubject from './components/admin/AddSubject';
 
 const App = () => {
   return (
@@ -29,6 +33,10 @@ const App = () => {
         <Route path='/admin/login' exact component={AdminLoginPage} />
         <Route path='/admin' exact component={AdminDashboard} />
         <Route path='/admin/profile' exact component={AdminProfile} />
+        <Route path='/admin/addAdmin' exact component={AddAdmin} />
+        <Route path='/admin/addFaculty' exact component={AddFaculty} />
+        <Route path='/admin/addStudent' exact component={AddStudent} />
+        <Route path='/admin/addSubject' exact component={AddSubject} />
       </Switch>
     </BrowserRouter>
   );

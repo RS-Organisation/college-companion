@@ -53,7 +53,7 @@ export default function Sidebar(props) {
           </IconButton>
         </div>
         <Divider />
-        <NavLink to='#' exact className={classes.navLink}>
+        <NavLink to='/admin/addAdmin' exact className={classes.navLink}>
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>
@@ -64,7 +64,7 @@ export default function Sidebar(props) {
           </List>
         </NavLink>
         <Divider />
-        <NavLink to='#' exact className={classes.navLink}>
+        <NavLink to='/admin/addFaculty' exact className={classes.navLink}>
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>
@@ -75,7 +75,7 @@ export default function Sidebar(props) {
           </List>
         </NavLink>
         <Divider />
-        <NavLink to='#' exact className={classes.navLink}>
+        <NavLink to='/admin/addStudent' exact className={classes.navLink}>
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>
@@ -86,7 +86,7 @@ export default function Sidebar(props) {
           </List>
           <Divider />
         </NavLink>
-        <NavLink to='#' exact className={classes.navLink}>
+        <NavLink to='/admin/addSubject' exact className={classes.navLink}>
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>

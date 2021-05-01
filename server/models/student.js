@@ -61,9 +61,6 @@ const studentSchema = new Schema({
     type: Number,
     required: true,
   },
-  batch: {
-    type: String,
-  },
   subjects: [
     {
       type: Schema.Types.ObjectId,
