@@ -12,8 +12,7 @@ export default makeStyles((theme) => ({
       fontSize: '1.1rem',
     },
     '& .MuiFormControl-marginNormal': {
-      marginTop: '1rem',
-      marginBottom: '0.8rem',
+      margin: '1rem 0'
     },
     '& .MuiInput-underline:before': {
       borderBottomColor: '#41aea9',
@@ -36,10 +35,13 @@ export default makeStyles((theme) => ({
     height: theme.spacing(15),
   },
   subtitle: {
-    marginBottom: '1rem',
+    margin: '2rem 0 0.5rem 0',
     fontFamily: 'Nunito Sans, sans-serif',
     color: '#41aea9',
     textAlign: 'center',
+  },
+  divider: {
+    marginBottom: '2rem',
   },
   form: {
     display: 'flex',
@@ -52,22 +54,5 @@ export default makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  filledButton: {
-    fontFamily: 'Nunito Sans, sans-serif',
-    fontSize: '1.1rem',
-    textTransform: 'none',
-    padding: '7px 18px',
-    margin: '1.6rem 0',
-    fontWeight: '400',
-    backgroundColor: '#41aea9',
-    color: 'white',
-    border: 'none',
-    transition: '0.3s ease-in-out',
-    '&:hover': {
-      backgroundColor: '#41aea9',
-      transform: 'scale(1.02)',
-      outline: 'none',
-    },
-  },
+  }
 }));

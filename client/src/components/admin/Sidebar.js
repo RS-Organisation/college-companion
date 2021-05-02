@@ -22,6 +22,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 
 import useStyles from '../../styles/Sidebar';
 
@@ -52,6 +53,17 @@ export default function Sidebar(props) {
             )}
           </IconButton>
         </div>
+        <Divider />
+        <NavLink to='/admin' exact className={classes.navLink}>
+          <List className={classes.listItem}>
+            <ListItem button className={classes.listItemButton}>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary='Dashboard' />
+            </ListItem>
+          </List>
+        </NavLink>
         <Divider />
         <NavLink to='/admin/addAdmin' exact className={classes.navLink}>
           <List className={classes.listItem}>

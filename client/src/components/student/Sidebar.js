@@ -19,6 +19,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import ListIcon from '@material-ui/icons/List';
 import SchoolIcon from '@material-ui/icons/School';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 
 import useStyles from '../../styles/Sidebar';
 
@@ -49,6 +50,17 @@ export default function Sidebar(props) {
             )}
           </IconButton>
         </div>
+        <Divider />
+        <NavLink to='/student' exact className={classes.navLink}>
+          <List className={classes.listItem}>
+            <ListItem button className={classes.listItemButton}>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary='Dashboard' />
+            </ListItem>
+          </List>
+        </NavLink>
         <Divider />
         <NavLink to='#' exact className={classes.navLink}>
           <List className={classes.listItem}>
