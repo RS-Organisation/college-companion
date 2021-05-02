@@ -14,9 +14,15 @@ import AddAdmin from './components/admin/AddAdmin';
 import AddFaculty from './components/admin/AddFaculty';
 import AddStudent from './components/admin/AddStudent';
 import AddSubject from './components/admin/AddSubject';
+<<<<<<< HEAD
 import OurFacultiesPage from './components/admin/OurFacultiesPage';
 import OurStudentsPage from './components/admin/OurStudentsPage';
 import DisplaySubjectsPage from './components/admin/DisplaySubjectsPage';
+=======
+import OurFacultyPage from './components/admin/OurFacultyPage';
+import OurStudentPage from './components/admin/OurStudentPage';
+import MarkAttendancePage from './components/faculty/MarkAttendancePage';
+>>>>>>> 351fa78440fd2e7d4a07f8b6a13c16f3ac46bd41
 
 const App = () => {
   return (
@@ -31,6 +37,11 @@ const App = () => {
         {/* Faculty Routes */}
         <Route path='/faculty' exact component={FacultyDashboard} />
         <Route path='/faculty/profile' exact component={FacultyProfile} />
+        <Route
+          path='/faculty/markAttendance'
+          exact
+          component={MarkAttendancePage}
+        />
 
         {/* Admin Routes */}
         <Route path='/admin/login' exact component={AdminLoginPage} />
