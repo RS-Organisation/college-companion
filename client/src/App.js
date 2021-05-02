@@ -16,6 +16,7 @@ import AddStudent from './components/admin/AddStudent';
 import AddSubject from './components/admin/AddSubject';
 import OurFacultyPage from './components/admin/OurFacultyPage';
 import OurStudentPage from './components/admin/OurStudentPage';
+import MarkAttendancePage from './components/faculty/MarkAttendancePage';
 
 const App = () => {
   return (
@@ -30,6 +31,11 @@ const App = () => {
         {/* Faculty Routes */}
         <Route path='/faculty' exact component={FacultyDashboard} />
         <Route path='/faculty/profile' exact component={FacultyProfile} />
+        <Route
+          path='/faculty/markAttendance'
+          exact
+          component={MarkAttendancePage}
+        />
 
         {/* Admin Routes */}
         <Route path='/admin/login' exact component={AdminLoginPage} />
