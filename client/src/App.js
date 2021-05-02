@@ -14,8 +14,9 @@ import AddAdmin from './components/admin/AddAdmin';
 import AddFaculty from './components/admin/AddFaculty';
 import AddStudent from './components/admin/AddStudent';
 import AddSubject from './components/admin/AddSubject';
-import OurFacultyPage from './components/admin/OurFacultyPage';
-import OurStudentPage from './components/admin/OurStudentPage';
+import OurFacultiesPage from './components/admin/OurFacultiesPage';
+import OurStudentsPage from './components/admin/OurStudentsPage';
+import DisplaySubjectsPage from './components/admin/DisplaySubjectsPage';
 
 const App = () => {
   return (
@@ -39,8 +40,9 @@ const App = () => {
         <Route path='/admin/addFaculty' exact component={AddFaculty} />
         <Route path='/admin/addStudent' exact component={AddStudent} />
         <Route path='/admin/addSubject' exact component={AddSubject} />
-        <Route path='/admin/ourFaculty' exact component={OurFacultyPage} />
-        <Route path='/admin/ourStudent' exact component={OurStudentPage} />
+        <Route path='/admin/ourFaculties' exact component={OurFacultiesPage} />
+        <Route path='/admin/ourStudents' exact component={OurStudentsPage} />
+        <Route path='/admin/subjectsList' exact component={DisplaySubjectsPage} />
       </Switch>
     </BrowserRouter>
   );
