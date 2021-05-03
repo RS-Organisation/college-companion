@@ -2,43 +2,31 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   root: {
-    '& .MuiFormControl-root .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '40% !important',
-    },
+    marginBottom: '2rem',
     '& .MuiFormLabel-root': {
       color: '#41aea9',
       fontFamily: 'Nunito Sans, sans-serif',
       fontWeight: '300',
     },
-    '& .MuiOutlinedInput-input': {
-      padding: '16px 14px',
-    },
-    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#41aea9',
-    },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#41aea9',
+      borderColor: '#41aea9'
     },
-    '& .MuiFormHelperText-contained': {
-      color: '#41aea9',
-      fontFamily: 'Nunito Sans, sans-serif',
-    },
+    '& .MuiSelect-select:focus': {
+      backgroundColor: 'transparent'
+    }
   },
-  main: {
+  container: {
     width: '70%',
-    margin: 'auto',
-    display: 'flex',
-    justifyContent: 'center',
+    margin: 'auto'
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    width: '50%',
-    marginTop: '1.2rem',
+    width: '35%',
+    margin: '4rem auto',
   },
   subtitle: {
-    margin: '0.8rem 0 0.5rem 0',
+    margin: '0.7rem auto',
     fontFamily: 'Nunito Sans, sans-serif',
     color: '#41aea9',
     textAlign: 'center',
@@ -46,8 +34,6 @@ export default makeStyles((theme) => ({
   filledButton: {
     fontFamily: 'Nunito Sans, sans-serif',
     fontSize: '1.1rem',
-    padding: '7px 18px',
-    marginTop: '1.6rem',
     fontWeight: '400',
     textTransform: 'none',
     backgroundColor: '#41aea9',

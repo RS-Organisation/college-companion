@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 
-import { TextField, Typography, Divider, Button } from '@material-ui/core';
+import {
+  Typography,
+  Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button
+} from '@material-ui/core';
 
 import useStyles from '../../styles/MarkAttendancePage';
 import Header from './Header';
@@ -9,99 +17,76 @@ import MarkAttendanceTable from './MarkAttendanceTable';
 const MarkAttendancePage = () => {
   const classes = useStyles();
   const [clicked, setClicked] = useState(false);
+  const [department, setDepartment] = useState('');
+  const [section, setSection] = useState('');
+  const [year, setYear] = useState('');
+
+  const handleDepartmentChange = (event) => {
+    setDepartment(event.target.value);
+  };
+
+  const handleSectionChange = (event) => {
+    setSection(event.target.value);
+  };
+
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
+
   return (
     <Header>
-      <Typography variant='h4' className={classes.subtitle}>
-        Mark Attendance
-      </Typography>
-      <Divider />
-      <div className={classes.main}>
+      <div className={classes.container}>
+        <Typography variant='h4' className={classes.subtitle}>
+          Mark Attendance
+        </Typography>
+        <Divider />
         {!clicked ? (
           <form className={classes.form}>
-            <TextField
-              className={classes.root}
-              select
-              label='Department'
-              SelectProps={{
-                native: true,
-              }}
-              variant='outlined'
-              margin='normal'
-            >
-              <option key='' value=''>
-                {' '}
-              </option>
-              <option key='CS' value='CS'>
-                CSE
-              </option>
-              <option key='EC' value='EC'>
-                ECE
-              </option>
-              <option key='EE' value='EE'>
-                EEE
-              </option>
-            </TextField>
-            <TextField
-              className={classes.root}
-              select
-              label='Section'
-              SelectProps={{
-                native: true,
-              }}
-              margin='normal'
-              variant='outlined'
-            >
-              <option key='' value=''>
-                {' '}
-              </option>
-              <option key='1' value='1'>
-                1
-              </option>
-              <option key='2' value='2'>
-                2
-              </option>
-              <option key='3' value='3'>
-                3
-              </option>
-            </TextField>
-            <TextField
-              className={classes.root}
-              select
-              label='Year'
-              SelectProps={{
-                native: true,
-              }}
-              variant='outlined'
-              margin='normal'
-            >
-              <option key='' value=''>
-                {' '}
-              </option>
-              <option key='1' value='1'>
-                1
-              </option>
-              <option key='2' value='2'>
-                2
-              </option>
-              <option key='3' value='3'>
-                3
-              </option>
-              <option key='4' value='4'>
-                4
-              </option>
-            </TextField>
-            <Button
-              type='submit'
-              className={classes.filledButton}
-              onClick={() => setClicked(true)}
-            >
+            <FormControl variant="outlined" size="small" className={classes.root}>
+              <InputLabel>Department</InputLabel>
+              <Select
+                value={department}
+                onChange={handleDepartmentChange}
+                label="Department"
+              >
+                <MenuItem value={'CSE'}>CSE</MenuItem>
+                <MenuItem value={'IT'}>IT</MenuItem>
+                <MenuItem value={'ECE'}>ECE</MenuItem>
+                <MenuItem value={'EEE'}>EEE</MenuItem>
+                <MenuItem value={'ME'}>ME</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined" size="small" className={classes.root}>
+              <InputLabel>Section</InputLabel>
+              <Select
+                value={section}
+                onChange={handleSectionChange}
+                label="Section"
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined" size="small" className={classes.root}>
+              <InputLabel>Year</InputLabel>
+              <Select
+                value={year}
+                onChange={handleYearChange}
+                label="Year"
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+              </Select>
+            </FormControl>
+            <Button className={classes.filledButton} onClick={() => setClicked(true)}>
               Search
-            </Button>
+              </Button>
           </form>
         ) : (
-          <div style={{ marginTop: '1.2rem' }}>
-            <MarkAttendanceTable />
-          </div>
+          <MarkAttendanceTable />
         )}
       </div>
     </Header>
