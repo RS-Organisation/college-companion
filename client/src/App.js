@@ -2,14 +2,25 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // import PrivateRoute from './routers/PrivateRoute';
 // import PublicRoute from './routers/PublicRoute';
+
 import LoginPage from './components/login/LoginPage';
+
+// Student Imports
+import StudentDashboard from './components/student/StudentDashboard';
+import StudentProfile from './components/student/StudentProfile';
+import AttendancePage from './components/student/AttendancePage';
+import SubjectsPage from './components/student/SubjectsPage';
+
+// Faculty Imports
+import FacultyDashboard from './components/faculty/FacultyDashboard';
+import FacultyProfile from './components/faculty/FacultyProfile';
+import MarkAttendancePage from './components/faculty/MarkAttendancePage';
+import UploadMarksPage from './components/faculty/UploadMarksPage';
+
+// Admin Imports
 import AdminLoginPage from './components/login/AdminLoginPage';
 import AdminDashboard from './components/admin/AdminDashboard';
-import FacultyDashboard from './components/faculty/FacultyDashboard';
-import StudentDashboard from './components/student/StudentDashboard';
 import AdminProfile from './components/admin/AdminProfile';
-import FacultyProfile from './components/faculty/FacultyProfile';
-import StudentProfile from './components/student/StudentProfile';
 import AddAdmin from './components/admin/AddAdmin';
 import AddFaculty from './components/admin/AddFaculty';
 import AddStudent from './components/admin/AddStudent';
@@ -17,8 +28,6 @@ import AddSubject from './components/admin/AddSubject';
 import OurFacultiesPage from './components/admin/OurFacultiesPage';
 import OurStudentsPage from './components/admin/OurStudentsPage';
 import DisplaySubjectsPage from './components/admin/DisplaySubjectsPage';
-import MarkAttendancePage from './components/faculty/MarkAttendancePage';
-import UploadMarksPage from './components/faculty/UploadMarksPage';
 
 const App = () => {
   return (
@@ -28,6 +37,8 @@ const App = () => {
 
         {/* Student Routes */}
         <Route path='/student' exact component={StudentDashboard} />
+        <Route path='/student/attendance' exact component={AttendancePage} />
+        <Route path='/student/subjects' exact component={SubjectsPage} />
         <Route path='/student/profile' exact component={StudentProfile} />
 
         {/* Faculty Routes */}
