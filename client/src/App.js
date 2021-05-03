@@ -18,6 +18,7 @@ import OurFacultiesPage from './components/admin/OurFacultiesPage';
 import OurStudentsPage from './components/admin/OurStudentsPage';
 import DisplaySubjectsPage from './components/admin/DisplaySubjectsPage';
 import MarkAttendancePage from './components/faculty/MarkAttendancePage';
+import UploadMarksPage from './components/faculty/UploadMarksPage';
 
 const App = () => {
   return (
@@ -32,7 +33,12 @@ const App = () => {
         {/* Faculty Routes */}
         <Route path='/faculty' exact component={FacultyDashboard} />
         <Route path='/faculty/profile' exact component={FacultyProfile} />
-        <Route path='/faculty/markAttendance' exact component={MarkAttendancePage} />
+        <Route
+          path='/faculty/markAttendance'
+          exact
+          component={MarkAttendancePage}
+        />
+        <Route path='/faculty/uploadMarks' exact component={UploadMarksPage} />
 
         {/* Admin Routes */}
         <Route path='/admin/login' exact component={AdminLoginPage} />
@@ -44,7 +50,11 @@ const App = () => {
         <Route path='/admin/addSubject' exact component={AddSubject} />
         <Route path='/admin/ourFaculties' exact component={OurFacultiesPage} />
         <Route path='/admin/ourStudents' exact component={OurStudentsPage} />
-        <Route path='/admin/subjectsList' exact component={DisplaySubjectsPage} />
+        <Route
+          path='/admin/subjectsList'
+          exact
+          component={DisplaySubjectsPage}
+        />
       </Switch>
     </BrowserRouter>
   );

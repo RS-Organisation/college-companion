@@ -71,6 +71,17 @@ export default function Sidebar(props) {
           </List>
         </NavLink>
         <Divider />
+        <NavLink to='/faculty/uploadMarks' exact className={classes.navLink}>
+          <List className={classes.listItem}>
+            <ListItem button className={classes.listItemButton}>
+              <ListItemIcon>
+                <PublishIcon />
+              </ListItemIcon>
+              <ListItemText primary='Upload Marks' />
+            </ListItem>
+          </List>
+        </NavLink>
+        <Divider />
         <NavLink
           to={{
             pathname: '/faculty/profile',
@@ -107,17 +118,6 @@ export default function Sidebar(props) {
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary='Update Profile' />
-            </ListItem>
-          </List>
-        </NavLink>
-        <Divider />
-        <NavLink to='#' exact className={classes.navLink}>
-          <List className={classes.listItem}>
-            <ListItem button className={classes.listItemButton}>
-              <ListItemIcon>
-                <PublishIcon />
-              </ListItemIcon>
-              <ListItemText primary='Upload Marks' />
             </ListItem>
           </List>
         </NavLink>

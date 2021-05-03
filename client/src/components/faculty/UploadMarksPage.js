@@ -10,16 +10,18 @@ import {
   Button,
 } from '@material-ui/core';
 
-import useStyles from '../../styles/MarkAttendancePage';
+import useStyles from '../../styles/UploadMarksPage';
 import Header from './Header';
-import MarkAttendanceTable from './MarkAttendanceTable';
 
-const MarkAttendancePage = () => {
+import UploadMarksTable from './UploadMarksTable';
+
+const UploadMarksPage = () => {
   const classes = useStyles();
   const [clicked, setClicked] = useState(false);
   const [department, setDepartment] = useState('');
   const [section, setSection] = useState('');
   const [year, setYear] = useState('');
+  const [subjectCode, setSubjectCode] = useState('');
 
   const handleDepartmentChange = (event) => {
     setDepartment(event.target.value);
@@ -33,11 +35,15 @@ const MarkAttendancePage = () => {
     setYear(event.target.value);
   };
 
+  const handleChangeSubjectCode = (event) => {
+    setSubjectCode(event.target.value);
+  };
+
   return (
     <Header>
       <div className={classes.container}>
         <Typography variant='h4' className={classes.subtitle}>
-          Mark Attendance
+          Upload Marks
         </Typography>
         <Divider />
         {!clicked ? (
@@ -97,11 +103,40 @@ const MarkAttendancePage = () => {
             </Button>
           </form>
         ) : (
-          <MarkAttendanceTable />
+          <div>
+            <div className={classes.flexRow}>
+              <FormControl
+                variant='outlined'
+                size='medium'
+                className={`${classes.root} ${classes.subjectCode}`}
+                margin='dense'
+              >
+                <InputLabel>Subject Code</InputLabel>
+                <Select
+                  value={subjectCode}
+                  onChange={handleChangeSubjectCode}
+                  label='Subject Code'
+                >
+                  <MenuItem value={'ETCS-144'}>ETCS-144</MenuItem>
+                  <MenuItem value={'ETCS-206'}>ETCS-206</MenuItem>
+                  <MenuItem value={'ETCS-208'}>ETCS-208</MenuItem>
+                  <MenuItem value={'ETCS-216'}>ETCS-216</MenuItem>
+                </Select>
+              </FormControl>
+              <Button
+                variant='outlined'
+                className={classes.filledButton}
+                onClick={() => setClicked(false)}
+              >
+                Back
+              </Button>
+            </div>
+            <UploadMarksTable />
+          </div>
         )}
       </div>
     </Header>
   );
 };
 
-export default MarkAttendancePage;
+export default UploadMarksPage;

@@ -6,7 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
 } from '@material-ui/core';
 import useStyles from '../../styles/FacultyDetailTable';
 
@@ -31,7 +31,7 @@ const rows = [
   createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
   createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
   createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3)
+  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
 ];
 
 const StudentDetailTable = () => {
@@ -39,22 +39,22 @@ const StudentDetailTable = () => {
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="Student Detail Table">
+        <Table stickyHeader aria-label='Student Detail Table'>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.tableCell} align="center">
+              <TableCell className={classes.tableCell} align='center'>
                 Sr. No.
               </TableCell>
-              <TableCell className={classes.tableCell} align="center">
+              <TableCell className={classes.tableCell} align='center'>
                 Enrollment Number
               </TableCell>
-              <TableCell className={classes.tableCell} align="center">
+              <TableCell className={classes.tableCell} align='center'>
                 Name
               </TableCell>
-              <TableCell className={classes.tableCell} align="center">
+              <TableCell className={classes.tableCell} align='center'>
                 Email Address
               </TableCell>
-              <TableCell className={classes.tableCell} align="center">
+              <TableCell className={classes.tableCell} align='center'>
                 Section
               </TableCell>
             </TableRow>
@@ -62,11 +62,11 @@ const StudentDetailTable = () => {
           <TableBody>
             {rows.map((row, index) => (
               <TableRow hover key={row.name}>
-                <TableCell align="center">{index}</TableCell>
-                <TableCell align="center">{row.enrollmentNumber}</TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.email}</TableCell>
-                <TableCell align="center">{row.section}</TableCell>
+                <TableCell align='center'>{index + 1}</TableCell>
+                <TableCell align='center'>{row.enrollmentNumber}</TableCell>
+                <TableCell align='center'>{row.name}</TableCell>
+                <TableCell align='center'>{row.email}</TableCell>
+                <TableCell align='center'>{row.section}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -77,4 +77,3 @@ const StudentDetailTable = () => {
 };
 
 export default StudentDetailTable;
-
