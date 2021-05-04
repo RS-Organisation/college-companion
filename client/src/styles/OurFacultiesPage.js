@@ -9,17 +9,17 @@ export default makeStyles((theme) => ({
       fontWeight: '300',
     },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#41aea9'
+      borderColor: '#41aea9',
     },
     '& .MuiSelect-select:focus': {
-      backgroundColor: 'transparent'
-    }
+      backgroundColor: 'transparent',
+    },
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
     width: '60%',
-    margin: '5rem auto'
+    margin: '5rem auto',
   },
   filledButton: {
     fontFamily: 'Nunito Sans, sans-serif',
@@ -33,7 +33,13 @@ export default makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#41aea9',
       transform: 'scale(1.02)',
-      outline: 'none'
+      outline: 'none',
     },
-  }
+  },
+  subtitle: {
+    margin: '0.7rem auto',
+    fontFamily: 'Nunito Sans, sans-serif',
+    color: '#41aea9',
+    textAlign: 'center',
+  },
 }));

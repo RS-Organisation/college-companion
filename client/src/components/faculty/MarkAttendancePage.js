@@ -14,28 +14,36 @@ import useStyles from '../../styles/MarkAttendancePage';
 import Header from './Header';
 import MarkAttendanceTable from './MarkAttendanceTable';
 
+const initialData = {
+  studentList: [],
+  department: '',
+  section: '',
+  subjectCode: '',
+  semester: '',
+};
+
 const MarkAttendancePage = () => {
   const classes = useStyles();
+  const [details, setDetails] = useState(initialData);
   const [clicked, setClicked] = useState(false);
-  const [department, setDepartment] = useState('');
-  const [section, setSection] = useState('');
-  const [year, setYear] = useState('');
-  const [subjectCode, setSubjectCode] = useState('');
 
-  const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value);
+  const handleChangeDetails = (e) => {
+    const { name } = e.target;
+    setDetails({ ...details, [name]: e.target.value });
   };
 
-  const handleSectionChange = (event) => {
-    setSection(event.target.value);
+  const handleSearch = () => {
+    setClicked(true);
   };
 
-  const handleYearChange = (event) => {
-    setYear(event.target.value);
+  const handleReset = () => {
+    setClicked(false);
+    setDetails(initialData);
   };
 
-  const handleChangeSubjectCode = (event) => {
-    setSubjectCode(event.target.value);
+  const handleSubmit = () => {
+    console.log(details);
+    handleReset();
   };
 
   return (
@@ -54,14 +62,15 @@ const MarkAttendancePage = () => {
             >
               <InputLabel>Department</InputLabel>
               <Select
-                value={department}
-                onChange={handleDepartmentChange}
+                name='department'
+                value={details.department}
+                onChange={handleChangeDetails}
                 label='Department'
               >
-                <MenuItem value={'CSE'}>CSE</MenuItem>
+                <MenuItem value={'CS'}>CSE</MenuItem>
                 <MenuItem value={'IT'}>IT</MenuItem>
-                <MenuItem value={'ECE'}>ECE</MenuItem>
-                <MenuItem value={'EEE'}>EEE</MenuItem>
+                <MenuItem value={'EC'}>ECE</MenuItem>
+                <MenuItem value={'EE'}>EEE</MenuItem>
                 <MenuItem value={'ME'}>ME</MenuItem>
               </Select>
             </FormControl>
@@ -72,13 +81,14 @@ const MarkAttendancePage = () => {
             >
               <InputLabel>Section</InputLabel>
               <Select
-                value={section}
-                onChange={handleSectionChange}
+                name='section'
+                value={details.section}
+                onChange={handleChangeDetails}
                 label='Section'
               >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={'1'}>1</MenuItem>
+                <MenuItem value={'2'}>2</MenuItem>
+                <MenuItem value={'3'}>3</MenuItem>
               </Select>
             </FormControl>
             <FormControl
@@ -86,18 +96,24 @@ const MarkAttendancePage = () => {
               size='small'
               className={classes.root}
             >
-              <InputLabel>Year</InputLabel>
-              <Select value={year} onChange={handleYearChange} label='Year'>
+              <InputLabel>Semester</InputLabel>
+              <Select
+                name='semester'
+                value={details.semester}
+                onChange={handleChangeDetails}
+                label='Semester'
+              >
                 <MenuItem value={1}>1</MenuItem>
                 <MenuItem value={2}>2</MenuItem>
                 <MenuItem value={3}>3</MenuItem>
                 <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={7}>7</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
               </Select>
             </FormControl>
-            <Button
-              className={classes.filledButton}
-              onClick={() => setClicked(true)}
-            >
+            <Button className={classes.filledButton} onClick={handleSearch}>
               Search
             </Button>
           </form>
@@ -112,8 +128,9 @@ const MarkAttendancePage = () => {
               >
                 <InputLabel>Subject Code</InputLabel>
                 <Select
-                  value={subjectCode}
-                  onChange={handleChangeSubjectCode}
+                  name='subjectCode'
+                  value={details.subjectCode}
+                  onChange={handleChangeDetails}
                   label='Subject Code'
                 >
                   <MenuItem value={'ETCS-144'}>ETCS-144</MenuItem>
@@ -123,9 +140,9 @@ const MarkAttendancePage = () => {
                 </Select>
               </FormControl>
               <Button
-                variant="contained"
+                variant='contained'
                 className={classes.filledButton}
-                onClick={() => setClicked(false)}
+                onClick={handleReset}
               >
                 Back
               </Button>
@@ -133,8 +150,9 @@ const MarkAttendancePage = () => {
             <MarkAttendanceTable />
             <div className={classes.buttonDiv}>
               <Button
-                variant="contained"
+                variant='contained'
                 className={`${classes.filledButton} ${classes.submitButton}`}
+                onClick={handleSubmit}
               >
                 Submit
               </Button>

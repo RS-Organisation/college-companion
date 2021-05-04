@@ -68,7 +68,7 @@ const FacultyDetailTable = () => {
           </TableHead>
           <TableBody>
             {rows.map((row, index) => (
-              <TableRow hover key={row.name}>
+              <TableRow hover key={index}>
                 <TableCell align='center'>{index + 1}</TableCell>
                 <TableCell align='center'>{row.registrationNumber}</TableCell>
                 <TableCell align='center'>{row.name}</TableCell>

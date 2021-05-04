@@ -10,15 +10,16 @@ import {
   Divider,
 } from '@material-ui/core';
 import Header from './Header';
-import StudentDetailTable from './StudentDetailTable';
+import AcademicPerformanceTable from './AcademicPerformanceTable';
 import useStyles from '../../styles/OurFacultiesPage';
 
 const initialData = {
-  department: '',
-  year: '',
+  subjectList: [],
+  semester: '',
+  examType: '',
 };
 
-const OurStudentsPage = () => {
+const AcademicPerformancePage = () => {
   const classes = useStyles();
   const [details, setDetails] = useState(initialData);
   const [clicked, setClicked] = useState(false);
@@ -39,7 +40,7 @@ const OurStudentsPage = () => {
     <Header>
       <div>
         <Typography variant='h4' className={classes.subtitle}>
-          Our Students
+          Academic Performance
         </Typography>
         <Divider />
         <Grid
@@ -55,18 +56,15 @@ const OurStudentsPage = () => {
                 size='small'
                 className={classes.root}
               >
-                <InputLabel>Department</InputLabel>
+                <InputLabel>Exam Type</InputLabel>
                 <Select
-                  name='department'
-                  value={details.department}
+                  name='examType'
+                  value={details.examType}
                   onChange={handleChangeDetails}
-                  label='Department'
+                  label='Exam Type'
                 >
-                  <MenuItem value={'CS'}>CSE</MenuItem>
-                  <MenuItem value={'IT'}>IT</MenuItem>
-                  <MenuItem value={'EC'}>ECE</MenuItem>
-                  <MenuItem value={'EE'}>EEE</MenuItem>
-                  <MenuItem value={'ME'}>ME</MenuItem>
+                  <MenuItem value={'internal'}>Internal</MenuItem>
+                  <MenuItem value={'external'}>External</MenuItem>
                 </Select>
               </FormControl>
               <FormControl
@@ -74,17 +72,21 @@ const OurStudentsPage = () => {
                 size='small'
                 className={classes.root}
               >
-                <InputLabel>Year</InputLabel>
+                <InputLabel>Semester</InputLabel>
                 <Select
-                  name='year'
-                  value={details.year}
+                  name='semester'
+                  value={details.semester}
                   onChange={handleChangeDetails}
-                  label='Year'
+                  label='Semester'
                 >
                   <MenuItem value={1}>1</MenuItem>
                   <MenuItem value={2}>2</MenuItem>
                   <MenuItem value={3}>3</MenuItem>
                   <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={6}>6</MenuItem>
+                  <MenuItem value={7}>7</MenuItem>
+                  <MenuItem value={8}>8</MenuItem>
                 </Select>
               </FormControl>
               <Button className={classes.filledButton} type='submit'>
@@ -94,7 +96,7 @@ const OurStudentsPage = () => {
           </Grid>
           {clicked && (
             <Grid item xs={12} lg={8}>
-              <StudentDetailTable />
+              <AcademicPerformanceTable examType={details.examType} />
             </Grid>
           )}
         </Grid>
@@ -103,4 +105,4 @@ const OurStudentsPage = () => {
   );
 };
 
-export default OurStudentsPage;
+export default AcademicPerformancePage;

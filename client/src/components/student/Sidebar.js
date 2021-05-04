@@ -62,7 +62,7 @@ export default function Sidebar(props) {
           </List>
         </NavLink>
         <Divider />
-        <NavLink to='#' exact className={classes.navLink}>
+        <NavLink to='/student/academics' exact className={classes.navLink}>
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>
