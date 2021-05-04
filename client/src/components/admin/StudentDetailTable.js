@@ -8,7 +8,7 @@ import {
   TableRow,
   Paper,
 } from '@material-ui/core';
-import useStyles from '../../styles/FacultyDetailTable';
+import useStyles from '../../styles/MarkAttendanceTable';
 
 function createData(name, enrollmentNumber, email, section) {
   return { name, enrollmentNumber, email, section };

@@ -10,7 +10,7 @@ import {
   Button,
 } from '@material-ui/core';
 
-import useStyles from '../../styles/UploadMarksPage';
+import useStyles from '../../styles/MarkAttendancePage';
 import Header from './Header';
 
 import UploadMarksTable from './UploadMarksTable';
@@ -124,7 +124,7 @@ const UploadMarksPage = () => {
                 </Select>
               </FormControl>
               <Button
-                variant='outlined'
+                variant="contained"
                 className={classes.filledButton}
                 onClick={() => setClicked(false)}
               >
@@ -132,6 +132,14 @@ const UploadMarksPage = () => {
               </Button>
             </div>
             <UploadMarksTable />
+            <div className={classes.buttonDiv}>
+              <Button
+                variant="contained"
+                className={`${classes.filledButton} ${classes.submitButton}`}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
         )}
       </div>

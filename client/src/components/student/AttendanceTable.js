@@ -8,7 +8,7 @@ import {
   TableRow,
   Paper,
 } from '@material-ui/core';
-import useStyles from '../../styles/FacultyDetailTable';
+import useStyles from '../../styles/MarkAttendanceTable';
 
 function createData(subjectCode, subjectName, lecturesHeld, lecturesAttended) {
   return { subjectCode, subjectName, lecturesHeld, lecturesAttended };
@@ -65,7 +65,7 @@ const AttendanceTable = () => {
                 <TableCell align='center'>{row.lecturesHeld}</TableCell>
                 <TableCell align='center'>{row.lecturesAttended}</TableCell>
                 <TableCell align='center'>
-                  {getPercentage(row.lecturesHeld, row.lecturesAttended)}%
+                  {getPercentage(row.lecturesHeld, row.lecturesAttended)} %
                 </TableCell>
               </TableRow>
             ))}

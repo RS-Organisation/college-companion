@@ -33,7 +33,7 @@ export default makeStyles((theme) => ({
   },
   filledButton: {
     fontFamily: 'Nunito Sans, sans-serif',
-    fontSize: '1.1rem',
+    fontSize: '1rem',
     fontWeight: '400',
     textTransform: 'none',
     backgroundColor: '#41aea9',
@@ -42,8 +42,27 @@ export default makeStyles((theme) => ({
     transition: '0.3s ease-in-out',
     '&:hover': {
       backgroundColor: '#41aea9',
-      transform: 'scale(1.02)',
+      transform: 'scale(1.005)',
       outline: 'none',
-    },
+    }
   },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    margin: '2.5rem 0'
+  },
+  subjectCode: {
+    width: '30%',
+    margin: '0'
+  },
+  buttonDiv: {
+    width: '100%',
+    textAlign: 'center'
+  },
+  submitButton: {
+    width: '15%',
+    margin: '0.5rem 0 1.5rem 0'
+  }
 }));

@@ -20,6 +20,7 @@ const MarkAttendancePage = () => {
   const [department, setDepartment] = useState('');
   const [section, setSection] = useState('');
   const [year, setYear] = useState('');
+  const [subjectCode, setSubjectCode] = useState('');
 
   const handleDepartmentChange = (event) => {
     setDepartment(event.target.value);
@@ -31,6 +32,10 @@ const MarkAttendancePage = () => {
 
   const handleYearChange = (event) => {
     setYear(event.target.value);
+  };
+
+  const handleChangeSubjectCode = (event) => {
+    setSubjectCode(event.target.value);
   };
 
   return (
@@ -97,7 +102,44 @@ const MarkAttendancePage = () => {
             </Button>
           </form>
         ) : (
-          <MarkAttendanceTable />
+          <div>
+            <div className={classes.flexRow}>
+              <FormControl
+                variant='outlined'
+                size='medium'
+                className={`${classes.root} ${classes.subjectCode}`}
+                margin='dense'
+              >
+                <InputLabel>Subject Code</InputLabel>
+                <Select
+                  value={subjectCode}
+                  onChange={handleChangeSubjectCode}
+                  label='Subject Code'
+                >
+                  <MenuItem value={'ETCS-144'}>ETCS-144</MenuItem>
+                  <MenuItem value={'ETCS-206'}>ETCS-206</MenuItem>
+                  <MenuItem value={'ETCS-208'}>ETCS-208</MenuItem>
+                  <MenuItem value={'ETCS-216'}>ETCS-216</MenuItem>
+                </Select>
+              </FormControl>
+              <Button
+                variant="contained"
+                className={classes.filledButton}
+                onClick={() => setClicked(false)}
+              >
+                Back
+              </Button>
+            </div>
+            <MarkAttendanceTable />
+            <div className={classes.buttonDiv}>
+              <Button
+                variant="contained"
+                className={`${classes.filledButton} ${classes.submitButton}`}
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </Header>

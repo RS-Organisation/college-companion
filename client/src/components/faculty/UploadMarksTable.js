@@ -9,7 +9,7 @@ import {
   Paper,
   TextField,
 } from '@material-ui/core';
-import useStyles from '../../styles/UploadMarksTable';
+import useStyles from '../../styles/MarkAttendanceTable';
 
 function createData(name, enrollmentNumber, marks) {
   return { name, enrollmentNumber, marks };
@@ -64,7 +64,7 @@ const UploadMarksTable = () => {
                 <TableCell align='center'>{index + 1}</TableCell>
                 <TableCell align='center'>{row.enrollmentNumber}</TableCell>
                 <TableCell align='center'>{row.name}</TableCell>
-                <TableCell align='center'>
+                <TableCell align='center' className={classes.inputTableCell}>
                   <TextField
                     variant='outlined'
                     size='small'

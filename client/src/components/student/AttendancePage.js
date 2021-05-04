@@ -1,21 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Divider } from '@material-ui/core';
 import Header from './Header';
 import AttendanceTable from './AttendanceTable';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    width: '70%',
-    margin: 'auto',
-  },
-  subtitle: {
-    margin: '0.7rem auto',
-    fontFamily: 'Nunito Sans, sans-serif',
-    color: '#41aea9',
-    textAlign: 'center',
-  },
-}));
+import useStyles from '../../styles/MarkAttendancePage';
 
 const AttendancePage = () => {
   const classes = useStyles();
