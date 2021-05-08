@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import { createBrowserHistory as createHistory } from 'history';
+
 // import PrivateRoute from './routers/PrivateRoute';
 // import PublicRoute from './routers/PublicRoute';
 
@@ -30,9 +32,10 @@ import OurFacultiesPage from './components/admin/OurFacultiesPage';
 import OurStudentsPage from './components/admin/OurStudentsPage';
 import DisplaySubjectsPage from './components/admin/DisplaySubjectsPage';
 
+export const history = createHistory();
 const App = () => {
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <Switch>
         <Route path='/' exact component={LoginPage} />
 
@@ -41,12 +44,20 @@ const App = () => {
         <Route path='/student/attendance' exact component={AttendancePage} />
         <Route path='/student/subjects' exact component={SubjectsPage} />
         <Route path='/student/profile' exact component={StudentProfile} />
-        <Route path='/student/academics' exact component={AcademicPerformancePage} />
+        <Route
+          path='/student/academics'
+          exact
+          component={AcademicPerformancePage}
+        />
 
         {/* Faculty Routes */}
         <Route path='/faculty' exact component={FacultyDashboard} />
         <Route path='/faculty/profile' exact component={FacultyProfile} />
-        <Route path='/faculty/markAttendance' exact component={MarkAttendancePage} />
+        <Route
+          path='/faculty/markAttendance'
+          exact
+          component={MarkAttendancePage}
+        />
         <Route path='/faculty/uploadMarks' exact component={UploadMarksPage} />
 
         {/* Admin Routes */}
@@ -59,9 +70,13 @@ const App = () => {
         <Route path='/admin/addSubject' exact component={AddSubject} />
         <Route path='/admin/ourFaculties' exact component={OurFacultiesPage} />
         <Route path='/admin/ourStudents' exact component={OurStudentsPage} />
-        <Route path='/admin/subjectsList' exact component={DisplaySubjectsPage} />
+        <Route
+          path='/admin/subjectsList'
+          exact
+          component={DisplaySubjectsPage}
+        />
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 };
 

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const adminAuth = async (req, res, next) => {
   try {
-    const token = req.cookie.jwt;
+    const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const admin = await Admin.findOne({ _id: decoded.id });
     if (!admin) {
@@ -23,7 +23,7 @@ const adminAuth = async (req, res, next) => {
 
 const facultyAuth = async (req, res, next) => {
   try {
-    const token = req.cookie.jwt;
+    const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const faculty = await Faculty.findOne({ _id: decoded.id });
     if (!faculty) {
@@ -38,7 +38,7 @@ const facultyAuth = async (req, res, next) => {
 
 const studentAuth = async (req, res, next) => {
   try {
-    const token = req.cookie.jwt;
+    const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const student = await Student.findOne({ _id: decoded.id });
     if (!student) {

@@ -6,12 +6,16 @@ const {
   adminLogin,
   studentLogin,
   facultyLogin,
-  logOut
+  logoutAdmin,
+  logoutFaculty,
+  logoutStudent,
 } = require('../controllers/auth');
 
 router.post('/admin-login', adminLogin);
 router.post('/student-login', studentLogin);
 router.post('/faculty-login', facultyLogin);
-router.get('/logout', logOut);
+router.get('/logoutAdmin', logoutAdmin);
+router.get('/logoutFaculty', logoutFaculty);
+router.get('/logoutStudent', logoutStudent);
 
 module.exports = router;

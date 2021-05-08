@@ -150,4 +150,15 @@ export default makeStyles((theme) => ({
   buttonDiv: {
     marginTop: '1.2rem',
   },
+  loader: {
+    alignItems: 'center',
+    display: 'flex',
+    height: '100vh',
+    justifyContent: 'center',
+    width: '100vw',
+  },
+  loaderImage: {
+    height: '5rem',
+    width: '5rem',
+  },
 }));

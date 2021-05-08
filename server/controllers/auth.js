@@ -7,14 +7,15 @@ const bcrypt = require('bcryptjs');
 
 // Create New JWT Token
 
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const createToken = (userData) => {
+  return jwt.sign({ ...userData }, process.env.JWT_SECRET, {
     expiresIn: '7d',
   });
 };
 
 const adminLogin = async (req, res) => {
   const { registrationNumber, password } = req.body;
+
   try {
     const existingAdmin = await Admin.findOne({ registrationNumber });
 
@@ -31,12 +32,9 @@ const adminLogin = async (req, res) => {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
 
-    const token = createToken(existingAdmin._id);
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-    res.status(200).json({ result: existingAdmin });
+    const token = createToken(existingAdmin);
+
+    res.status(200).json({ result: existingAdmin, token });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
@@ -60,12 +58,9 @@ const facultyLogin = async (req, res) => {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
 
-    const token = createToken(existingFaculty._id);
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-    res.status(200).json({ result: existingFaculty });
+    const token = createToken(existingFaculty);
+
+    res.status(200).json({ result: existingFaculty, token });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
@@ -89,25 +84,34 @@ const studentLogin = async (req, res) => {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
 
-    const token = createToken(existingStudent._id);
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-    res.status(200).json({ result: existingStudent });
+    const token = createToken(existingStudent);
+
+    res.status(200).json({ result: existingStudent, token });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
 };
 
-const logOut = async (req, res) => {
-  res.cookie('jwt', '', { maxAge: 1 });
+const logoutAdmin = async (req, res) => {
+  res.cookie('adminJWT', '', { maxAge: 1 });
   res.redirect('/');
 };
 
-module.exports = { 
-  adminLogin, 
-  facultyLogin, 
-  studentLogin, 
-  logOut 
+const logoutFaculty = async (req, res) => {
+  res.cookie('facultyJWT', '', { maxAge: 1 });
+  res.redirect('/');
+};
+
+const logoutStudent = async (req, res) => {
+  res.cookie('studentJWT', '', { maxAge: 1 });
+  res.redirect('/');
+};
+
+module.exports = {
+  adminLogin,
+  facultyLogin,
+  studentLogin,
+  logoutAdmin,
+  logoutFaculty,
+  logoutStudent,
 };

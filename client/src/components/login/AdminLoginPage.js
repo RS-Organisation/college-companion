@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import loginImage from '../../images/loginImage.svg';
 import {
   Grid,
@@ -14,10 +15,20 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ForwardIcon from '@material-ui/icons/Forward';
 import useStyles from '../../styles/LoginPage';
 
+// Actions
+import { login } from '../../redux/actions/adminActions';
+
+const initialDetails = {
+  registrationNumber: '',
+  password: '',
+};
+
 const AdminLoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState(initialDetails);
   // const [userType, setUserType] = useState('admin');
 
   const handleShowPassword = () => {
@@ -28,12 +39,19 @@ const AdminLoginPage = () => {
     history.push('/');
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(formData, history));
+  };
+
+  const handleChange = (e) => {
+    const { name } = e.target;
+    setFormData({ ...formData, [name]: e.target.value });
+  };
+
   return (
     <div className={classes.main}>
-      <Button
-        onClick={handleSwitchLogin}
-        className={classes.adminButton}
-      >
+      <Button onClick={handleSwitchLogin} className={classes.adminButton}>
         Student/Faculty <ForwardIcon />
       </Button>
       <div className={classes.contentBox}>
@@ -45,16 +63,25 @@ const AdminLoginPage = () => {
             <div className={classes.loginGridDiv}>
               <h3 className={classes.title}>Welcome</h3>
               <Divider variant='middle' className={classes.adminDivider} />
-              <form className={classes.root} autoComplete='off'>
+              <form
+                className={classes.root}
+                autoComplete='off'
+                onSubmit={handleSubmit}
+              >
                 <TextField
+                  name='registrationNumber'
+                  value={formData.registrationNumber}
+                  onChange={handleChange}
                   className={classes.formField}
-                  id='outlined-basic'
                   label='Registration Number'
                   variant='outlined'
                   size='small'
                   type='text'
                 />
                 <TextField
+                  name='password'
+                  value={formData.password}
+                  onChange={handleChange}
                   className={classes.formField}
                   id='outlined-basic'
                   label='Password'
@@ -72,6 +99,7 @@ const AdminLoginPage = () => {
                   }}
                 />
                 <Button
+                  type='submit'
                   variant='contained'
                   color='primary'
                   className={classes.loginButton}
