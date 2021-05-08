@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   Typography,
   Divider,
@@ -9,10 +8,9 @@ import {
   MenuItem,
   Button,
 } from '@material-ui/core';
-
-import useStyles from '../../styles/MarkAttendancePage';
 import Header from './Header';
-
+import useStyles from '../../styles/MarkAttendancePage';
+import useStylesCommon from '../../styles/CommonStyles';
 import UploadMarksTable from './UploadMarksTable';
 
 const initialData = {
@@ -25,7 +23,10 @@ const initialData = {
 };
 
 const UploadMarksPage = () => {
-  const classes = useStyles();
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles()
+  };
   const [details, setDetails] = useState(initialData);
   const [clicked, setClicked] = useState(false);
 
@@ -50,13 +51,13 @@ const UploadMarksPage = () => {
 
   return (
     <Header>
-      <div className={classes.container}>
+      <div className={classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Upload Marks
         </Typography>
         <Divider />
         {!clicked ? (
-          <form className={classes.form}>
+          <form className={classes.form35}>
             <FormControl
               variant='outlined'
               size='small'

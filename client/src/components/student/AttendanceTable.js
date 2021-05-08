@@ -32,7 +32,7 @@ const AttendanceTable = () => {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
+      <TableContainer className={classes.tableContainer}>
         <Table stickyHeader aria-label='Subject Detail Table'>
           <TableHead>
             <TableRow>

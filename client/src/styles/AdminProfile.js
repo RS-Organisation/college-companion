@@ -1,14 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  container: {
-    width: '70%',
-    margin: 'auto',
-    textAlign: 'center'
-  },
   title: {
     fontSize: '2rem',
     fontWeight: '600',
@@ -21,6 +13,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '1rem',
     marginBottom: '2rem',
     borderBottom: '1px solid #d4d5d9',
   },
@@ -37,5 +30,5 @@ export default makeStyles((theme) => ({
     color: '#21262d',
     borderBottom: '3px solid #41aea9',
     fontWeight: '500',
-  },
+  }
 }));

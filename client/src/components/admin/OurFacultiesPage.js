@@ -12,9 +12,13 @@ import {
 import Header from './Header';
 import FacultyDetailTable from './FacultyDetailTable';
 import useStyles from '../../styles/OurFacultiesPage';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const OurFacultiesPage = () => {
-  const classes = useStyles();
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles()
+  };
   const [department, setDepartment] = useState('');
   const [clicked, setClicked] = useState(false);
 
@@ -23,15 +27,14 @@ const OurFacultiesPage = () => {
     setDepartment(event.target.value);
   };
 
-  const handleSearch = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     setClicked(true);
-    console.log(department);
   };
 
   return (
     <Header>
-      <div>
+      <div className={clicked ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Our Faculties
         </Typography>
@@ -42,8 +45,11 @@ const OurFacultiesPage = () => {
           justify={!clicked ? 'center' : 'flex-start'}
           alignItems={!clicked ? 'center' : 'stretch'}
         >
-          <Grid item xs={12} lg={4}>
-            <form className={classes.form} onSubmit={handleSearch}>
+          <Grid item xs={12} lg={3}>
+            <form
+              className={clicked ? classes.form60 : classes.form100}
+              onSubmit={handleSubmit}
+            >
               <FormControl
                 variant='outlined'
                 size='small'
@@ -62,13 +68,17 @@ const OurFacultiesPage = () => {
                   <MenuItem value={'ME'}>ME</MenuItem>
                 </Select>
               </FormControl>
-              <Button className={classes.filledButton} type='submit'>
-                Search
+              <Button
+                variant='contained'
+                type='submit'
+                className={classes.filledButton}
+              >
+                Submit
               </Button>
             </form>
           </Grid>
           {clicked && (
-            <Grid item xs={12} lg={8}>
+            <Grid item xs={12} lg={9}>
               <FacultyDetailTable />
             </Grid>
           )}

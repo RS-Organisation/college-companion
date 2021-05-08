@@ -1,10 +1,8 @@
 import { React, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
 import {
   AppBar,
   Toolbar,
-  Typography,
   IconButton,
   Menu,
   MenuItem,
@@ -12,9 +10,8 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
-
-import useStyles from '../../styles/Header';
 import Sidebar from './Sidebar';
+import useStyles from '../../styles/Header';
 
 const Header = (props) => {
   const classes = useStyles();
@@ -67,9 +64,6 @@ const Header = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' className={classes.title}>
-            News
-          </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton

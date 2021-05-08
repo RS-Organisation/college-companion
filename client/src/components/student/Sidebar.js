@@ -20,7 +20,6 @@ import LockIcon from '@material-ui/icons/Lock';
 import ListIcon from '@material-ui/icons/List';
 import SchoolIcon from '@material-ui/icons/School';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-
 import useStyles from '../../styles/Sidebar';
 
 export default function Sidebar(props) {

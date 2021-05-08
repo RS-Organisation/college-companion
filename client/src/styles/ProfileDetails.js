@@ -20,6 +20,9 @@ export default makeStyles((theme) => ({
     '& .MuiInput-underline:after': {
       borderBottomColor: '#41aea9',
     },
+    '& .MuiInputBase-input': {
+      fontFamily: 'Nunito Sans, sans-serif',
+    }
   },
   contentBox: {
     margin: 'auto',
@@ -34,25 +37,10 @@ export default makeStyles((theme) => ({
     width: theme.spacing(15),
     height: theme.spacing(15),
   },
-  subtitle: {
-    margin: '2rem 0 0.5rem 0',
-    fontFamily: 'Nunito Sans, sans-serif',
-    color: '#41aea9',
-    textAlign: 'center',
-  },
   divider: {
-    marginBottom: '2rem',
+    marginBottom: '3rem',
   },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '90%',
-    margin: 'auto',
-  },
-  rowWise: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  inputTextField: {
+    width: '40%'
   }
 }));

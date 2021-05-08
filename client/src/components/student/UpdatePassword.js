@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-
-import useStyles from '../../styles/UpdatePassword';
-
 import {
   Typography,
   Button,
@@ -11,31 +8,57 @@ import {
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import useStyles from '../../styles/UpdatePassword';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const UpdatePassword = () => {
-  const classes = useStyles();
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles()
+  };
   const [showPassword, setShowPassword] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const handleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
   };
+
+  const handleNewPasswordChange = (e) => {
+    setNewPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(newPassword, confirmPassword);
+  };
+
   return (
     <div>
-      <Typography variant='h5' className={classes.subtitle}>
+      <Typography variant='h5' className={classes.heading}>
         Password
       </Typography>
-      <div>
+      <div className={classes.formContainer}>
         {!showForm ? (
           <Button
+            variant='contained'
             onClick={() => setShowForm(true)}
             className={classes.filledButton}
           >
             Change Password
           </Button>
         ) : (
-          <form className={`${classes.root} ${classes.form}`}>
+          <form
+            autoComplete="off"
+            className={`${classes.root} ${classes.form30}`}
+            onSubmit={handleSubmit}
+          >
             <TextField
-              className={classes.formField}
               label='New Password'
               variant='outlined'
               size='small'
@@ -49,20 +72,28 @@ const UpdatePassword = () => {
                   </InputAdornment>
                 ),
               }}
+              className={classes.formField}
+              onChange={handleNewPasswordChange}
             />
             <TextField
-              className={classes.formField}
               label='Confirm Password'
               variant='outlined'
               size='small'
               type='password'
+              value={confirmPassword}
+              className={classes.formField}
+              onChange={handleConfirmPasswordChange}
             />
             <div className={classes.buttonDiv}>
-              <Button type='submit' className={classes.filledButton}>
+              <Button
+                variant='contained'
+                type='submit'
+                className={classes.filledButton}
+              >
                 Save Changes
               </Button>
               <Button
-                variant='outlined'
+                variant='contained'
                 onClick={() => setShowForm(false)}
                 className={classes.outlinedButton}
               >

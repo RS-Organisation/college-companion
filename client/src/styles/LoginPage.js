@@ -64,12 +64,10 @@ export default makeStyles((theme) => ({
     marginRight: '1rem',
     fontFamily: 'Nunito Sans, sans-serif',
     textTransform: 'none',
-    padding: '6px 16px',
     fontWeight: '600',
     transition: '0.3s ease-in-out',
     '&:hover': {
-      transform: 'scale(1.02)',
-      boxShadow: 'none',
+      transform: 'scale(1.01)',
     },
   },
   facultyButton: {
@@ -78,11 +76,10 @@ export default makeStyles((theme) => ({
     fontFamily: 'Nunito Sans, sans-serif',
     textTransform: 'none',
     fontWeight: '600',
-    boxShadow: 'none',
     transition: '0.3s ease-in-out',
     '&:hover': {
-      transform: 'scale(1.02)',
-      boxShadow: 'none',
+      transform: 'scale(1.01)',
+      outline: 'none'
     },
   },
   loginButton: {
@@ -92,12 +89,10 @@ export default makeStyles((theme) => ({
     textTransform: 'none',
     fontWeight: '600',
     backgroundColor: '#41aea9',
-    boxShadow: 'none',
     transition: '0.3s ease-in-out',
     '&:hover': {
       backgroundColor: '#41aea9',
-      transform: 'scale(1.02)',
-      boxShadow: 'none',
+      transform: 'scale(1.01)',
     },
   },
   adminButton: {
@@ -117,7 +112,7 @@ export default makeStyles((theme) => ({
     transition: '0.3s ease-in-out',
     '&:hover': {
       backgroundColor: 'white',
-      transform: 'scale(1.02)',
+      transform: 'scale(1.01)',
       boxShadow: 'none',
     },
   },

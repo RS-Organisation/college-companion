@@ -1,10 +1,8 @@
 import { React, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
 import {
 	AppBar,
 	Toolbar,
-	Typography,
 	IconButton,
 	Menu,
 	MenuItem
@@ -67,9 +65,6 @@ const Header = (props) => {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant='h6' className={classes.title}>
-						News
-          </Typography>
 					<div className={classes.grow} />
 					<div className={classes.sectionDesktop}>
 						<IconButton

@@ -86,7 +86,7 @@ const MarkAttendanceTable = () => {
 
   return (
     <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
+      <TableContainer className={classes.tableContainer}>
         <Table stickyHeader aria-label='Student Detail Table'>
           <TableHead>
             <TableRow>

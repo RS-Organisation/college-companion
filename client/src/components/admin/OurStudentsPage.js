@@ -12,6 +12,7 @@ import {
 import Header from './Header';
 import StudentDetailTable from './StudentDetailTable';
 import useStyles from '../../styles/OurFacultiesPage';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const initialData = {
   department: '',
@@ -19,7 +20,10 @@ const initialData = {
 };
 
 const OurStudentsPage = () => {
-  const classes = useStyles();
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles()
+  };
   const [details, setDetails] = useState(initialData);
   const [clicked, setClicked] = useState(false);
 
@@ -29,15 +33,14 @@ const OurStudentsPage = () => {
     setDetails({ ...details, [name]: e.target.value });
   };
 
-  const handleSearch = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setClicked(true);
-    console.log(details);
   };
 
   return (
     <Header>
-      <div>
+      <div className={clicked ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Our Students
         </Typography>
@@ -48,8 +51,11 @@ const OurStudentsPage = () => {
           justify={!clicked ? 'center' : 'flex-start'}
           alignItems={!clicked ? 'center' : 'stretch'}
         >
-          <Grid item xs={12} lg={4}>
-            <form className={classes.form} onSubmit={handleSearch}>
+          <Grid item xs={12} lg={3}>
+            <form
+              className={clicked ? classes.form60 : classes.form100}
+              onSubmit={handleSubmit}
+            >
               <FormControl
                 variant='outlined'
                 size='small'
@@ -87,13 +93,17 @@ const OurStudentsPage = () => {
                   <MenuItem value={4}>4</MenuItem>
                 </Select>
               </FormControl>
-              <Button className={classes.filledButton} type='submit'>
+              <Button
+                variant='contained'
+                type='submit'
+                className={classes.filledButton}
+              >
                 Search
               </Button>
             </form>
           </Grid>
           {clicked && (
-            <Grid item xs={12} lg={8}>
+            <Grid item xs={12} lg={9}>
               <StudentDetailTable />
             </Grid>
           )}

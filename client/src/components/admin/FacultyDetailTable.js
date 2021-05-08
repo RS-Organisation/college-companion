@@ -45,7 +45,7 @@ const FacultyDetailTable = () => {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
+      <TableContainer className={classes.tableContainer}>
         <Table stickyHeader aria-label='Faculty Detail Table'>
           <TableHead>
             <TableRow>

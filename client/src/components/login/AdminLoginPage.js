@@ -18,7 +18,7 @@ const AdminLoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
-  const [userType, setUserType] = useState('admin');
+  // const [userType, setUserType] = useState('admin');
 
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -31,7 +31,6 @@ const AdminLoginPage = () => {
   return (
     <div className={classes.main}>
       <Button
-        variant='outlined'
         onClick={handleSwitchLogin}
         className={classes.adminButton}
       >

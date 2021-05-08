@@ -21,7 +21,7 @@ const facultySchema = new Schema({
   avatar: {
     type: String,
   },
-  facultyMobileNumber: {
+  contactNumber: {
     type: Number,
   },
   aadharCardNumber: {
@@ -42,6 +42,10 @@ const facultySchema = new Schema({
   registrationNumber: {
     type: String,
   },
+  department: {
+    type: String,
+    required: true,
+  },
   designation: {
     type: String,
     required: true,
@@ -50,11 +54,6 @@ const facultySchema = new Schema({
     type: Number,
     required: true,
   },
-  subjectsCanTeach: [
-    {
-      type: String,
-    },
-  ],
   otp: {
     type: String,
   },

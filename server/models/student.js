@@ -18,13 +18,13 @@ const studentSchema = new Schema({
     type: String,
     required: true,
   },
-  studentMobileNumber: {
+  contactNumber: {
     type: Number,
   },
   aadharCardNumber: {
     type: Number,
   },
-  fatherMobileNumber: {
+  fatherContactNumber: {
     type: Number,
   },
   fatherName: {
@@ -61,12 +61,6 @@ const studentSchema = new Schema({
     type: Number,
     required: true,
   },
-  subjects: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Subject',
-    },
-  ],
   otp: {
     type: String,
   },

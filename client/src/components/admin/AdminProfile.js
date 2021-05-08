@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from 'react';
-
+import { Typography } from '@material-ui/core';
 import Header from './Header';
 import UpdateProfile from './UpdateProfile';
 import UpdatePassword from './UpdatePassword';
 import useStyles from '../../styles/AdminProfile';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const AdminProfile = (props) => {
-  const classes = useStyles();
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles()
+  };
   const selected = props?.location?.aboutProps?.selected || 'profile';
   const [clickedButton, setClickedButton] = useState(selected);
+
   useEffect(() => {
     setClickedButton(selected);
   }, [selected]);
+
   return (
     <Header>
-      <div className={classes.container}>
+      <div className={classes.container70}>
         <div className={classes.titleDiv}>
-          <p className={classes.title}>My Account</p>
+          <Typography variant='h4' className={classes.subtitle}>
+            My Account
+          </Typography>
         </div>
         <div className={classes.header}>
           <span

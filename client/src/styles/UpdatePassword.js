@@ -13,19 +13,9 @@ export default makeStyles((theme) => ({
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#41aea9',
     },
-  },
-  subtitle: {
-    marginBottom: '2rem',
-    fontFamily: 'Nunito Sans, sans-serif',
-    color: '#41aea9'
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '30%',
-    margin: 'auto'
+    '& .MuiInputBase-input': {
+      fontFamily: 'Nunito Sans, sans-serif',
+    }
   },
   formField: {
     width: '100%',
@@ -44,28 +34,22 @@ export default makeStyles((theme) => ({
     padding: '6px 18px',
     fontWeight: '600',
     color: '#41aea9',
-    backgroundColor: 'white',
+    backgroundColor: '#fafafa',
     border: '1px solid #41aea9',
     transition: '0.3s ease-in-out',
     '&:hover': {
-      backgroundColor: 'white',
-      transform: 'scale(1.02)',
+      backgroundColor: '#fafafa',
+      transform: 'scale(1.01)',
       outline: 'none'
     },
   },
-  filledButton: {
+  heading: {
+    marginBottom: '2rem',
     fontFamily: 'Nunito Sans, sans-serif',
-    textTransform: 'none',
-    padding: '8px 18px',
-    fontWeight: '600',
-    backgroundColor: '#41aea9',
-    color: 'white',
-    border: 'none',
-    transition: '0.3s ease-in-out',
-    '&:hover': {
-      backgroundColor: '#41aea9',
-      transform: 'scale(1.02)',
-      outline: 'none'
-    },
+    color: '#41aea9',
+    textAlign: 'center'
   },
+  formContainer: {
+    textAlign: 'center'
+  }
 }));

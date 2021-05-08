@@ -1,11 +1,14 @@
 import React from 'react';
-
 import { Grid, Typography, TextField, Avatar, Divider } from '@material-ui/core';
-
 import useStyles from '../../styles/ProfileDetails';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const ProfileDetails = () => {
-  const classes = useStyles();
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles()
+  };
+
   return (
     <div classsName={classes.contentBox}>
       <Typography variant='h4' className={classes.subtitle}>
@@ -19,7 +22,7 @@ const ProfileDetails = () => {
           </Avatar>
         </Grid>
         <Grid item xs={12} lg={8}>
-          <form className={`${classes.root} ${classes.form}`}>
+          <form className={`${classes.root} ${classes.form90}`}>
             <div className={classes.rowWise}>
               <TextField
                 label='Name'

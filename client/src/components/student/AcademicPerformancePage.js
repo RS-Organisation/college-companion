@@ -12,6 +12,7 @@ import {
 import Header from './Header';
 import AcademicPerformanceTable from './AcademicPerformanceTable';
 import useStyles from '../../styles/OurFacultiesPage';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const initialData = {
   subjectList: [],
@@ -20,7 +21,10 @@ const initialData = {
 };
 
 const AcademicPerformancePage = () => {
-  const classes = useStyles();
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles()
+  };
   const [details, setDetails] = useState(initialData);
   const [clicked, setClicked] = useState(false);
 
@@ -30,7 +34,7 @@ const AcademicPerformancePage = () => {
     setDetails({ ...details, [name]: e.target.value });
   };
 
-  const handleSearch = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setClicked(true);
     console.log(details);
@@ -38,68 +42,77 @@ const AcademicPerformancePage = () => {
 
   return (
     <Header>
-      <div>
-        <Typography variant='h4' className={classes.subtitle}>
-          Academic Performance
+      <div className={clicked ? classes.container95 : classes.container70}>
+        <div>
+          <Typography variant='h4' className={classes.subtitle}>
+            Academic Performance
         </Typography>
-        <Divider />
-        <Grid
-          container
-          spacing={0}
-          justify={!clicked ? 'center' : 'flex-start'}
-          alignItems={!clicked ? 'center' : 'stretch'}
-        >
-          <Grid item xs={12} lg={4}>
-            <form className={classes.form} onSubmit={handleSearch}>
-              <FormControl
-                variant='outlined'
-                size='small'
-                className={classes.root}
+          <Divider />
+          <Grid
+            container
+            spacing={0}
+            justify={!clicked ? 'center' : 'flex-start'}
+            alignItems={!clicked ? 'center' : 'stretch'}
+          >
+            <Grid item xs={12} lg={3}>
+              <form
+                className={clicked ? classes.form60 : classes.form100}
+                onSubmit={handleSubmit}
               >
-                <InputLabel>Exam Type</InputLabel>
-                <Select
-                  name='examType'
-                  value={details.examType}
-                  onChange={handleChangeDetails}
-                  label='Exam Type'
+                <FormControl
+                  variant='outlined'
+                  size='small'
+                  className={classes.root}
                 >
-                  <MenuItem value={'internal'}>Internal</MenuItem>
-                  <MenuItem value={'external'}>External</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl
-                variant='outlined'
-                size='small'
-                className={classes.root}
-              >
-                <InputLabel>Semester</InputLabel>
-                <Select
-                  name='semester'
-                  value={details.semester}
-                  onChange={handleChangeDetails}
-                  label='Semester'
+                  <InputLabel>Exam Type</InputLabel>
+                  <Select
+                    name='examType'
+                    value={details.examType}
+                    onChange={handleChangeDetails}
+                    label='Exam Type'
+                  >
+                    <MenuItem value={'internal'}>Internal</MenuItem>
+                    <MenuItem value={'external'}>External</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl
+                  variant='outlined'
+                  size='small'
+                  className={classes.root}
                 >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
-                  <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={6}>6</MenuItem>
-                  <MenuItem value={7}>7</MenuItem>
-                  <MenuItem value={8}>8</MenuItem>
-                </Select>
-              </FormControl>
-              <Button className={classes.filledButton} type='submit'>
-                Search
+                  <InputLabel>Semester</InputLabel>
+                  <Select
+                    name='semester'
+                    value={details.semester}
+                    onChange={handleChangeDetails}
+                    label='Semester'
+                  >
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                    <MenuItem value={4}>4</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={6}>6</MenuItem>
+                    <MenuItem value={7}>7</MenuItem>
+                    <MenuItem value={8}>8</MenuItem>
+                  </Select>
+                </FormControl>
+                <Button
+                  variant='contained'
+                  type='submit'
+                  className={classes.filledButton}
+                >
+                  Search
               </Button>
-            </form>
-          </Grid>
-          {clicked && (
-            <Grid item xs={12} lg={8}>
-              <AcademicPerformanceTable examType={details.examType} />
+              </form>
             </Grid>
-          )}
-        </Grid>
+            {clicked && (
+              <Grid item xs={12} lg={9}>
+                <AcademicPerformanceTable examType={details.examType} />
+              </Grid>
+            )}
+          </Grid>
+        </div>
       </div>
     </Header>
   );

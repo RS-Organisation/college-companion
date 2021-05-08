@@ -30,7 +30,7 @@ const LoginPage = () => {
 
   return (
     <div className={classes.main}>
-      <Button variant='outlined' onClick={handleAdminButton} className={classes.adminButton}>
+      <Button onClick={handleAdminButton} className={classes.adminButton}>
         Admin <ForwardIcon />
       </Button>
       <div className={classes.contentBox}>
@@ -43,24 +43,22 @@ const LoginPage = () => {
               <h3 className={classes.title}>Welcome</h3>
               <div classesName={classes.buttonDiv}>
                 <Button
-                  variant='outlined'
+                  variant='contained'
                   onClick={() => setUserType('student')}
-                  className={`${classes.studentButton} ${
-                    userType === 'student'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.studentButton} ${userType === 'student'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Student Login
                 </Button>
                 <Button
                   variant='contained'
                   onClick={() => setUserType('faculty')}
-                  className={`${classes.facultyButton} ${
-                    userType === 'faculty'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.facultyButton} ${userType === 'faculty'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Faculty Login
                 </Button>

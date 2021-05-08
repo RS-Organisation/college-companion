@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   root: {
-    width: '90%',
+    width: '95%',
     margin: '2rem auto',
     '& .MuiTableRow-root.Mui-selected': {
       backgroundColor: 'rgba(65, 174, 169, 0.1)'
@@ -14,7 +14,7 @@ export default makeStyles((theme) => ({
       borderColor: '#41aea9',
     },
   },
-  container: {
+  tableContainer: {
     maxHeight: '70vh'
   },
   tableCell: {

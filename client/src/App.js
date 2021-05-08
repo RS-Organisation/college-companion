@@ -41,20 +41,12 @@ const App = () => {
         <Route path='/student/attendance' exact component={AttendancePage} />
         <Route path='/student/subjects' exact component={SubjectsPage} />
         <Route path='/student/profile' exact component={StudentProfile} />
-        <Route
-          path='/student/academics'
-          exact
-          component={AcademicPerformancePage}
-        />
+        <Route path='/student/academics' exact component={AcademicPerformancePage} />
 
         {/* Faculty Routes */}
         <Route path='/faculty' exact component={FacultyDashboard} />
         <Route path='/faculty/profile' exact component={FacultyProfile} />
-        <Route
-          path='/faculty/markAttendance'
-          exact
-          component={MarkAttendancePage}
-        />
+        <Route path='/faculty/markAttendance' exact component={MarkAttendancePage} />
         <Route path='/faculty/uploadMarks' exact component={UploadMarksPage} />
 
         {/* Admin Routes */}
@@ -67,11 +59,7 @@ const App = () => {
         <Route path='/admin/addSubject' exact component={AddSubject} />
         <Route path='/admin/ourFaculties' exact component={OurFacultiesPage} />
         <Route path='/admin/ourStudents' exact component={OurStudentsPage} />
-        <Route
-          path='/admin/subjectsList'
-          exact
-          component={DisplaySubjectsPage}
-        />
+        <Route path='/admin/subjectsList' exact component={DisplaySubjectsPage} />
       </Switch>
     </BrowserRouter>
   );
