@@ -6,11 +6,18 @@ import {
   TextField,
   Avatar,
   Button,
-  MenuItem
+  MenuItem,
+  Modal,
 } from '@material-ui/core';
+//for the functionality to upload files
+import FileBase from 'react-file-base64';
 import DateFnsUtils from '@date-io/date-fns';
-import { ThemeProvider } from "@material-ui/styles";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import { ThemeProvider } from '@material-ui/styles';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import EditIcon from '@material-ui/icons/Edit';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
@@ -20,19 +27,35 @@ const initialData = {
   dob: new Date('2014-08-18T21:11:54'),
   department: 'IT',
   email: 'atul123@gmail.com',
-  contactNumber: '8285754512'
+  contactNumber: '8285754512',
+  avatar: '',
 };
 
 const UpdateProfile = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
   const [details, setDetails] = useState(initialData);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+  };
+
+  const handleUploadImage = (e) => {
+    e.preventDefault();
+    console.log(details);
+    handleCloseModal();
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   const handleChangeDOB = (dob) => {
@@ -51,13 +74,47 @@ const UpdateProfile = () => {
       </Typography>
       <Grid container spacing={0}>
         <Grid item xs={12} lg={3} className={classes.avatarGrid}>
-          <Avatar alt='Remy Sharp' className={classes.avatar}>
-            A
-          </Avatar>
+          {details.avatar ? (
+            <Avatar
+              src={details.avatar}
+              alt='profile-pic'
+              className={classes.avatar}
+            />
+          ) : (
+            <Avatar alt='profile-pic' className={classes.avatar}>
+              A
+            </Avatar>
+          )}
+          <EditIcon onClick={handleOpenModal} className={classes.editIcon} />
+          <Modal open={openModal} onClose={handleCloseModal}>
+            <form onSubmit={handleUploadImage} className={classes.modalForm}>
+              <Typography variant='h5' className={classes.imageModalTitle}>
+                Choose Image
+              </Typography>
+              <FileBase
+                type='file'
+                multiple={false}
+                onDone={({ base64 }) =>
+                  setDetails({ ...details, avatar: base64 })
+                }
+              />
+              <div className={`${classes.rowWise} ${classes.buttonDiv}`}>
+                <Button type='submit' className={classes.filledButton}>
+                  Upload
+                </Button>
+                <Button
+                  onClick={handleCloseModal}
+                  className={classes.outlinedButton}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </Modal>
         </Grid>
         <Grid item xs={12} lg={9}>
           <form
-            autoComplete="off"
+            autoComplete='off'
             className={`${classes.root} ${classes.form70}`}
             onSubmit={handleSubmit}
           >
@@ -74,10 +131,10 @@ const UpdateProfile = () => {
                 <ThemeProvider theme={materialTheme}>
                   <KeyboardDatePicker
                     name='dob'
-                    size="small"
-                    margin="normal"
-                    label="Date of Birth"
-                    format="dd/MM/yyyy"
+                    size='small'
+                    margin='normal'
+                    label='Date of Birth'
+                    format='dd/MM/yyyy'
                     value={details.dob}
                     onChange={handleChangeDOB}
                     className={classes.inputTextField}

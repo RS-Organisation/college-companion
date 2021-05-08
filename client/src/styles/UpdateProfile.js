@@ -21,11 +21,11 @@ export default makeStyles((theme) => ({
       borderBottomColor: '#41aea9',
     },
     '& .MuiSelect-select:focus': {
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
     },
     '& .MuiInputBase-input': {
       fontFamily: 'Nunito Sans, sans-serif',
-    }
+    },
   },
   contentBox: {
     margin: 'auto',
@@ -37,13 +37,13 @@ export default makeStyles((theme) => ({
     justifyContent: 'center',
   },
   avatar: {
-    width: theme.spacing(15),
-    height: theme.spacing(15),
+    width: theme.spacing(18),
+    height: theme.spacing(18),
   },
   heading: {
     marginBottom: '1rem',
     fontFamily: 'Nunito Sans, sans-serif',
     color: '#41aea9',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
