@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { createBrowserHistory as createHistory } from 'history';
 
 //Private Routes
 import PrivateAdminRoute from './routers/PrivateRoutes/PrivateAdminRoute';
 import PrivateFacultyRoute from './routers/PrivateRoutes/PrivateFacultyRoute';
 import PrivateStudentRoute from './routers/PrivateRoutes/PrivateStudentRoute';
-// import PublicRoute from './routers/PublicRoute';
+import PublicRoute from './routers/PublicRoutes/PublicRoute';
 
 import LoginPage from './components/login/LoginPage';
 
@@ -40,7 +40,7 @@ const App = () => {
   return (
     <BrowserRouter history={history}>
       <Switch>
-        <Route path='/' exact component={LoginPage} />
+        <PublicRoute path='/' exact component={LoginPage} />
 
         {/* Student Routes */}
         <PrivateStudentRoute
@@ -92,7 +92,7 @@ const App = () => {
         />
 
         {/* Admin Routes */}
-        <Route path='/admin/login' exact component={AdminLoginPage} />
+        <PublicRoute path='/admin/login' exact component={AdminLoginPage} />
         <PrivateAdminRoute path='/admin' exact component={AdminDashboard} />
         <PrivateAdminRoute
           path='/admin/profile'
