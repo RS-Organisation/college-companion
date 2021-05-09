@@ -8,6 +8,16 @@ import './index.css';
 import LoadingPage from './components/utils/LoadingPage';
 import { setAdminDetails, adminLogout } from './redux/actions/adminActions';
 
+import {
+  setFacultyDetails,
+  facultyLogout,
+} from './redux/actions/facultyActions';
+
+import {
+  setStudentDetails,
+  studentLogout,
+} from './redux/actions/studentActions';
+
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 
@@ -26,9 +36,39 @@ const findUser = () => {
     // Check for expired token
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
-      store.dispatch(adminLogout());
+      store.dispatch(adminLogout()).then(() => renderApp());
     } else {
-      store.dispatch(setAdminDetails(decoded._doc, history));
+      store
+        .dispatch(setAdminDetails(decoded._doc, history))
+        .then(() => renderApp());
+    }
+  }
+
+  if (Cookies.get('facultyJWT')) {
+    const decoded = jwt_decode(Cookies.get('facultyJWT'));
+
+    // Check for expired token
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      store.dispatch(facultyLogout()).then(() => renderApp());
+    } else {
+      store
+        .dispatch(setFacultyDetails(decoded._doc, history))
+        .then(() => renderApp());
+    }
+  }
+
+  if (Cookies.get('studentJWT')) {
+    const decoded = jwt_decode(Cookies.get('studentJWT'));
+
+    // Check for expired token
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      store.dispatch(studentLogout()).then(() => renderApp());
+    } else {
+      store
+        .dispatch(setStudentDetails(decoded._doc, history))
+        .then(() => renderApp());
     }
   }
   renderApp();

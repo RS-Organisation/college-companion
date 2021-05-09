@@ -16,7 +16,7 @@ import ForwardIcon from '@material-ui/icons/Forward';
 import useStyles from '../../styles/LoginPage';
 
 // Actions
-import { login } from '../../redux/actions/adminActions';
+import { adminLogin } from '../../redux/actions/adminActions';
 
 const initialDetails = {
   registrationNumber: '',
@@ -41,7 +41,7 @@ const AdminLoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(formData, history));
+    dispatch(adminLogin(formData, history));
   };
 
   const handleChange = (e) => {

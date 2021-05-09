@@ -24,3 +24,11 @@ API.interceptors.request.use((req) => {
 
 // Admin Routes
 export const adminLogin = (formData) => API.post('/auth/admin-login', formData);
+
+// Faculty Routes
+export const facultyLogin = (formData) =>
+  API.post('/auth/faculty-login', formData);
+
+// Student Routes
+export const studentLogin = (formData) =>
+  API.post('/auth/student-login', formData);
