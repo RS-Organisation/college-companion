@@ -60,6 +60,11 @@ const UpdateProfile = () => {
     setOpenModal(false);
   };
 
+  const handleCancel = () => {
+    setDetails({ ...details, avatar: '' });
+    handleCloseModal();
+  }
+
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
   };
@@ -123,7 +128,7 @@ const UpdateProfile = () => {
                 </Button>
                 <Button
                   variant='contained'
-                  onClick={handleCloseModal}
+                  onClick={handleCancel}
                   className={classes.outlinedButton}
                 >
                   Cancel

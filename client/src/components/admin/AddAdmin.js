@@ -1,5 +1,6 @@
 import 'date-fns';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Typography, TextField, Button, MenuItem, Divider } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { ThemeProvider } from "@material-ui/styles";
@@ -8,6 +9,7 @@ import Header from './Header';
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
+import { addAdmin } from '../../redux/actions/adminActions';
 
 const initialData = {
   name: '',
@@ -24,6 +26,7 @@ const AddAdmin = () => {
     ...useStyles()
   };
   const [details, setDetails] = useState(initialData);
+  const dispatch = useDispatch();
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -36,7 +39,8 @@ const AddAdmin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(details);
+    dispatch(addAdmin(details));
+    setDetails(initialData);
   };
 
   return (

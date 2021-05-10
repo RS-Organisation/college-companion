@@ -1,6 +1,13 @@
 import * as api from './api';
 
-import { ADMIN_LOGIN, ADMIN_LOGOUT, SET_ADMIN_DETAILS } from '../actionsType';
+import {
+  ADMIN_LOGIN,
+  ADMIN_LOGOUT,
+  SET_ADMIN_DETAILS,
+  ADD_ADMIN,
+  ADD_FACULTY,
+  ADD_STUDENT
+} from '../actionsType';
 
 export const adminLogin = (formData, history) => async (dispatch) => {
   try {
@@ -36,6 +43,33 @@ export const setAdminDetails = (data, history) => async (dispatch) => {
     if (history.location.pathname === '/') {
       history.push('/admin/');
     }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addAdmin = (formData) => async (dispatch) => {
+  try {
+    await api.addAdmin(formData);
+    dispatch({ type: ADD_ADMIN });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addFaculty = (formData) => async (dispatch) => {
+  try {
+    await api.addFaculty(formData);
+    dispatch({ type: ADD_FACULTY });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addStudent = (formData) => async (dispatch) => {
+  try {
+    await api.addStudent(formData);
+    dispatch({ type: ADD_STUDENT });
   } catch (err) {
     console.log(err);
   }

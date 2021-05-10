@@ -105,17 +105,6 @@ export default makeStyles((theme) => ({
   inputTextField: {
     width: '45%',
   },
-  loader: {
-    alignItems: 'center',
-    display: 'flex',
-    height: '100vh',
-    justifyContent: 'center',
-    width: '100vw',
-  },
-  loaderImage: {
-    height: '5rem',
-    width: '5rem',
-  },
   rowWise: {
     display: 'flex',
     flexDirection: 'row',

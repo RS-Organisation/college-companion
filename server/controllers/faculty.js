@@ -8,6 +8,7 @@ const getFacultyDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const details = await Faculty.findById(id);
+    delete details.password;
     res.status(200).json(details);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -55,6 +56,7 @@ const addFaculty = async (req, res) => {
     });
 
     await newFaculty.save();
+    delete newFaculty.password;
     res.status(201).json(newFaculty);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -67,9 +69,10 @@ const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Faculty.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
+    const updatedDetails = await Faculty.findByIdAndUpdate(
+      id, updates, { new: true }
+    );
+    delete updatedDetails.password;
     res.status(201).json(updatedDetails);
   } catch (err) {
     res.status(400).json({ message: err.message });

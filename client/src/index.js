@@ -6,7 +6,11 @@ import store from './redux/store';
 import './index.css';
 
 import LoadingPage from './components/utils/LoadingPage';
-import { setAdminDetails, adminLogout } from './redux/actions/adminActions';
+
+import {
+  setAdminDetails,
+  adminLogout
+} from './redux/actions/adminActions';
 
 import {
   setFacultyDetails,
@@ -36,7 +40,9 @@ const findUser = () => {
     // Check for expired token
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
-      store.dispatch(adminLogout()).then(() => renderApp());
+      store
+        .dispatch(adminLogout())
+        .then(() => renderApp());
     } else {
       store
         .dispatch(setAdminDetails(decoded._doc, history))
@@ -50,7 +56,9 @@ const findUser = () => {
     // Check for expired token
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
-      store.dispatch(facultyLogout()).then(() => renderApp());
+      store
+        .dispatch(facultyLogout())
+        .then(() => renderApp());
     } else {
       store
         .dispatch(setFacultyDetails(decoded._doc, history))
@@ -64,7 +72,9 @@ const findUser = () => {
     // Check for expired token
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
-      store.dispatch(studentLogout()).then(() => renderApp());
+      store
+        .dispatch(studentLogout())
+        .then(() => renderApp());
     } else {
       store
         .dispatch(setStudentDetails(decoded._doc, history))

@@ -1,4 +1,11 @@
-import { ADMIN_LOGIN, ADMIN_LOGOUT, SET_ADMIN_DETAILS } from '../actionsType';
+import {
+  ADMIN_LOGIN,
+  ADMIN_LOGOUT,
+  SET_ADMIN_DETAILS,
+  ADD_ADMIN,
+  ADD_FACULTY,
+  ADD_STUDENT
+} from '../actionsType';
 import Cookies from 'js-cookie';
 
 const initialState = {
@@ -9,7 +16,6 @@ const initialState = {
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADMIN_LOGIN:
-      // localStorage.setItem('profile', JSON.stringify({ ...action?.payload }));
       Cookies.set('adminJWT', action?.payload?.token, {
         expires: 7,
       });
@@ -29,6 +35,11 @@ const adminReducer = (state = initialState, action) => {
     case ADMIN_LOGOUT:
       Cookies.remove('adminJWT');
       return { ...state, adminData: null, isAuthenticated: false };
+
+    case ADD_ADMIN:
+    case ADD_FACULTY:
+    case ADD_STUDENT:
+      return state;
 
     default:
       return state;

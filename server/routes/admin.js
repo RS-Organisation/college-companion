@@ -7,11 +7,12 @@ const {
   addAdmin,
   updateProfile,
   deleteAdmin,
+  getAllAdminDetails
 } = require('../controllers/admin');
 
 const { adminAuth } = require('../middleware/authMiddleware');
 
-router.get('/', adminAuth, getAdminDetails);
+router.get('/', adminAuth, getAllAdminDetails);
 router.get('/:id', adminAuth, getAdminDetails);
 router.patch('/:id', adminAuth, updateProfile);
 router.post('/add', adminAuth, addAdmin);

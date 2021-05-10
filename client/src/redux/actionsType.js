@@ -2,6 +2,9 @@
 export const ADMIN_LOGIN = 'ADMIN_LOGIN';
 export const ADMIN_LOGOUT = 'ADMIN_LOGOUT';
 export const SET_ADMIN_DETAILS = 'SET_ADMIN_DETAILS';
+export const ADD_ADMIN = 'ADD_ADMIN'
+export const ADD_FACULTY = 'ADD_FACULTY'
+export const ADD_STUDENT = 'ADD_STUDENT'
 
 // Faculty Action Types
 export const FACULTY_LOGIN = 'FACULTY_LOGIN';

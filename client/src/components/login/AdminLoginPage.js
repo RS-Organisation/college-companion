@@ -29,7 +29,6 @@ const AdminLoginPage = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialDetails);
-  // const [userType, setUserType] = useState('admin');
 
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);

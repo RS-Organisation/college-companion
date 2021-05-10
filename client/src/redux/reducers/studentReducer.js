@@ -13,7 +13,6 @@ const initialState = {
 const studentReducer = (state = initialState, action) => {
   switch (action.type) {
     case STUDENT_LOGIN:
-      // localStorage.setItem('profile', JSON.stringify({ ...action?.payload }));
       Cookies.set('studentJWT', action?.payload?.token, {
         expires: 7,
       });

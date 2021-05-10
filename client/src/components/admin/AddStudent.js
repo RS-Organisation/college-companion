@@ -1,5 +1,6 @@
 import 'date-fns';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Typography,
   TextField,
@@ -14,6 +15,7 @@ import Header from './Header';
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
+import { addStudent } from '../../redux/actions/adminActions';
 
 const initialData = {
   name: '',
@@ -35,6 +37,7 @@ const AddStudent = () => {
     ...useStyles()
   };
   const [details, setDetails] = useState(initialData);
+  const dispatch = useDispatch();
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -47,7 +50,8 @@ const AddStudent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(details);
+    dispatch(addStudent(details));
+    setDetails(initialData);
   };
 
   return (

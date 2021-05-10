@@ -92,14 +92,26 @@ const App = () => {
         />
 
         {/* Admin Routes */}
-        <PublicRoute path='/admin/login' exact component={AdminLoginPage} />
-        <PrivateAdminRoute path='/admin' exact component={AdminDashboard} />
+        <PublicRoute
+          path='/admin/login'
+          exact
+          component={AdminLoginPage}
+        />
+        <PrivateAdminRoute
+          path='/admin'
+          exact
+          component={AdminDashboard}
+        />
         <PrivateAdminRoute
           path='/admin/profile'
           exact
           component={AdminProfile}
         />
-        <PrivateAdminRoute path='/admin/addAdmin' exact component={AddAdmin} />
+        <PrivateAdminRoute
+          path='/admin/addAdmin'
+          exact
+          component={AddAdmin}
+        />
         <PrivateAdminRoute
           path='/admin/addFaculty'
           exact

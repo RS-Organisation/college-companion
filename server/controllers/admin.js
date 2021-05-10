@@ -8,6 +8,17 @@ const getAdminDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const details = await Admin.findById(id);
+    delete details.password;
+    res.status(200).json(details);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+const getAllAdminDetails = async (req, res) => {
+  try {
+    const details = await Admin.find({});
+    // delete details.password;
     res.status(200).json(details);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -46,7 +57,7 @@ const addAdmin = async (req, res) => {
     });
 
     await newAdmin.save();
-    res.status(201).json(newAdmin);
+    res.status(201).json({ message: 'Admin created successfully.' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -58,9 +69,10 @@ const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Admin.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
+    const updatedDetails = await Admin.findByIdAndUpdate(
+      id, updates, { new: true }
+    );
+    delete updatedDetails.password;
     res.status(201).json(updatedDetails);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -79,6 +91,7 @@ const deleteAdmin = async (req, res) => {
 };
 
 module.exports = {
+  getAllAdminDetails,
   getAdminDetails,
   addAdmin,
   updateProfile,

@@ -8,6 +8,7 @@ const getStudentDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const details = await Student.findById(id);
+    delete details.password;
     res.status(200).json(details);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -62,6 +63,7 @@ const addStudent = async (req, res) => {
     });
 
     await newStudent.save();
+    delete newStudent.password;
     res.status(201).json(newStudent);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -74,9 +76,10 @@ const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Student.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
+    const updatedDetails = await Student.findByIdAndUpdate(
+      id, updates, { new: true }
+    );
+    delete updatedDetails.password;
     res.status(201).json(updatedDetails);
   } catch (err) {
     res.status(400).json({ message: err.message });

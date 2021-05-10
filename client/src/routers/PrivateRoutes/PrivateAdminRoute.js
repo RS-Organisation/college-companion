@@ -7,12 +7,14 @@ const PrivateAdminRoute = ({ component: Component, ...rest }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const store = useSelector((store) => store);
+
   useEffect(() => {
     setIsAuthenticated(store?.adminReducer?.isAuthenticated || false);
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
   }, [isLoading, store]);
+
   return (
     <Fragment>
       {isLoading ? (
@@ -21,7 +23,7 @@ const PrivateAdminRoute = ({ component: Component, ...rest }) => {
         <Route
           {...rest}
           component={(props) =>
-            isAuthenticated ? <Component {...props} /> : <Redirect to='/' />
+            isAuthenticated ? <Component {...props} /> : <Redirect to='/admin' />
           }
         />
       )}
