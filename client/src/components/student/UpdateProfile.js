@@ -9,18 +9,17 @@ import {
   MenuItem,
   Modal,
 } from '@material-ui/core';
-//for the functionality to upload files
-import FileBase from 'react-file-base64';
 import DateFnsUtils from '@date-io/date-fns';
 import { ThemeProvider } from '@material-ui/styles';
-import EditIcon from '@material-ui/icons/Edit';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import EditIcon from '@material-ui/icons/Edit';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
+import blankProfilePic from '../../images/blankProfilePic.svg'
 
 const initialData = {
   name: 'Atul Kumar',
@@ -67,6 +66,17 @@ const UpdateProfile = () => {
     setDetails({ ...details, dob });
   };
 
+  const handleChangeImage = (e) => {
+    let file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setDetails({ ...details, avatar: reader.result });
+      };
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(details);
@@ -79,35 +89,42 @@ const UpdateProfile = () => {
       </Typography>
       <Grid container spacing={0}>
         <Grid item xs={12} lg={3} className={classes.avatarGrid}>
-          {details.avatar ? (
-            <Avatar
-              src={details.avatar}
-              alt='profile-pic'
-              className={classes.avatar}
-            />
-          ) : (
-            <Avatar alt='profile-pic' className={classes.avatar}>
-              A
-            </Avatar>
-          )}
-          <EditIcon onClick={handleOpenModal} className={classes.editIcon} />
+          <div>
+            {details.avatar ? (
+              <Avatar
+                src={details.avatar}
+                alt='profile-pic'
+                className={classes.avatar}
+              />
+            ) : (
+              <Avatar
+                src={blankProfilePic}
+                alt='profile-pic'
+                className={classes.avatar}
+              />
+            )}
+            <EditIcon onClick={handleOpenModal} className={classes.editIcon} />
+          </div>
           <Modal open={openModal} onClose={handleCloseModal}>
             <form onSubmit={handleUploadImage} className={classes.modalForm}>
               <Typography variant='h5' className={classes.imageModalTitle}>
-                Choose Image
+                Update Profile Picture
               </Typography>
-              <FileBase
+              <input
                 type='file'
-                multiple={false}
-                onDone={({ base64 }) =>
-                  setDetails({ ...details, avatar: base64 })
-                }
+                accept='image/*'
+                onChange={handleChangeImage}
               />
               <div className={`${classes.rowWise} ${classes.buttonDiv}`}>
-                <Button type='submit' className={classes.filledButton}>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  className={classes.filledButton}
+                >
                   Upload
                 </Button>
                 <Button
+                  variant='contained'
                   onClick={handleCloseModal}
                   className={classes.outlinedButton}
                 >

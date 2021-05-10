@@ -105,6 +105,17 @@ export default makeStyles((theme) => ({
   inputTextField: {
     width: '45%',
   },
+  loader: {
+    alignItems: 'center',
+    display: 'flex',
+    height: '100vh',
+    justifyContent: 'center',
+    width: '100vw',
+  },
+  loaderImage: {
+    height: '5rem',
+    width: '5rem',
+  },
   rowWise: {
     display: 'flex',
     flexDirection: 'row',
@@ -121,44 +132,5 @@ export default makeStyles((theme) => ({
     fontSize: '2rem',
     color: '#41aea9',
     textAlign: 'center',
-  },
-  imageModalTitle: {
-    marginBottom: '1rem',
-    fontFamily: 'Nunito Sans, sans-serif',
-    color: '#41aea9',
-  },
-
-  modalForm: {
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: '1.2rem 1.2rem',
-    borderRadius: '5px',
-    outline: 'none',
-  },
-  editIcon: {
-    fontSize: '1.2rem',
-    color: '#707b80',
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-  buttonDiv: {
-    marginTop: '1.2rem',
-  },
-  loader: {
-    alignItems: 'center',
-    display: 'flex',
-    height: '100vh',
-    justifyContent: 'center',
-    width: '100vw',
-  },
-  loaderImage: {
-    height: '5rem',
-    width: '5rem',
   },
 }));
