@@ -133,35 +133,4 @@ export default makeStyles((theme) => ({
     color: '#41aea9',
     textAlign: 'center',
   },
-<<<<<<< HEAD
-=======
-  imageModalTitle: {
-    marginBottom: '1rem',
-    fontFamily: 'Nunito Sans, sans-serif',
-    color: '#41aea9',
-  },
-
-  modalForm: {
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: '1.2rem 1.2rem',
-    borderRadius: '5px',
-    outline: 'none',
-  },
-  editIcon: {
-    fontSize: '1.2rem',
-    color: '#707b80',
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-  buttonDiv: {
-    marginTop: '1.2rem',
-  },
->>>>>>> 639323f108d1757cc544eace79bacb92bc3218cf
 }));
