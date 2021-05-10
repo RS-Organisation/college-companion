@@ -1,6 +1,20 @@
 import React from 'react';
 import loader from '../../images/loader.gif';
-import useStyles from '../../styles/CommonStyles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  loader: {
+    alignItems: 'center',
+    display: 'flex',
+    height: '100vh',
+    justifyContent: 'center',
+    width: '100vw',
+  },
+  loaderImage: {
+    height: '5rem',
+    width: '5rem',
+  },
+});
 
 const LoadingPage = () => {
   const classes = useStyles();

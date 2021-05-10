@@ -92,26 +92,8 @@ const studentLogin = async (req, res) => {
   }
 };
 
-const logoutAdmin = async (req, res) => {
-  res.cookie('adminJWT', '', { maxAge: 1 });
-  res.redirect('/');
-};
-
-const logoutFaculty = async (req, res) => {
-  res.cookie('facultyJWT', '', { maxAge: 1 });
-  res.redirect('/');
-};
-
-const logoutStudent = async (req, res) => {
-  res.cookie('studentJWT', '', { maxAge: 1 });
-  res.redirect('/');
-};
-
 module.exports = {
   adminLogin,
   facultyLogin,
   studentLogin,
-  logoutAdmin,
-  logoutFaculty,
-  logoutStudent,
 };

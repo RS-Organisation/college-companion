@@ -2,11 +2,9 @@ import * as api from './api';
 
 import { ADMIN_LOGIN, ADMIN_LOGOUT, SET_ADMIN_DETAILS } from '../actionsType';
 
-export const login = (formData, history) => async (dispatch) => {
+export const adminLogin = (formData, history) => async (dispatch) => {
   try {
-    console.log(formData);
     const { data } = await api.adminLogin(formData);
-    console.log('logged in user details', data);
     dispatch({
       type: ADMIN_LOGIN,
       payload: { userDetails: data.result, token: data.token },
@@ -23,7 +21,7 @@ export const adminLogout = (history) => async (dispatch) => {
     dispatch({
       type: ADMIN_LOGOUT,
     });
-    history.push('/');
+    history.push('/admin/login');
   } catch (err) {
     console.log(err);
   }

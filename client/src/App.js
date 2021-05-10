@@ -1,9 +1,12 @@
 import React from 'react';
-import { Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { createBrowserHistory as createHistory } from 'history';
 
-// import PrivateRoute from './routers/PrivateRoute';
-// import PublicRoute from './routers/PublicRoute';
+//Private Routes
+import PrivateAdminRoute from './routers/PrivateRoutes/PrivateAdminRoute';
+import PrivateFacultyRoute from './routers/PrivateRoutes/PrivateFacultyRoute';
+import PrivateStudentRoute from './routers/PrivateRoutes/PrivateStudentRoute';
+import PublicRoute from './routers/PublicRoutes/PublicRoute';
 
 import LoginPage from './components/login/LoginPage';
 
@@ -35,48 +38,100 @@ import DisplaySubjectsPage from './components/admin/DisplaySubjectsPage';
 export const history = createHistory();
 const App = () => {
   return (
-    <Router history={history}>
+    <BrowserRouter history={history}>
       <Switch>
-        <Route path='/' exact component={LoginPage} />
+        <PublicRoute path='/' exact component={LoginPage} />
 
         {/* Student Routes */}
-        <Route path='/student' exact component={StudentDashboard} />
-        <Route path='/student/attendance' exact component={AttendancePage} />
-        <Route path='/student/subjects' exact component={SubjectsPage} />
-        <Route path='/student/profile' exact component={StudentProfile} />
-        <Route
+        <PrivateStudentRoute
+          path='/student'
+          exact
+          component={StudentDashboard}
+        />
+        <PrivateStudentRoute
+          path='/student/attendance'
+          exact
+          component={AttendancePage}
+        />
+        <PrivateStudentRoute
+          path='/student/subjects'
+          exact
+          component={SubjectsPage}
+        />
+        <PrivateStudentRoute
+          path='/student/profile'
+          exact
+          component={StudentProfile}
+        />
+        <PrivateStudentRoute
           path='/student/academics'
           exact
           component={AcademicPerformancePage}
         />
 
         {/* Faculty Routes */}
-        <Route path='/faculty' exact component={FacultyDashboard} />
-        <Route path='/faculty/profile' exact component={FacultyProfile} />
-        <Route
+        <PrivateFacultyRoute
+          path='/faculty'
+          exact
+          component={FacultyDashboard}
+        />
+        <PrivateFacultyRoute
+          path='/faculty/profile'
+          exact
+          component={FacultyProfile}
+        />
+        <PrivateFacultyRoute
           path='/faculty/markAttendance'
           exact
           component={MarkAttendancePage}
         />
-        <Route path='/faculty/uploadMarks' exact component={UploadMarksPage} />
+        <PrivateFacultyRoute
+          path='/faculty/uploadMarks'
+          exact
+          component={UploadMarksPage}
+        />
 
         {/* Admin Routes */}
-        <Route path='/admin/login' exact component={AdminLoginPage} />
-        <Route path='/admin' exact component={AdminDashboard} />
-        <Route path='/admin/profile' exact component={AdminProfile} />
-        <Route path='/admin/addAdmin' exact component={AddAdmin} />
-        <Route path='/admin/addFaculty' exact component={AddFaculty} />
-        <Route path='/admin/addStudent' exact component={AddStudent} />
-        <Route path='/admin/addSubject' exact component={AddSubject} />
-        <Route path='/admin/ourFaculties' exact component={OurFacultiesPage} />
-        <Route path='/admin/ourStudents' exact component={OurStudentsPage} />
-        <Route
+        <PublicRoute path='/admin/login' exact component={AdminLoginPage} />
+        <PrivateAdminRoute path='/admin' exact component={AdminDashboard} />
+        <PrivateAdminRoute
+          path='/admin/profile'
+          exact
+          component={AdminProfile}
+        />
+        <PrivateAdminRoute path='/admin/addAdmin' exact component={AddAdmin} />
+        <PrivateAdminRoute
+          path='/admin/addFaculty'
+          exact
+          component={AddFaculty}
+        />
+        <PrivateAdminRoute
+          path='/admin/addStudent'
+          exact
+          component={AddStudent}
+        />
+        <PrivateAdminRoute
+          path='/admin/addSubject'
+          exact
+          component={AddSubject}
+        />
+        <PrivateAdminRoute
+          path='/admin/ourFaculties'
+          exact
+          component={OurFacultiesPage}
+        />
+        <PrivateAdminRoute
+          path='/admin/ourStudents'
+          exact
+          component={OurStudentsPage}
+        />
+        <PrivateAdminRoute
           path='/admin/subjectsList'
           exact
           component={DisplaySubjectsPage}
         />
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 };
 
