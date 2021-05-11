@@ -8,6 +8,7 @@ import {
   ADD_ADMIN,
   ADD_FACULTY,
   ADD_STUDENT,
+  ADD_SUBJECT
 } from '../actionsType';
 
 export const adminLogin = (formData, history) => async (dispatch) => {
@@ -37,7 +38,6 @@ export const adminLogout = (history) => async (dispatch) => {
 
 export const setAdminDetails = (data, history) => async (dispatch) => {
   try {
-    console.log(data);
     dispatch({
       type: SET_ADMIN_DETAILS,
       payload: data,
@@ -75,6 +75,15 @@ export const addStudent = (formData) => async (dispatch) => {
     const data = { ...formData, dob: format(formData.dob, 'dd-MM-yyyy') };
     await api.addStudent(data);
     dispatch({ type: ADD_STUDENT });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addSubject = (formData) => async (dispatch) => {
+  try {
+    await api.addSubject(formData);
+    dispatch({ type: ADD_SUBJECT });
   } catch (err) {
     console.log(err);
   }

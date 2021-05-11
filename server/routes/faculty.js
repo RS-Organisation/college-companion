@@ -12,7 +12,7 @@ const {
 
 const { facultyAuth, adminAuth } = require('../middleware/authMiddleware');
 
-router.get('/all', getFaculties);
+router.get('/all', adminAuth, getFaculties);
 // router.get('/:id', facultyAuth, getFacultyDetails);
 router.patch('/:id', facultyAuth, updateProfile);
 router.post('/add', adminAuth, addFaculty);

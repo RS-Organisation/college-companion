@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Typography,
   TextField,
@@ -9,6 +10,7 @@ import {
 import Header from './Header';
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
+import { addSubject } from '../../redux/actions/adminActions';
 
 const initialData = {
   subjectName: '',
@@ -24,6 +26,7 @@ const AddSubject = () => {
     ...useStyles()
   };
   const [details, setDetails] = useState(initialData);
+  const dispatch = useDispatch();
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -32,7 +35,8 @@ const AddSubject = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(details);
+    dispatch(addSubject(details));
+    setDetails(initialData);
   };
 
   return (

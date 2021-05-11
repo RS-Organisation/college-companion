@@ -19,7 +19,7 @@ const addSubject = async (req, res) => {
 	try {
 		const newSubject = new Subject({ ...details });
 		await newSubject.save();
-		res.status(201).json(newSubject);
+		res.status(201).json({ message: 'New subject added successfully' });
 	} catch (err) {
 		res.status(400).json({ message: err.message });
 	}

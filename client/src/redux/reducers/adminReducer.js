@@ -4,7 +4,8 @@ import {
   SET_ADMIN_DETAILS,
   ADD_ADMIN,
   ADD_FACULTY,
-  ADD_STUDENT
+  ADD_STUDENT,
+  ADD_SUBJECT
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
@@ -39,6 +40,7 @@ const adminReducer = (state = initialState, action) => {
     case ADD_ADMIN:
     case ADD_FACULTY:
     case ADD_STUDENT:
+    case ADD_SUBJECT:
       return state;
 
     default:

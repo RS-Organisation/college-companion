@@ -26,6 +26,9 @@ export const adminLogin = (formData) =>
 export const addAdmin = (formData) =>
   API.post('/admin/add', formData);
 
+export const addSubject = (formData) =>
+  API.post('/subject/add', formData);
+
 // Faculty Routes
 
 export const facultyLogin = (formData) =>
