@@ -5,13 +5,24 @@ import {
   ADD_ADMIN,
   ADD_FACULTY,
   ADD_STUDENT,
-  ADD_SUBJECT
+  ADD_SUBJECT,
+  GET_FACULTIES,
+  GET_STUDENTS,
+  GET_SUBJECTS
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
 const initialState = {
   adminData: null,
   isAuthenticated: false,
+  allFaculties: [],
+  facultiesDepartment: '',
+  allStudents: [],
+  studentsDepartment: '',
+  studentsYear: '',
+  allSubjects: [],
+  subjectsDepartment: '',
+  subjectsSemester: ''
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -42,6 +53,29 @@ const adminReducer = (state = initialState, action) => {
     case ADD_STUDENT:
     case ADD_SUBJECT:
       return state;
+
+    case GET_FACULTIES:
+      return {
+        ...state,
+        allFaculties: action.payload.faculties,
+        facultiesDepartment: action.payload.department
+      };
+
+    case GET_STUDENTS:
+      return {
+        ...state,
+        allStudents: action.payload.students,
+        studentsDepartment: action.payload.department,
+        studentsYear: action.payload.year
+      };
+
+    case GET_SUBJECTS:
+      return {
+        ...state,
+        allSubjects: action.payload.subjects,
+        subjectsDepartment: action.payload.department,
+        subjectsSemester: action.payload.semester
+      };
 
     default:
       return state;

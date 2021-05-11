@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   FormControl,
@@ -13,34 +14,37 @@ import Header from './Header';
 import SubjectDetailTable from './SubjectDetailTable';
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
+import { getSubjects } from '../../redux/actions/adminActions';
 
 const DisplaySubjectsPage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles()
   };
-  const [department, setDepartment] = useState('');
-  const [semester, setSemester] = useState('');
-  const [clicked, setClicked] = useState(false);
+  const dispatch = useDispatch();
+  const { allSubjects, subjectsDepartment, subjectsSemester } = useSelector(
+    (store) => store.adminReducer
+  );
+  const [details, setDetails] = useState({
+    department: subjectsDepartment,
+    semester: subjectsSemester
+  });
 
-  const handleDepartmentChange = (event) => {
-    setClicked(false);
-    setDepartment(event.target.value);
-  };
-
-  const handleSemesterChange = (event) => {
-    setClicked(false);
-    setSemester(event.target.value);
+  const handleChangeDetails = (e) => {
+    const { name } = e.target;
+    setDetails({ ...details, [name]: e.target.value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setClicked(true);
+    dispatch(getSubjects(details));
   };
+
+  const showSubjectTable = (subjectsDepartment !== '' && subjectsSemester !== '');
 
   return (
     <Header>
-      <div className={clicked ? classes.container95 : classes.container70}>
+      <div className={showSubjectTable ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Subjects
         </Typography>
@@ -48,33 +52,35 @@ const DisplaySubjectsPage = () => {
         <Grid
           container
           spacing={0}
-          justify={!clicked ? 'center' : 'flex-start'}
-          alignItems={!clicked ? 'center' : 'stretch'}
+          justify={!showSubjectTable ? 'center' : 'flex-start'}
+          alignItems={!showSubjectTable ? 'center' : 'stretch'}
         >
           <Grid item xs={12} lg={3}>
             <form
-              className={clicked ? classes.form60 : classes.form100}
+              className={showSubjectTable ? classes.form60 : classes.form100}
               onSubmit={handleSubmit}
             >
               <FormControl variant="outlined" size="small" className={classes.root}>
                 <InputLabel>Department</InputLabel>
                 <Select
-                  value={department}
-                  onChange={handleDepartmentChange}
+                  name='department'
+                  value={details.department}
+                  onChange={handleChangeDetails}
                   label="Department"
                 >
-                  <MenuItem value={'CSE'}>CSE</MenuItem>
+                  <MenuItem value={'CS'}>CSE</MenuItem>
                   <MenuItem value={'IT'}>IT</MenuItem>
-                  <MenuItem value={'ECE'}>ECE</MenuItem>
-                  <MenuItem value={'EEE'}>EEE</MenuItem>
+                  <MenuItem value={'EC'}>ECE</MenuItem>
+                  <MenuItem value={'EE'}>EEE</MenuItem>
                   <MenuItem value={'ME'}>ME</MenuItem>
                 </Select>
               </FormControl>
               <FormControl variant="outlined" size="small" className={classes.root}>
                 <InputLabel>Semester</InputLabel>
                 <Select
-                  value={semester}
-                  onChange={handleSemesterChange}
+                  name='semester'
+                  value={details.semester}
+                  onChange={handleChangeDetails}
                   label="Semester"
                 >
                   <MenuItem value={1}>1</MenuItem>
@@ -96,9 +102,9 @@ const DisplaySubjectsPage = () => {
               </Button>
             </form>
           </Grid>
-          {clicked && (
+          {showSubjectTable && (
             <Grid item xs={12} lg={9}>
-              <SubjectDetailTable />
+              <SubjectDetailTable subjects={allSubjects} />
             </Grid>
           )}
         </Grid>

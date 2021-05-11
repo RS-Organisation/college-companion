@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   FormControl,
@@ -13,34 +14,37 @@ import Header from './Header';
 import StudentDetailTable from './StudentDetailTable';
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-const initialData = {
-  department: '',
-  year: '',
-};
+import { getStudents } from '../../redux/actions/adminActions';
 
 const OurStudentsPage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles()
   };
-  const [details, setDetails] = useState(initialData);
-  const [clicked, setClicked] = useState(false);
+  const dispatch = useDispatch();
+  const { allStudents, studentsDepartment, studentsYear } = useSelector(
+    (store) => store.adminReducer
+  );
+  const [details, setDetails] = useState({
+    department: studentsDepartment,
+    year: studentsYear
+  });
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
-    setClicked(false);
     setDetails({ ...details, [name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setClicked(true);
+    dispatch(getStudents(details));
   };
+
+  const showStudentTable = (studentsDepartment !== '' && studentsYear !== '');
 
   return (
     <Header>
-      <div className={clicked ? classes.container95 : classes.container70}>
+      <div className={showStudentTable ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Our Students
         </Typography>
@@ -48,12 +52,12 @@ const OurStudentsPage = () => {
         <Grid
           container
           spacing={0}
-          justify={!clicked ? 'center' : 'flex-start'}
-          alignItems={!clicked ? 'center' : 'stretch'}
+          justify={!showStudentTable ? 'center' : 'flex-start'}
+          alignItems={!showStudentTable ? 'center' : 'stretch'}
         >
           <Grid item xs={12} lg={3}>
             <form
-              className={clicked ? classes.form60 : classes.form100}
+              className={showStudentTable ? classes.form60 : classes.form100}
               onSubmit={handleSubmit}
             >
               <FormControl
@@ -102,9 +106,9 @@ const OurStudentsPage = () => {
               </Button>
             </form>
           </Grid>
-          {clicked && (
+          {showStudentTable && (
             <Grid item xs={12} lg={9}>
-              <StudentDetailTable />
+              <StudentDetailTable students={allStudents} />
             </Grid>
           )}
         </Grid>

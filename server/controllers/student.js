@@ -1,6 +1,9 @@
 const Student = require('../models/student');
 const mongoose = require('mongoose');
-const { generateEnrollmentNumber } = require('../util/helperFunctions');
+const {
+  generateEnrollmentNumber,
+  getJoiningYear
+} = require('../util/helperFunctions');
 
 // GET ROUTES
 
@@ -16,7 +19,9 @@ const { generateEnrollmentNumber } = require('../util/helperFunctions');
 
 const getStudents = async (req, res) => {
   try {
-    const queryObj = req.body.queryObj;
+    const { department, year } = req.query;
+    const joiningYear = getJoiningYear(year * 2);
+    const queryObj = { department, joiningYear };
     const students = await Student.find(queryObj);
     res.status(200).json(students);
   } catch (err) {

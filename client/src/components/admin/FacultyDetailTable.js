@@ -10,39 +10,10 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../styles/MarkAttendanceTable';
 
-function createData(name, registrationNumber, email, joiningYear) {
-  return { name, registrationNumber, email, joiningYear };
-}
-
-const rows = [
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2018),
-];
-
-const FacultyDetailTable = () => {
+const FacultyDetailTable = (props) => {
+  const { faculties } = props;
   const classes = useStyles();
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.tableContainer}>
@@ -67,13 +38,13 @@ const FacultyDetailTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {faculties.map((faculty, index) => (
               <TableRow hover key={index}>
                 <TableCell align='center'>{index + 1}</TableCell>
-                <TableCell align='center'>{row.registrationNumber}</TableCell>
-                <TableCell align='center'>{row.name}</TableCell>
-                <TableCell align='center'>{row.email}</TableCell>
-                <TableCell align='center'>{row.joiningYear}</TableCell>
+                <TableCell align='center'>{faculty.registrationNumber}</TableCell>
+                <TableCell align='center'>{faculty.name}</TableCell>
+                <TableCell align='center'>{faculty.email}</TableCell>
+                <TableCell align='center'>{faculty.joiningYear}</TableCell>
               </TableRow>
             ))}
           </TableBody>

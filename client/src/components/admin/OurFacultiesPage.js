@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   FormControl,
@@ -13,28 +14,33 @@ import Header from './Header';
 import FacultyDetailTable from './FacultyDetailTable';
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
+import { getFaculties } from '../../redux/actions/adminActions';
 
 const OurFacultiesPage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles()
   };
-  const [department, setDepartment] = useState('');
-  const [clicked, setClicked] = useState(false);
+  const dispatch = useDispatch();
+  const { allFaculties, facultiesDepartment } = useSelector(
+    (store) => store.adminReducer
+  );
+  const [department, setDepartment] = useState(facultiesDepartment);
 
   const handleChange = (event) => {
-    setClicked(false);
     setDepartment(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setClicked(true);
+    dispatch(getFaculties({ department }));
   };
+
+  const showFacultyTable = (facultiesDepartment !== '');
 
   return (
     <Header>
-      <div className={clicked ? classes.container95 : classes.container70}>
+      <div className={showFacultyTable ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Our Faculties
         </Typography>
@@ -42,12 +48,12 @@ const OurFacultiesPage = () => {
         <Grid
           container
           spacing={0}
-          justify={!clicked ? 'center' : 'flex-start'}
-          alignItems={!clicked ? 'center' : 'stretch'}
+          justify={!showFacultyTable ? 'center' : 'flex-start'}
+          alignItems={!showFacultyTable ? 'center' : 'stretch'}
         >
           <Grid item xs={12} lg={3}>
             <form
-              className={clicked ? classes.form60 : classes.form100}
+              className={showFacultyTable ? classes.form60 : classes.form100}
               onSubmit={handleSubmit}
             >
               <FormControl
@@ -77,9 +83,9 @@ const OurFacultiesPage = () => {
               </Button>
             </form>
           </Grid>
-          {clicked && (
+          {showFacultyTable && (
             <Grid item xs={12} lg={9}>
-              <FacultyDetailTable />
+              <FacultyDetailTable faculties={allFaculties} />
             </Grid>
           )}
         </Grid>

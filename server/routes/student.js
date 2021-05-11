@@ -16,7 +16,7 @@ const {
   adminAuth,
 } = require('../middleware/authMiddleware');
 
-router.get('/all', facultyAuth, getStudents);
+router.get('/all', adminAuth, getStudents);
 // router.get('/:id', studentAuth, getStudentDetails);
 router.patch('/:id', studentAuth, updateProfile);
 router.post('/add', adminAuth, addStudent);

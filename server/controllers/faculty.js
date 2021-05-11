@@ -16,8 +16,7 @@ const { generateRegistrationNumber } = require('../util/helperFunctions');
 
 const getFaculties = async (req, res) => {
   try {
-    const queryObj = req.body.queryObj;
-    const faculties = await Faculty.find(queryObj);
+    const faculties = await Faculty.find(req.query);
     res.status(200).json(faculties);
   } catch (err) {
     res.status(404).json({ message: err.message });

@@ -10,32 +10,10 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../styles/MarkAttendanceTable';
 
-function createData(name, enrollmentNumber, email, section) {
-  return { name, enrollmentNumber, email, section };
-}
-
-const rows = [
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 1),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 1),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 1),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 1),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 1),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 1),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 1),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 2),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
-  createData('Rishabh', 'FAC2018001', 'rishabh@gmail.com', 3),
-];
-
-const StudentDetailTable = () => {
+const StudentDetailTable = (props) => {
+  const { students } = props;
   const classes = useStyles();
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.tableContainer}>
@@ -60,13 +38,13 @@ const StudentDetailTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {students.map((student, index) => (
               <TableRow hover key={index}>
                 <TableCell align='center'>{index + 1}</TableCell>
-                <TableCell align='center'>{row.enrollmentNumber}</TableCell>
-                <TableCell align='center'>{row.name}</TableCell>
-                <TableCell align='center'>{row.email}</TableCell>
-                <TableCell align='center'>{row.section}</TableCell>
+                <TableCell align='center'>{student.enrollmentNumber}</TableCell>
+                <TableCell align='center'>{student.name}</TableCell>
+                <TableCell align='center'>{student.email}</TableCell>
+                <TableCell align='center'>{student.section}</TableCell>
               </TableRow>
             ))}
           </TableBody>

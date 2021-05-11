@@ -26,9 +26,6 @@ export const adminLogin = (formData) =>
 export const addAdmin = (formData) =>
   API.post('/admin/add', formData);
 
-export const addSubject = (formData) =>
-  API.post('/subject/add', formData);
-
 // Faculty Routes
 
 export const facultyLogin = (formData) =>
@@ -37,6 +34,9 @@ export const facultyLogin = (formData) =>
 export const addFaculty = (formData) =>
   API.post('/faculty/add', formData);
 
+export const getFaculties = (formData) =>
+  API.get('/faculty/all', { params: formData });
+
 // Student Routes
 
 export const studentLogin = (formData) =>
@@ -44,3 +44,14 @@ export const studentLogin = (formData) =>
 
 export const addStudent = (formData) =>
   API.post('/student/add', formData);
+
+export const getStudents = (formData) =>
+  API.get('/student/all', { params: formData });
+
+// Subject Routes
+
+export const addSubject = (formData) =>
+  API.post('/subject/add', formData);
+
+export const getSubjects = (formData) =>
+  API.get('/subject/all', { params: formData });

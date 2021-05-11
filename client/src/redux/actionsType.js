@@ -6,6 +6,9 @@ export const ADD_ADMIN = 'ADD_ADMIN'
 export const ADD_FACULTY = 'ADD_FACULTY'
 export const ADD_STUDENT = 'ADD_STUDENT'
 export const ADD_SUBJECT = 'ADD_SUBJECT'
+export const GET_FACULTIES = 'GET_FACULTIES'
+export const GET_STUDENTS = 'GET_STUDENTS'
+export const GET_SUBJECTS = 'GET_SUBJECTS'
 
 // Faculty Action Types
 export const FACULTY_LOGIN = 'FACULTY_LOGIN';

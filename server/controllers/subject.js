@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const getAllSubjects = async (req, res) => {
 	try {
-		const subjects = await Subject.find({});
+		const subjects = await Subject.find(req.query);
 		res.status(200).json(subjects);
 	} catch (err) {
 		res.status(404).json({ message: err.message });
