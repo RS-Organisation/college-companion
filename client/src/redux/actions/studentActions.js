@@ -44,3 +44,28 @@ export const setStudentDetails = (data, history) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const updateProfile = (updates) => async (dispatch) => {
+  try {
+    const { data } = await api.updateStudentProfile(updates);
+    console.log(data);
+    dispatch({
+      type: SET_STUDENT_DETAILS,
+      payload: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updatePassword = (updates) => async (dispatch) => {
+  try {
+    const { data } = await api.updateStudentPassword(updates);
+    dispatch({
+      type: SET_STUDENT_DETAILS,
+      payload: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

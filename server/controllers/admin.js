@@ -2,6 +2,8 @@ const Admin = require('../models/admin');
 const mongoose = require('mongoose');
 const { generateRegistrationNumber } = require('../util/helperFunctions');
 
+const bcrypt = require('bcryptjs');
+
 // GET ROUTES
 
 // const getAdminDetails = async (req, res) => {
@@ -57,10 +59,34 @@ const addAdmin = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Admin.findByIdAndUpdate(id, updates, { new: true });
-    res.status(201).json({ message: 'Admin details updated successfully' });
+    const { _id } = req.adminDetails;
+    const updatedDetails = await Admin.findByIdAndUpdate(_id, updates, {
+      new: true,
+    });
+    res.status(200).json({
+      result: updatedDetails,
+      message: 'Admin details updated successfully',
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  try {
+    const updates = req.body;
+    const { _id } = req.adminDetails;
+    const hashedPassword = await bcrypt.hash(updates.password, 12);
+    const updatedDetails = await Admin.findByIdAndUpdate(
+      _id,
+      { password: hashedPassword },
+      { new: true }
+    );
+    res.status(200).json({
+      result: updatedDetails,
+      message: 'Admin details updated successfully',
+    });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -81,5 +107,6 @@ module.exports = {
   // getAdminDetails,
   addAdmin,
   updateProfile,
+  updatePassword,
   deleteAdmin,
 };

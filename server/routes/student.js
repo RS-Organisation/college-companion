@@ -7,6 +7,7 @@ const {
   getStudents,
   addStudent,
   updateProfile,
+  updatePassword,
   deleteStudent,
 } = require('../controllers/student');
 
@@ -18,7 +19,8 @@ const {
 
 router.get('/all', adminAuth, getStudents);
 // router.get('/:id', studentAuth, getStudentDetails);
-router.patch('/:id', studentAuth, updateProfile);
+router.patch('/updateProfile', studentAuth, updateProfile);
+router.patch('/updatePassword', studentAuth, updatePassword);
 router.post('/add', adminAuth, addStudent);
 router.delete('/delete', adminAuth, deleteStudent);
 

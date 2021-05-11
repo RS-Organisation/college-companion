@@ -1,5 +1,6 @@
 import 'date-fns';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -19,33 +20,34 @@ import EditIcon from '@material-ui/icons/Edit';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-import blankProfilePic from '../../images/blankProfilePic.svg'
+import blankProfilePic from '../../images/blankProfilePic.svg';
 
-const initialData = {
-  name: 'Atul Kumar',
-  dob: new Date('2014-08-18T21:11:54'),
-  department: 'IT',
-  email: 'atul123@gmail.com',
-  contactNumber: '8285754512',
-  avatar: '',
-};
+// Actions
+import { updateProfile } from '../../redux/actions/adminActions';
 
 const UpdateProfile = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
   };
-  const [details, setDetails] = useState(initialData);
+
+  const dispatch = useDispatch();
+  const admin = useSelector((store) => store.adminReducer.adminData);
+  const [details, setDetails] = useState(admin);
+  const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    setChanges({ ...changes, [name]: e.target.value });
   };
 
   const handleUploadImage = (e) => {
     e.preventDefault();
-    console.log(details);
+    if (changes && Object.keys(changes).length !== 0) {
+      dispatch(updateProfile(changes));
+    }
     handleCloseModal();
   };
 
@@ -59,27 +61,35 @@ const UpdateProfile = () => {
 
   const handleCancel = () => {
     setDetails({ ...details, avatar: '' });
+    setChanges({ ...changes, avatar: '' });
     handleCloseModal();
-  }
+  };
 
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
+    setChanges({ ...changes, dob });
+    // console.log(changes);
   };
 
   const handleChangeImage = (e) => {
-    let file = e.target.files[0]
+    let file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         setDetails({ ...details, avatar: reader.result });
+        setChanges({ ...changes, avatar: reader.result });
       };
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(details);
+    if (changes && Object.keys(changes).length !== 0) {
+      dispatch(updateProfile(changes));
+      console.log(changes);
+      setChanges({});
+    }
   };
 
   return (
@@ -174,11 +184,11 @@ const UpdateProfile = () => {
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
               >
-                <MenuItem value={'CS'}>CSE</MenuItem>
-                <MenuItem value={'IT'}>IT</MenuItem>
-                <MenuItem value={'EC'}>ECE</MenuItem>
-                <MenuItem value={'EE'}>EEE</MenuItem>
-                <MenuItem value={'ME'}>ME</MenuItem>
+                <MenuItem value='CS'>CSE</MenuItem>
+                <MenuItem value='IT'>IT</MenuItem>
+                <MenuItem value='EC'>ECE</MenuItem>
+                <MenuItem value='EE'>EEE</MenuItem>
+                <MenuItem value='ME'>ME</MenuItem>
               </TextField>
               <TextField
                 name='email'

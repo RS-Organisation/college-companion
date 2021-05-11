@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Typography,
   Button,
@@ -11,11 +12,17 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import useStyles from '../../styles/UpdatePassword';
 import useStylesCommon from '../../styles/CommonStyles';
 
+// Actions
+import { updatePassword } from '../../redux/actions/adminActions';
+
 const UpdatePassword = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
-  }
+    ...useStyles(),
+  };
+
+  const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [newPassword, setNewPassword] = useState('');
@@ -35,7 +42,14 @@ const UpdatePassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(newPassword, confirmPassword);
+    if (newPassword === confirmPassword) {
+      const changes = {
+        password: newPassword,
+      };
+      dispatch(updatePassword(changes));
+      setNewPassword('');
+      setConfirmPassword('');
+    }
   };
 
   return (
@@ -54,7 +68,7 @@ const UpdatePassword = () => {
           </Button>
         ) : (
           <form
-            autoComplete="off"
+            autoComplete='off'
             className={`${classes.root} ${classes.form30}`}
             onSubmit={handleSubmit}
           >

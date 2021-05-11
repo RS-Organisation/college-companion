@@ -1,5 +1,7 @@
 import 'date-fns';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   Grid,
   Typography,
@@ -19,33 +21,30 @@ import EditIcon from '@material-ui/icons/Edit';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-import blankProfilePic from '../../images/blankProfilePic.svg'
+import blankProfilePic from '../../images/blankProfilePic.svg';
 
-const initialData = {
-  name: 'Atul Kumar',
-  gender: 'M',
-  dob: new Date('2014-08-18T21:11:54'),
-  department: 'IT',
-  section: '2',
-  avatar: '',
-  email: 'atul123@gmail.com',
-  contactNumber: '8285754512',
-  aadharCardNumber: '78456545781232',
-  fatherName: 'Dinesh Kumar',
-  fatherContactNumber: '9878536210',
-};
+// Actions
+import { updateProfile } from '../../redux/actions/studentActions';
 
 const UpdateProfile = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
   };
-  const [details, setDetails] = useState(initialData);
+
+  const student = useSelector((store) => store.studentReducer.studentData);
+
+  const [details, setDetails] = useState(student);
+  const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleUploadImage = (e) => {
     e.preventDefault();
-    console.log(details);
+    if (changes && Object.keys(changes).length !== 0) {
+      dispatch(updateProfile(changes));
+    }
     handleCloseModal();
   };
 
@@ -59,32 +58,39 @@ const UpdateProfile = () => {
 
   const handleCancel = () => {
     setDetails({ ...details, avatar: '' });
+    setChanges({ ...changes, avatar: '' });
     handleCloseModal();
-  }
+  };
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    setChanges({ ...changes, [name]: e.target.value });
   };
 
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
+    setChanges({ ...changes, dob });
+    // console.log(changes);
   };
 
   const handleChangeImage = (e) => {
-    let file = e.target.files[0]
+    let file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         setDetails({ ...details, avatar: reader.result });
+        setChanges({ ...changes, avatar: reader.result });
       };
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(details);
+    if (changes && Object.keys(changes).length !== 0) {
+      dispatch(updateProfile(changes));
+    }
   };
 
   return (

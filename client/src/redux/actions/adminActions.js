@@ -11,7 +11,7 @@ import {
   ADD_SUBJECT,
   GET_FACULTIES,
   GET_STUDENTS,
-  GET_SUBJECTS
+  GET_SUBJECTS,
 } from '../actionsType';
 
 export const adminLogin = (formData, history) => async (dispatch) => {
@@ -99,8 +99,8 @@ export const getFaculties = (formData) => async (dispatch) => {
       type: GET_FACULTIES,
       payload: {
         faculties: faculties.data,
-        department: formData.department
-      }
+        department: formData.department,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -116,8 +116,8 @@ export const getStudents = (formData) => async (dispatch) => {
       payload: {
         students: students.data,
         department,
-        year
-      }
+        year,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -133,8 +133,34 @@ export const getSubjects = (formData) => async (dispatch) => {
       payload: {
         subjects: subjects.data,
         department,
-        semester
-      }
+        semester,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateProfile = (updates) => async (dispatch) => {
+  try {
+    console.log('updates', updates);
+    const { data } = await api.updateProfile(updates);
+    console.log(data);
+    dispatch({
+      type: SET_ADMIN_DETAILS,
+      payload: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updatePassword = (updates) => async (dispatch) => {
+  try {
+    const { data } = await api.updatePassword(updates);
+    dispatch({
+      type: SET_ADMIN_DETAILS,
+      payload: data.result,
     });
   } catch (err) {
     console.log(err);
