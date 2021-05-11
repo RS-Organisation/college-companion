@@ -1,13 +1,48 @@
-import React from 'react';
-import { Grid, Typography, TextField, Avatar, Divider } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import {
+  Grid,
+  Typography,
+  TextField,
+  Avatar,
+  Divider,
+} from '@material-ui/core';
 import useStyles from '../../styles/ProfileDetails';
 import useStylesCommon from '../../styles/CommonStyles';
 
-const ProfileDetails = () => {
+const ProfileDetails = (props) => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
+
+  const { faculty } = props;
+
+  const [details, setDetails] = useState(faculty);
+
+  useEffect(() => {
+    const checkDepartment = () => {
+      if (details.department) {
+        if (details.department === 'CS')
+          setDetails({ ...details, department: 'CSE' });
+        if (details.department === 'EC')
+          setDetails({ ...details, department: 'ECE' });
+        if (details.department === 'EE')
+          setDetails({ ...details, department: 'EEE' });
+      }
+    };
+
+    const checkGender = () => {
+      if (details.gender) {
+        if (details.gender === 'F')
+          setDetails({ ...details, gender: 'Female' });
+        if (details.gender === 'M') setDetails({ ...details, gender: 'Male' });
+        if (details.gender === 'O')
+          setDetails({ ...details, gender: 'Others' });
+      }
+    };
+    checkDepartment();
+    checkGender();
+  }, [details]);
 
   return (
     <div classsName={classes.contentBox}>
@@ -27,13 +62,13 @@ const ProfileDetails = () => {
               <TextField
                 label='Name'
                 margin='normal'
-                value='Atul Kumar'
+                value={details.name}
                 inputProps={{ readOnly: true }}
               />
               <TextField
                 label='Registration Number'
                 margin='normal'
-                value='ADM2XXX0XX'
+                value={details.registrationNumber}
                 inputProps={{ readOnly: true }}
               />
             </div>
@@ -41,13 +76,15 @@ const ProfileDetails = () => {
               <TextField
                 label='Department'
                 margin='normal'
-                value='CSE'
+                value={
+                  details.department ? details.department : 'Not Available'
+                }
                 inputProps={{ readOnly: true }}
               />
               <TextField
                 label='Designation'
                 margin='normal'
-                value='Professor'
+                value={details.designation}
                 inputProps={{ readOnly: true }}
               />
             </div>
@@ -55,13 +92,13 @@ const ProfileDetails = () => {
               <TextField
                 label='Gender'
                 margin='normal'
-                value='Male'
+                value={details.gender}
                 inputProps={{ readOnly: true }}
               />
               <TextField
                 label='Joining Year'
                 margin='normal'
-                value='30-12-1997'
+                value={details.joiningYear}
                 inputProps={{ readOnly: true }}
               />
             </div>
@@ -69,13 +106,17 @@ const ProfileDetails = () => {
               <TextField
                 label='Email Address'
                 margin='normal'
-                value='atulkumar@123.com'
+                value={details.email}
                 inputProps={{ readOnly: true }}
               />
               <TextField
                 label='Contact Number'
                 margin='normal'
-                value='8447088311'
+                value={
+                  details.contactNumber
+                    ? details.contactNumber
+                    : 'Not available'
+                }
                 inputProps={{ readOnly: true }}
               />
             </div>
@@ -83,13 +124,17 @@ const ProfileDetails = () => {
               <TextField
                 label='Date of Birth'
                 margin='normal'
-                value='30-12-1997'
+                value={details.dob}
                 inputProps={{ readOnly: true }}
               />
               <TextField
                 label='Aadhar Card Number'
                 margin='normal'
-                value='6871679671'
+                value={
+                  details.aadharCardNumber
+                    ? details.aadharCardNumber
+                    : 'Not available'
+                }
                 inputProps={{ readOnly: true }}
               />
             </div>
