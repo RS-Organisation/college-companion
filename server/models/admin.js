@@ -53,6 +53,12 @@ adminSchema.pre('save', async function (next) {
   next();
 });
 
+adminSchema.methods.toJSON = function () {
+  const adminObject = this.toObject();
+  delete adminObject.password;
+  return adminObject;
+};
+
 adminSchema.set('timestamps', true);
 
 const Admin = mongoose.model('Admin', adminSchema);

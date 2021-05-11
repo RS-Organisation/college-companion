@@ -10,7 +10,7 @@ const adminAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const admin = await Admin.findById(decoded._doc._id);
+    const admin = await Admin.findById(decoded._id);
     if (!admin) {
       return res.status(400).json({ message: 'Admin does not exist' });
     }
@@ -25,7 +25,7 @@ const facultyAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const faculty = await Faculty.findById(decoded._doc._id);
+    const faculty = await Faculty.findById(decoded._id);
     if (!faculty) {
       return res.status(400).json({ message: 'Faculty does not exist' });
     }
@@ -40,7 +40,7 @@ const studentAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const student = await Student.findById(decoded._doc._id);
+    const student = await Student.findById(decoded._id);
     if (!student) {
       return res.status(400).json({ message: 'Student does not exist' });
     }

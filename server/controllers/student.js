@@ -4,22 +4,21 @@ const { generateEnrollmentNumber } = require('../util/helperFunctions');
 
 // GET ROUTES
 
-const getStudentDetails = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const details = await Student.findById(id);
-    delete details.password;
-    res.status(200).json(details);
-  } catch (err) {
-    res.status(404).json({ message: err.message });
-  }
-};
+// const getStudentDetails = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const student = await Student.findById(id);
+//     res.status(200).json(student);
+//   } catch (err) {
+//     res.status(404).json({ message: err.message });
+//   }
+// };
 
 const getStudents = async (req, res) => {
   try {
     const queryObj = req.body.queryObj;
-    const details = await Student.find(queryObj);
-    res.status(200).json(details);
+    const students = await Student.find(queryObj);
+    res.status(200).json(students);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -35,26 +34,12 @@ const addStudent = async (req, res) => {
       joiningYear: details.joiningYear,
     });
 
-    const prefix = details.department;
+    const dep = details.department;
     var enrollmentNumber = generateEnrollmentNumber(
-      prefix,
+      dep,
       details.joiningYear,
       count + 1
     );
-
-    const checkExisting = await Student.findOne({ enrollmentNumber });
-
-    if (checkExisting) {
-      const last = await Student.findOne({ department: details.department })
-        .sort({ createdAt: -1 })
-        .limit(1);
-      const newCount = parseInt(last.enrollmentNumber.slice(-3));
-      enrollmentNumber = generateEnrollmentNumber(
-        prefix,
-        details.joiningYear,
-        newCount + 1
-      );
-    }
 
     const newStudent = new Student({
       ...details,
@@ -63,8 +48,7 @@ const addStudent = async (req, res) => {
     });
 
     await newStudent.save();
-    delete newStudent.password;
-    res.status(201).json(newStudent);
+    res.status(201).json({ message: 'New student added successfully' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -76,11 +60,8 @@ const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Student.findByIdAndUpdate(
-      id, updates, { new: true }
-    );
-    delete updatedDetails.password;
-    res.status(201).json(updatedDetails);
+    const updatedDetails = await Student.findByIdAndUpdate(id, updates, { new: true });
+    res.status(201).json({ message: 'Student details updated successfully' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -98,7 +79,7 @@ const deleteStudent = async (req, res) => {
 };
 
 module.exports = {
-  getStudentDetails,
+  // getStudentDetails,
   getStudents,
   addStudent,
   updateProfile,

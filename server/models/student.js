@@ -74,6 +74,12 @@ studentSchema.pre('save', async function (next) {
   next();
 });
 
+studentSchema.methods.toJSON = function () {
+  const studentObject = this.toObject();
+  delete studentObject.password;
+  return studentObject;
+};
+
 studentSchema.set('timestamps', true);
 
 const Student = mongoose.model('Student', studentSchema);

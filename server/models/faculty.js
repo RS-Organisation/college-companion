@@ -67,6 +67,12 @@ facultySchema.pre('save', async function (next) {
   next();
 });
 
+facultySchema.methods.toJSON = function () {
+  const facultyObject = this.toObject();
+  delete facultyObject.password;
+  return facultyObject;
+};
+
 facultySchema.set('timestamps', true);
 
 const Faculty = mongoose.model('Faculty', facultySchema);

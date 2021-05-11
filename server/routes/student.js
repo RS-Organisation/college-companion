@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  getStudentDetails,
+  // getStudentDetails,
   getStudents,
   addStudent,
   updateProfile,
@@ -17,7 +17,7 @@ const {
 } = require('../middleware/authMiddleware');
 
 router.get('/fetch', facultyAuth, getStudents);
-router.get('/:id', studentAuth, getStudentDetails);
+// router.get('/:id', studentAuth, getStudentDetails);
 router.patch('/:id', studentAuth, updateProfile);
 router.post('/add', adminAuth, addStudent);
 router.delete('/delete', adminAuth, deleteStudent);

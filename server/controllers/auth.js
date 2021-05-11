@@ -32,8 +32,9 @@ const adminLogin = async (req, res) => {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
 
-    delete existingAdmin.password;
-    const token = createToken(existingAdmin);
+    const admin = JSON.parse(JSON.stringify(existingAdmin));
+    delete admin.password;
+    const token = createToken(admin);
 
     res.status(200).json({ result: existingAdmin, token });
   } catch (error) {
@@ -59,8 +60,9 @@ const facultyLogin = async (req, res) => {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
 
-    delete existingFaculty.password;
-    const token = createToken(existingFaculty);
+    const faculty = JSON.parse(JSON.stringify(existingFaculty));
+    delete faculty.password;
+    const token = createToken(faculty);
 
     res.status(200).json({ result: existingFaculty, token });
   } catch (error) {
@@ -86,8 +88,9 @@ const studentLogin = async (req, res) => {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
 
-    delete existingStudent.password;
-    const token = createToken(existingStudent);
+    const student = JSON.parse(JSON.stringify(existingStudent));
+    delete student.password;
+    const token = createToken(student);
 
     res.status(200).json({ result: existingStudent, token });
   } catch (error) {

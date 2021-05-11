@@ -9,22 +9,22 @@ const generateRegistrationNumber = (prefix, joiningYear, count) => {
 };
 
 // Function to Generate Enrollment Number for Student
-const generateEnrollmentNumber = (prefix, joiningYear, count) => {
+const generateEnrollmentNumber = (dep, joiningYear, count) => {
   const formattedCount = count.toLocaleString('en-US', {
     minimumIntegerDigits: 3,
     useGrouping: false,
   });
-  const enrollmentNumber = String(joiningYear) + prefix + formattedCount;
+  const enrollmentNumber = String(joiningYear) + dep + formattedCount;
   return enrollmentNumber;
 };
 
 // Function to find joining year from current semester
 const getJoiningYear = (semester) => {
   var today = new Date();
-  var month = today.getMonth()+1;
+  var month = today.getMonth() + 1;
   var year = today.getFullYear();
 
-  var studyingYear = Math.ceil(semester/2);
+  var studyingYear = Math.ceil(semester / 2);
 
   if (month >= 7) {
     return (year - studyingYear + 1);
@@ -34,8 +34,8 @@ const getJoiningYear = (semester) => {
   }
 };
 
-module.exports = { 
-  generateRegistrationNumber, 
+module.exports = {
+  generateRegistrationNumber,
   generateEnrollmentNumber,
   getJoiningYear
 };

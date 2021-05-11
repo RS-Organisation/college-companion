@@ -4,21 +4,21 @@ const { generateRegistrationNumber } = require('../util/helperFunctions');
 
 // GET ROUTES
 
-const getFacultyDetails = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const details = await Faculty.findById(id);
-    delete details.password;
-    res.status(200).json(details);
-  } catch (err) {
-    res.status(404).json({ message: err.message });
-  }
-};
+// const getFacultyDetails = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const faculty = await Faculty.findById(id);
+//     res.status(200).json(faculty);
+//   } catch (err) {
+//     res.status(404).json({ message: err.message });
+//   }
+// };
 
-const getAllFaculty = async (req, res) => {
+const getFaculties = async (req, res) => {
   try {
-    const details = await Faculty.find({});
-    res.status(200).json(details);
+    const queryObj = req.body.queryObj;
+    const faculties = await Faculty.find(queryObj);
+    res.status(200).json(faculties);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -37,18 +37,6 @@ const addFaculty = async (req, res) => {
       count + 1
     );
 
-    const checkExisting = await Faculty.findOne({ registrationNumber });
-
-    if (checkExisting) {
-      const last = await Faculty.findOne({}).sort({ createdAt: -1 }).limit(1);
-      const newCount = parseInt(last.registrationNumber.slice(-3));
-      registrationNumber = generateRegistrationNumber(
-        prefix,
-        details.joiningYear,
-        newCount + 1
-      );
-    }
-
     const newFaculty = new Faculty({
       ...details,
       password: details.dob,
@@ -56,8 +44,7 @@ const addFaculty = async (req, res) => {
     });
 
     await newFaculty.save();
-    delete newFaculty.password;
-    res.status(201).json(newFaculty);
+    res.status(201).json({ message: 'New faculty added successfully' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -69,11 +56,8 @@ const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Faculty.findByIdAndUpdate(
-      id, updates, { new: true }
-    );
-    delete updatedDetails.password;
-    res.status(201).json(updatedDetails);
+    const updatedDetails = await Faculty.findByIdAndUpdate(id, updates, { new: true });
+    res.status(201).json({ message: 'Faculty details updated successfully' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -91,8 +75,8 @@ const deleteFaculty = async (req, res) => {
 };
 
 module.exports = {
-  getFacultyDetails,
-  getAllFaculty,
+  // getFacultyDetails,
+  getFaculties,
   addFaculty,
   updateProfile,
   deleteFaculty,

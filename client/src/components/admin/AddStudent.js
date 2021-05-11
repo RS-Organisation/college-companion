@@ -102,7 +102,7 @@ const AddStudent = () => {
                   margin="normal"
                   label="Date of Birth"
                   inputVariant="outlined"
-                  format="dd/MM/yyyy"
+                  format="dd-MM-yyyy"
                   value={details.dob}
                   onChange={handleChangeDOB}
                   className={classes.inputTextField}
