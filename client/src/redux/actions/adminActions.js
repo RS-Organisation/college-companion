@@ -7,7 +7,7 @@ import {
   SET_ADMIN_DETAILS,
   ADD_ADMIN,
   ADD_FACULTY,
-  ADD_STUDENT
+  ADD_STUDENT,
 } from '../actionsType';
 
 export const adminLogin = (formData, history) => async (dispatch) => {
@@ -37,6 +37,7 @@ export const adminLogout = (history) => async (dispatch) => {
 
 export const setAdminDetails = (data, history) => async (dispatch) => {
   try {
+    console.log(data);
     dispatch({
       type: SET_ADMIN_DETAILS,
       payload: data,

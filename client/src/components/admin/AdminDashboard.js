@@ -8,6 +8,7 @@ import useStyles from '../../styles/CommonStyles';
 const AdminDashboard = () => {
   const classes = useStyles();
   const admin = useSelector((store) => store.adminReducer.adminData);
+  console.log(admin);
   return (
     <Header>
       <div className={classes.container70}>
