@@ -5,7 +5,7 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
-  GET_ATTENDANCE,
+  // GET_ATTENDANCE,
 } from '../actionsType';
 
 export const studentLogin = (formData, history) => async (dispatch) => {
@@ -36,9 +36,16 @@ export const studentLogout = (history) => async (dispatch) => {
 export const setStudentDetails = (history) => async (dispatch) => {
   try {
     const { data } = await api.getStudent();
+    const attendance = await api.getAttendance();
+    const subjects = await api.getSubjectsForStudent();
+
     dispatch({
       type: SET_STUDENT_DETAILS,
-      payload: data,
+      payload: {
+        userData: data,
+        attendance: attendance.data,
+        subjects: subjects.data,
+      },
     });
     if (history.location.pathname === '/') {
       history.push('/student/');
@@ -76,13 +83,13 @@ export const setStudentDetails = (history) => async (dispatch) => {
 export const updateStudent = (updates) => async (dispatch) => {
   try {
     var updatedData = {
-      ...updates
+      ...updates,
     };
     if (updates?.dob) {
       updatedData = {
         ...updatedData,
-        dob: format(updates.dob, 'dd-MM-yyyy')
-      }
+        dob: format(updates.dob, 'dd-MM-yyyy'),
+      };
     }
     const { data } = await api.updateStudent(updatedData);
     dispatch({
@@ -94,14 +101,14 @@ export const updateStudent = (updates) => async (dispatch) => {
   }
 };
 
-export const getAttendance = () => async (dispatch) => {
-  try {
-    const { data } = await api.getAttendance();
-    dispatch({
-      type: GET_ATTENDANCE,
-      payload: data
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const getAttendance = () => async (dispatch) => {
+//   try {
+//     const { data } = await api.getAttendance();
+//     dispatch({
+//       type: GET_ATTENDANCE,
+//       payload: data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };

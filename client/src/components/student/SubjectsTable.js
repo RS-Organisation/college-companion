@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../styles/MarkAttendanceTable';
 
+import { useSelector } from 'react-redux';
+
 function createData(subjectCode, subjectName) {
   return { subjectCode, subjectName };
 }
@@ -25,6 +27,7 @@ const rows = [
 
 const SubjectsTable = () => {
   const classes = useStyles();
+  const { subjectsList } = useSelector((store) => store.studentReducer);
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.tableContainer}>
@@ -43,11 +46,11 @@ const SubjectsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow hover key={row.name}>
+            {subjectsList.map((subject, index) => (
+              <TableRow hover key={subject._id}>
                 <TableCell align='center'>{index + 1}</TableCell>
-                <TableCell align='center'>{row.subjectCode}</TableCell>
-                <TableCell align='center'>{row.subjectName}</TableCell>
+                <TableCell align='center'>{subject.subjectCode}</TableCell>
+                <TableCell align='center'>{subject.subjectName}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -2,14 +2,15 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
-  GET_ATTENDANCE
+  // GET_ATTENDANCE,
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
 const initialState = {
   studentData: null,
   isAuthenticated: false,
-  attendance: []
+  attendance: [],
+  subjectsList: [],
 };
 
 const studentReducer = (state = initialState, action) => {
@@ -27,7 +28,9 @@ const studentReducer = (state = initialState, action) => {
     case SET_STUDENT_DETAILS:
       return {
         ...state,
-        studentData: action?.payload,
+        studentData: action?.payload?.userData,
+        attendance: action?.payload?.attendance,
+        subjectsList: action?.payload?.subjects,
         isAuthenticated: true,
       };
 
@@ -35,11 +38,11 @@ const studentReducer = (state = initialState, action) => {
       Cookies.remove('studentJWT');
       return { ...state, studentData: null, isAuthenticated: false };
 
-    case GET_ATTENDANCE:
-      return {
-        ...state,
-        attendance: action.payload
-      }
+    // case GET_ATTENDANCE:
+    //   return {
+    //     ...state,
+    //     attendance: action.payload,
+    //   };
 
     default:
       return state;
