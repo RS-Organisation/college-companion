@@ -65,3 +65,7 @@ export const addSubject = (formData) => API.post('/subject/add', formData);
 
 export const getSubjects = (formData) =>
   API.get('/subject/all', { params: formData });
+
+// Attendance Routes
+
+export const getAttendance = () => API.get('/attendance/');

@@ -2,12 +2,14 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
+  GET_ATTENDANCE
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
 const initialState = {
   studentData: null,
   isAuthenticated: false,
+  attendance: []
 };
 
 const studentReducer = (state = initialState, action) => {
@@ -32,6 +34,12 @@ const studentReducer = (state = initialState, action) => {
     case STUDENT_LOGOUT:
       Cookies.remove('studentJWT');
       return { ...state, studentData: null, isAuthenticated: false };
+
+    case GET_ATTENDANCE:
+      return {
+        ...state,
+        attendance: action.payload
+      }
 
     default:
       return state;

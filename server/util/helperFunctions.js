@@ -34,8 +34,23 @@ const getJoiningYear = (semester) => {
   }
 };
 
+const getSemester = (joiningYear) => {
+  var today = new Date();
+  var month = today.getMonth() + 1;
+  var year = today.getFullYear();
+
+  var semester = (year - joiningYear) * 2;
+  if (month >= 7) {
+    return semester + 1;
+  }
+  else {
+    return semester;
+  }
+};
+
 module.exports = {
   generateRegistrationNumber,
   generateEnrollmentNumber,
-  getJoiningYear
+  getJoiningYear,
+  getSemester
 };

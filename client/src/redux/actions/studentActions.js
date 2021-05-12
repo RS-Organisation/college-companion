@@ -5,6 +5,7 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
+  GET_ATTENDANCE,
 } from '../actionsType';
 
 export const studentLogin = (formData, history) => async (dispatch) => {
@@ -87,6 +88,18 @@ export const updateStudent = (updates) => async (dispatch) => {
     dispatch({
       type: SET_STUDENT_DETAILS,
       payload: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAttendance = () => async (dispatch) => {
+  try {
+    const { data } = await api.getAttendance();
+    dispatch({
+      type: GET_ATTENDANCE,
+      payload: data
     });
   } catch (err) {
     console.log(err);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Table,
   TableBody,
@@ -29,6 +30,8 @@ const getPercentage = (totalLectures, attendedLectures) => {
 };
 
 const AttendanceTable = () => {
+  const { attendance } = useSelector((store) => store.studentReducer);
+  console.log(attendance)
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
