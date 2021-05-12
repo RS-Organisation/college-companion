@@ -46,11 +46,14 @@ const rows = [
   createData('Rishabh', 'FAC2018016'),
 ];
 
-const MarkAttendanceTable = () => {
+const MarkAttendanceTable = (props) => {
+  // variables
   const classes = useStyles();
   const rowCount = rows.length;
   const [selected, setSelected] = useState([]);
+  const { studentsList } = props;
 
+  // handlers
   const handleClick = (enrollmentNumber) => {
     const selectedIndex = selected.indexOf(enrollmentNumber);
     let newSelected = [];

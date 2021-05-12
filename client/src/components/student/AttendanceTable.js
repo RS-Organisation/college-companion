@@ -64,7 +64,7 @@ const AttendanceTable = () => {
             </TableHead>
             <TableBody>
               {attendance.map((row, index) => (
-                <TableRow hover key={index}>
+                <TableRow hover key={row._id}>
                   <TableCell align='center'>{index + 1}</TableCell>
                   <TableCell align='center'>{row.subjectCode}</TableCell>
                   <TableCell align='center'>{'anonymous'}</TableCell>

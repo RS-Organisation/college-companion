@@ -6,6 +6,7 @@ import {
   FACULTY_LOGOUT,
   SET_FACULTY_DETAILS,
   GET_STUDENT_LIST,
+  CLEAR_STUDENT_LIST,
 } from '../actionsType';
 
 export const facultyLogin = (formData, history) => async (dispatch) => {
@@ -72,10 +73,19 @@ export const updateFaculty = (updates) => async (dispatch) => {
 export const getStudentList = (formData) => async (dispatch) => {
   try {
     const { data } = await api.getStudentsList(formData);
-    console.log(data);
     dispatch({
       type: GET_STUDENT_LIST,
-      // payload: { userDetails: data.result, token: data.token },
+      payload: { studentsList: data },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const clearStudentsList = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLEAR_STUDENT_LIST,
     });
   } catch (err) {
     console.log(err);

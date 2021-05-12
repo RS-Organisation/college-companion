@@ -2,12 +2,15 @@ import {
   FACULTY_LOGIN,
   FACULTY_LOGOUT,
   SET_FACULTY_DETAILS,
+  GET_STUDENT_LIST,
+  CLEAR_STUDENT_LIST,
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
 const initialState = {
   facultyData: null,
   isAuthenticated: false,
+  studentsList: [],
 };
 
 const facultyReducer = (state = initialState, action) => {
@@ -27,6 +30,18 @@ const facultyReducer = (state = initialState, action) => {
         ...state,
         facultyData: action?.payload,
         isAuthenticated: true,
+      };
+
+    case GET_STUDENT_LIST:
+      return {
+        ...state,
+        studentsList: action?.payload?.studentsList,
+      };
+
+    case CLEAR_STUDENT_LIST:
+      return {
+        ...state,
+        studentsList: [],
       };
 
     case FACULTY_LOGOUT:

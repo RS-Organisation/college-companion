@@ -15,7 +15,10 @@ import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
 
 // Actions
-import { getStudentList } from '../../redux/actions/facultyActions';
+import {
+  getStudentList,
+  clearStudentsList,
+} from '../../redux/actions/facultyActions';
 
 const initialData = {
   studentList: [],
@@ -31,14 +34,11 @@ const MarkAttendancePage = () => {
     ...useStyles(),
   };
 
-  const [details, setDetails] = useState(initialData);
-  const [clicked, setClicked] = useState(false);
-
   const dispatch = useDispatch();
 
-  const { markAttendanceFlag, studentList } = useSelector(
-    (store) => store?.studentReducer
-  );
+  const { studentsList } = useSelector((store) => store?.facultyReducer);
+
+  const [details, setDetails] = useState(initialData);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -53,14 +53,13 @@ const MarkAttendancePage = () => {
         semester: details.semester,
       };
       dispatch(getStudentList(searchedQuery));
-      setDetails({ ...details, studentList: studentList });
+      // setClicked(true);
     }
-    // console.log(details);
-    // setClicked(true);
   };
 
   const handleReset = () => {
-    setClicked(false);
+    // setClicked(false);
+    dispatch(clearStudentsList());
     setDetails(initialData);
   };
 
@@ -76,7 +75,7 @@ const MarkAttendancePage = () => {
           Mark Attendance
         </Typography>
         <Divider />
-        {!clicked ? (
+        {studentsList?.length === 0 ? (
           <form className={classes.form35}>
             <FormControl
               variant='outlined'
@@ -174,7 +173,7 @@ const MarkAttendancePage = () => {
                 Back
               </Button>
             </div>
-            <MarkAttendanceTable />
+            <MarkAttendanceTable studentsList={studentsList} />
             <div className={classes.buttonDiv}>
               <Button
                 variant='contained'
