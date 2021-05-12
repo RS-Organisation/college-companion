@@ -8,7 +8,7 @@ import {
   TableRow,
   Paper,
   Checkbox,
-  withStyles
+  withStyles,
 } from '@material-ui/core';
 import useStyles from '../../styles/MarkAttendanceTable';
 
@@ -20,7 +20,7 @@ const CustomCheckbox = withStyles({
     },
   },
   checked: {},
-})((props) => <Checkbox color="default" {...props} />);
+})((props) => <Checkbox color='default' {...props} />);
 
 function createData(name, enrollmentNumber) {
   return { name, enrollmentNumber };
@@ -80,9 +80,8 @@ const MarkAttendanceTable = () => {
     setSelected([]);
   };
 
-  const isSelected = (enrollmentNumber) => (
-    selected.indexOf(enrollmentNumber) !== -1
-  );
+  const isSelected = (enrollmentNumber) =>
+    selected.indexOf(enrollmentNumber) !== -1;
 
   return (
     <Paper className={classes.root}>
@@ -92,7 +91,9 @@ const MarkAttendanceTable = () => {
             <TableRow>
               <TableCell padding='checkbox' className={classes.tableCell}>
                 <CustomCheckbox
-                  indeterminate={selected.length > 0 && selected.length < rowCount}
+                  indeterminate={
+                    selected.length > 0 && selected.length < rowCount
+                  }
                   checked={rowCount > 0 && selected.length === rowCount}
                   onChange={handleSelectAllClick}
                   inputProps={{ 'aria-label': 'select all students' }}

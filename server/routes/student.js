@@ -17,6 +17,7 @@ const {
 } = require('../middleware/authMiddleware');
 
 router.get('/all', adminAuth, getStudents);
+router.get('/fetch', facultyAuth, getStudents);
 router.get('/', studentAuth, getStudentDetails);
 // router.patch('/updateProfile', studentAuth, updateProfile);
 router.patch('/update', studentAuth, updateStudent);

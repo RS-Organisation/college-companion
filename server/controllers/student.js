@@ -6,6 +6,7 @@ const {
 } = require('../util/helperFunctions');
 
 const bcrypt = require('bcryptjs');
+const { query } = require('express');
 
 // GET ROUTES
 
@@ -21,9 +22,17 @@ const getStudentDetails = async (req, res) => {
 
 const getStudents = async (req, res) => {
   try {
-    const { department, year } = req.query;
-    const joiningYear = getJoiningYear(year * 2);
-    const queryObj = { department, joiningYear };
+    // const { department, year, section } = req.query;
+    let queryObj;
+    // console.log(req.query);
+    if (req.query.semester && req.query.section) {
+      const joiningYear = getJoiningYear(parseInt(req.query.semester));
+      queryObj = { ...req.query, joiningYear: joiningYear };
+      delete queryObj.semester;
+    } else {
+      const joiningYear = getJoiningYear(year * 2);
+      queryObj = { ...req.query, joiningYear: joiningYear };
+    }
     const students = await Student.find(queryObj);
     res.status(200).json(students);
   } catch (err) {
@@ -87,7 +96,9 @@ const updateStudent = async (req, res) => {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
     }
-    const updatedDetails = await Student.findByIdAndUpdate(_id, updates, { new: true });
+    const updatedDetails = await Student.findByIdAndUpdate(_id, updates, {
+      new: true,
+    });
     res.status(200).json({
       result: updatedDetails,
       message: 'Student details updated successfully',

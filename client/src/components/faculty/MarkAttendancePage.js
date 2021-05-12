@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
   Divider,
@@ -13,21 +14,31 @@ import MarkAttendanceTable from './MarkAttendanceTable';
 import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
 
+// Actions
+import { getStudentList } from '../../redux/actions/facultyActions';
+
 const initialData = {
   studentList: [],
   department: '',
   section: '',
-  subjectCode: '',
   semester: '',
+  subjectCode: '',
 };
 
 const MarkAttendancePage = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
+
   const [details, setDetails] = useState(initialData);
   const [clicked, setClicked] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const { markAttendanceFlag, studentList } = useSelector(
+    (store) => store?.studentReducer
+  );
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -35,7 +46,17 @@ const MarkAttendancePage = () => {
   };
 
   const handleSearch = () => {
-    setClicked(true);
+    if (details.department && details.section && details.semester) {
+      const searchedQuery = {
+        department: details.department,
+        section: details.section,
+        semester: details.semester,
+      };
+      dispatch(getStudentList(searchedQuery));
+      setDetails({ ...details, studentList: studentList });
+    }
+    // console.log(details);
+    // setClicked(true);
   };
 
   const handleReset = () => {
