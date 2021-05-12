@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../styles/ProfileDetails';
 import useStylesCommon from '../../styles/CommonStyles';
+import blankProfilePic from '../../images/blankProfilePic.svg';
 
 const ProfileDetails = (props) => {
   const classes = {
@@ -52,9 +53,19 @@ const ProfileDetails = (props) => {
       <Divider className={classes.divider} />
       <Grid container spacing={0}>
         <Grid item xs={12} lg={4} className={classes.avatarGrid}>
-          <Avatar alt='Remy Sharp' className={classes.avatar}>
-            A
-          </Avatar>
+          {details.avatar ? (
+            <Avatar
+              src={details.avatar}
+              alt='profile-pic'
+              className={classes.avatar}
+            />
+          ) : (
+            <Avatar
+              src={blankProfilePic}
+              alt='profile-pic'
+              className={classes.avatar}
+            />
+          )}
         </Grid>
         <Grid item xs={12} lg={8}>
           <form className={`${classes.root} ${classes.form90}`}>

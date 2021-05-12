@@ -20,17 +20,20 @@ API.interceptors.request.use((req) => {
 
 // Admin Routes
 
+export const getAdmin = () =>
+  API.get('/admin/');
+
 export const adminLogin = (formData) => API.post('/auth/admin-login', formData);
 
 export const addAdmin = (formData) => API.post('/admin/add', formData);
 
-export const updateProfile = (updates) =>
-  API.patch('/admin/updateProfile', updates);
-
-export const updatePassword = (updates) =>
-  API.patch('/admin/updatePassword', updates);
+export const updateAdmin = (updates) =>
+  API.patch('/admin/update', updates);
 
 // Faculty Routes
+
+export const getFaculty = () =>
+  API.get('/faculty/');
 
 export const facultyLogin = (formData) =>
   API.post('/auth/faculty-login', formData);
@@ -40,7 +43,13 @@ export const addFaculty = (formData) => API.post('/faculty/add', formData);
 export const getFaculties = (formData) =>
   API.get('/faculty/all', { params: formData });
 
+export const updateFaculty = (updates) =>
+  API.patch('/faculty/update', updates);
+
 // Student Routes
+
+export const getStudent = () =>
+  API.get('/student/');
 
 export const studentLogin = (formData) =>
   API.post('/auth/student-login', formData);
@@ -50,11 +59,8 @@ export const addStudent = (formData) => API.post('/student/add', formData);
 export const getStudents = (formData) =>
   API.get('/student/all', { params: formData });
 
-export const updateStudentProfile = (updates) =>
-  API.patch('/student/updateProfile', updates);
-
-export const updateStudentPassword = (updates) =>
-  API.patch('/student/updatePassword', updates);
+export const updateStudent = (updates) =>
+  API.patch('/student/update', updates);
 
 // Subject Routes
 

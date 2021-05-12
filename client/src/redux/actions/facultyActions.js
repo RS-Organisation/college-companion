@@ -1,4 +1,5 @@
 import * as api from './api';
+import { format } from 'date-fns';
 
 import {
   FACULTY_LOGIN,
@@ -31,8 +32,9 @@ export const facultyLogout = (history) => async (dispatch) => {
   }
 };
 
-export const setFacultyDetails = (data, history) => async (dispatch) => {
+export const setFacultyDetails = (history) => async (dispatch) => {
   try {
+    const { data } = await api.getFaculty();
     dispatch({
       type: SET_FACULTY_DETAILS,
       payload: data,
@@ -40,6 +42,27 @@ export const setFacultyDetails = (data, history) => async (dispatch) => {
     if (history.location.pathname === '/') {
       history.push('/faculty/');
     }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateFaculty = (updates) => async (dispatch) => {
+  try {
+    var updatedData = {
+      ...updates
+    };
+    if (updates?.dob) {
+      updatedData = {
+        ...updatedData,
+        dob: format(updates.dob, 'dd-MM-yyyy')
+      }
+    }
+    const { data } = await api.updateFaculty(updatedData);
+    dispatch({
+      type: SET_FACULTY_DETAILS,
+      payload: data.result,
+    });
   } catch (err) {
     console.log(err);
   }

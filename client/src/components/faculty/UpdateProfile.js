@@ -1,5 +1,6 @@
 import 'date-fns';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -19,36 +20,35 @@ import EditIcon from '@material-ui/icons/Edit';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-import blankProfilePic from '../../images/blankProfilePic.svg'
+import blankProfilePic from '../../images/blankProfilePic.svg';
 
-const initialData = {
-  name: 'Atul Kumar',
-  gender: 'M',
-  dob: new Date('2014-08-18T21:11:54'),
-  avatar: '',
-  department: 'IT',
-  designation: 'Professor',
-  email: 'atul123@gmail.com',
-  contactNumber: '8285754512',
-  aadharCardNumber: '78456545781232',
-};
+// Actions
+import { updateFaculty } from '../../redux/actions/facultyActions';
 
 const UpdateProfile = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
   };
-  const [details, setDetails] = useState(initialData);
+
+  const dispatch = useDispatch();
+  const faculty = useSelector((store) => store.facultyReducer.facultyData);
+
+  const [details, setDetails] = useState(faculty);
+  const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    setChanges({ ...changes, [name]: e.target.value });
   };
 
   const handleUploadImage = (e) => {
     e.preventDefault();
-    console.log(details);
+    if (changes && Object.keys(changes).length !== 0) {
+      dispatch(updateFaculty(changes));
+    }
     handleCloseModal();
   };
 
@@ -62,11 +62,13 @@ const UpdateProfile = () => {
 
   const handleCancel = () => {
     setDetails({ ...details, avatar: '' });
+    setChanges({ ...changes, avatar: '' });
     handleCloseModal();
   }
 
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
+    setChanges({ ...changes, dob });
   };
 
   const handleChangeImage = (e) => {
@@ -76,13 +78,18 @@ const UpdateProfile = () => {
       reader.readAsDataURL(file);
       reader.onload = () => {
         setDetails({ ...details, avatar: reader.result });
+        setChanges({ ...changes, avatar: reader.result });
       };
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(details);
+    if (changes && Object.keys(changes).length !== 0) {
+      dispatch(updateFaculty(changes));
+      console.log(changes);
+      setChanges({});
+    }
   };
 
   return (

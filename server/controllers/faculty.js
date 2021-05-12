@@ -4,15 +4,15 @@ const { generateRegistrationNumber } = require('../util/helperFunctions');
 
 // GET ROUTES
 
-// const getFacultyDetails = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const faculty = await Faculty.findById(id);
-//     res.status(200).json(faculty);
-//   } catch (err) {
-//     res.status(404).json({ message: err.message });
-//   }
-// };
+const getFacultyDetails = async (req, res) => {
+  try {
+    const { _id } = req.facultyDetails;
+    const faculty = await Faculty.findById(_id);
+    res.status(200).json(faculty);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 
 const getFaculties = async (req, res) => {
   try {
@@ -51,12 +51,30 @@ const addFaculty = async (req, res) => {
 
 // UPDATE ROUTE
 
-const updateProfile = async (req, res) => {
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const updates = req.body;
+//     const updatedDetails = await Faculty.findByIdAndUpdate(id, updates, { new: true });
+//     res.status(201).json({ message: 'Faculty details updated successfully' });
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+const updateFaculty = async (req, res) => {
   try {
-    const { id } = req.params;
     const updates = req.body;
-    const updatedDetails = await Faculty.findByIdAndUpdate(id, updates, { new: true });
-    res.status(201).json({ message: 'Faculty details updated successfully' });
+    const { _id } = req.facultyDetails;
+    if (updates.password) {
+      const hashedPassword = await bcrypt.hash(updates.password, 12);
+      updates.password = hashedPassword;
+    }
+    const updatedDetails = await Faculty.findByIdAndUpdate(_id, updates, { new: true });
+    res.status(200).json({
+      result: updatedDetails,
+      message: 'Faculty details updated successfully',
+    });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -74,9 +92,9 @@ const deleteFaculty = async (req, res) => {
 };
 
 module.exports = {
-  // getFacultyDetails,
+  getFacultyDetails,
   getFaculties,
   addFaculty,
-  updateProfile,
+  updateFaculty,
   deleteFaculty,
 };

@@ -13,7 +13,7 @@ import useStyles from '../../styles/UpdatePassword';
 import useStylesCommon from '../../styles/CommonStyles';
 
 // Actions
-import { updatePassword } from '../../redux/actions/adminActions';
+import { updateAdmin } from '../../redux/actions/adminActions';
 
 const UpdatePassword = () => {
   const classes = {
@@ -46,7 +46,7 @@ const UpdatePassword = () => {
       const changes = {
         password: newPassword,
       };
-      dispatch(updatePassword(changes));
+      dispatch(updateAdmin(changes));
       setNewPassword('');
       setConfirmPassword('');
     }

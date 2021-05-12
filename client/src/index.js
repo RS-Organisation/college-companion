@@ -39,7 +39,7 @@ const findUser = () => {
     if (decoded.exp < currentTime) {
       store.dispatch(adminLogout()).then(() => renderApp());
     } else {
-      store.dispatch(setAdminDetails(decoded, history)).then(() => renderApp());
+      store.dispatch(setAdminDetails(history)).then(() => renderApp());
     }
   }
 
@@ -52,7 +52,7 @@ const findUser = () => {
       store.dispatch(facultyLogout()).then(() => renderApp());
     } else {
       store
-        .dispatch(setFacultyDetails(decoded, history))
+        .dispatch(setFacultyDetails(history))
         .then(() => renderApp());
     }
   }
@@ -66,7 +66,7 @@ const findUser = () => {
       store.dispatch(studentLogout()).then(() => renderApp());
     } else {
       store
-        .dispatch(setStudentDetails(decoded, history))
+        .dispatch(setStudentDetails(history))
         .then(() => renderApp());
     }
   }

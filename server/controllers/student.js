@@ -9,15 +9,15 @@ const bcrypt = require('bcryptjs');
 
 // GET ROUTES
 
-// const getStudentDetails = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const student = await Student.findById(id);
-//     res.status(200).json(student);
-//   } catch (err) {
-//     res.status(404).json({ message: err.message });
-//   }
-// };
+const getStudentDetails = async (req, res) => {
+  try {
+    const { _id } = req.studentDetails;
+    const student = await Student.findById(_id);
+    res.status(200).json(student);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 
 const getStudents = async (req, res) => {
   try {
@@ -63,32 +63,31 @@ const addStudent = async (req, res) => {
 
 // UPDATE ROUTE
 
-const updateProfile = async (req, res) => {
-  try {
-    const updates = req.body;
-    const { _id } = req.studentDetails;
-    const updatedDetails = await Student.findByIdAndUpdate(_id, updates, {
-      new: true,
-    });
-    res.status(200).json({
-      result: updatedDetails,
-      message: 'Student details updated successfully',
-    });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
+// const updateProfile = async (req, res) => {
+//   try {
+//     const updates = req.body;
+//     const { _id } = req.studentDetails;
+//     const updatedDetails = await Student.findByIdAndUpdate(_id, updates, {
+//       new: true,
+//     });
+//     res.status(200).json({
+//       result: updatedDetails,
+//       message: 'Student details updated successfully',
+//     });
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
 
-const updatePassword = async (req, res) => {
+const updateStudent = async (req, res) => {
   try {
     const updates = req.body;
     const { _id } = req.studentDetails;
-    const hashedPassword = await bcrypt.hash(updates.password, 12);
-    const updatedDetails = await Student.findByIdAndUpdate(
-      _id,
-      { password: hashedPassword },
-      { new: true }
-    );
+    if (updates.password) {
+      const hashedPassword = await bcrypt.hash(updates.password, 12);
+      updates.password = hashedPassword;
+    }
+    const updatedDetails = await Student.findByIdAndUpdate(_id, updates, { new: true });
     res.status(200).json({
       result: updatedDetails,
       message: 'Student details updated successfully',
@@ -110,10 +109,9 @@ const deleteStudent = async (req, res) => {
 };
 
 module.exports = {
-  // getStudentDetails,
+  getStudentDetails,
   getStudents,
   addStudent,
-  updateProfile,
-  updatePassword,
+  updateStudent,
   deleteStudent,
 };

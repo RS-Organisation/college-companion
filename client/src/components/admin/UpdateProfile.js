@@ -23,7 +23,7 @@ import materialTheme from '../../styles/MuiTheme';
 import blankProfilePic from '../../images/blankProfilePic.svg';
 
 // Actions
-import { updateProfile } from '../../redux/actions/adminActions';
+import { updateAdmin } from '../../redux/actions/adminActions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -33,6 +33,7 @@ const UpdateProfile = () => {
 
   const dispatch = useDispatch();
   const admin = useSelector((store) => store.adminReducer.adminData);
+
   const [details, setDetails] = useState(admin);
   const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
@@ -46,7 +47,7 @@ const UpdateProfile = () => {
   const handleUploadImage = (e) => {
     e.preventDefault();
     if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateProfile(changes));
+      dispatch(updateAdmin(changes));
     }
     handleCloseModal();
   };
@@ -86,7 +87,7 @@ const UpdateProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateProfile(changes));
+      dispatch(updateAdmin(changes));
       console.log(changes);
       setChanges({});
     }

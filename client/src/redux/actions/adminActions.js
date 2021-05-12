@@ -39,8 +39,9 @@ export const adminLogout = (history) => async (dispatch) => {
   }
 };
 
-export const setAdminDetails = (data, history) => async (dispatch) => {
+export const setAdminDetails = (history) => async (dispatch) => {
   try {
+    const { data } = await api.getAdmin();
     dispatch({
       type: SET_ADMIN_DETAILS,
       payload: data,
@@ -141,23 +142,33 @@ export const getSubjects = (formData) => async (dispatch) => {
   }
 };
 
-export const updateProfile = (updates) => async (dispatch) => {
-  try {
-    console.log('updates', updates);
-    const { data } = await api.updateProfile(updates);
-    console.log(data);
-    dispatch({
-      type: SET_ADMIN_DETAILS,
-      payload: data.result,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const updateProfile = (updates) => async (dispatch) => {
+//   try {
+//     console.log('updates', updates);
+//     const { data } = await api.updateProfile(updates);
+//     console.log(data);
+//     dispatch({
+//       type: SET_ADMIN_DETAILS,
+//       payload: data.result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-export const updatePassword = (updates) => async (dispatch) => {
+export const updateAdmin = (updates) => async (dispatch) => {
   try {
-    const { data } = await api.updatePassword(updates);
+    var updatedData = {
+      ...updates
+    };
+    if (updates?.dob) {
+      updatedData = {
+        ...updatedData,
+        dob: format(updates.dob, 'dd-MM-yyyy')
+      }
+    }
+    const { data } = await api.updateAdmin(updatedData);
+
     dispatch({
       type: SET_ADMIN_DETAILS,
       payload: data.result,

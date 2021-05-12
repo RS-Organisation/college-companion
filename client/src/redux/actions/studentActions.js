@@ -1,4 +1,5 @@
 import * as api from './api';
+import { format } from 'date-fns';
 
 import {
   STUDENT_LOGIN,
@@ -31,8 +32,9 @@ export const studentLogout = (history) => async (dispatch) => {
   }
 };
 
-export const setStudentDetails = (data, history) => async (dispatch) => {
+export const setStudentDetails = (history) => async (dispatch) => {
   try {
+    const { data } = await api.getStudent();
     dispatch({
       type: SET_STUDENT_DETAILS,
       payload: data,
@@ -45,22 +47,43 @@ export const setStudentDetails = (data, history) => async (dispatch) => {
   }
 };
 
-export const updateProfile = (updates) => async (dispatch) => {
-  try {
-    const { data } = await api.updateStudentProfile(updates);
-    console.log(data);
-    dispatch({
-      type: SET_STUDENT_DETAILS,
-      payload: data.result,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const updateProfile = (updates) => async (dispatch) => {
+//   try {
+//     const { data } = await api.updateStudentProfile(updates);
+//     console.log(data);
+//     dispatch({
+//       type: SET_STUDENT_DETAILS,
+//       payload: data.result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-export const updatePassword = (updates) => async (dispatch) => {
+// export const updatePassword = (updates) => async (dispatch) => {
+//   try {
+//     const { data } = await api.updateStudentPassword(updates);
+//     dispatch({
+//       type: SET_STUDENT_DETAILS,
+//       payload: data.result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+export const updateStudent = (updates) => async (dispatch) => {
   try {
-    const { data } = await api.updateStudentPassword(updates);
+    var updatedData = {
+      ...updates
+    };
+    if (updates?.dob) {
+      updatedData = {
+        ...updatedData,
+        dob: format(updates.dob, 'dd-MM-yyyy')
+      }
+    }
+    const { data } = await api.updateStudent(updatedData);
     dispatch({
       type: SET_STUDENT_DETAILS,
       payload: data.result,

@@ -34,8 +34,10 @@ export default makeStyles((theme) => ({
     justifyContent: 'center',
   },
   avatar: {
-    width: theme.spacing(15),
-    height: theme.spacing(15),
+    width: theme.spacing(24),
+    height: theme.spacing(24),
+    marginTop: '3rem',
+    marginRight: '2rem'
   },
   divider: {
     marginBottom: '3rem',

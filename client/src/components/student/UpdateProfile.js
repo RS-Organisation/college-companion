@@ -24,7 +24,7 @@ import materialTheme from '../../styles/MuiTheme';
 import blankProfilePic from '../../images/blankProfilePic.svg';
 
 // Actions
-import { updateProfile } from '../../redux/actions/studentActions';
+import { updateStudent } from '../../redux/actions/studentActions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -32,18 +32,17 @@ const UpdateProfile = () => {
     ...useStyles(),
   };
 
+  const dispatch = useDispatch();
   const student = useSelector((store) => store.studentReducer.studentData);
 
   const [details, setDetails] = useState(student);
   const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
 
-  const dispatch = useDispatch();
-
   const handleUploadImage = (e) => {
     e.preventDefault();
     if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateProfile(changes));
+      dispatch(updateStudent(changes));
     }
     handleCloseModal();
   };
@@ -89,8 +88,9 @@ const UpdateProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateProfile(changes));
+      dispatch(updateStudent(changes));
     }
+    console.log(changes);
   };
 
   return (

@@ -3,18 +3,17 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  // getAdminDetails,
+  getAdminDetails,
   addAdmin,
-  updateProfile,
-  updatePassword,
+  updateAdmin,
   deleteAdmin,
 } = require('../controllers/admin');
 
 const { adminAuth } = require('../middleware/authMiddleware');
 
-// router.get('/:id', adminAuth, getAdminDetails);
-router.patch('/updateProfile', adminAuth, updateProfile);
-router.patch('/updatePassword', adminAuth, updatePassword);
+router.get('/', adminAuth, getAdminDetails);
+// router.patch('/updateProfile', adminAuth, updateProfile);
+router.patch('/update', adminAuth, updateAdmin);
 router.post('/add', adminAuth, addAdmin);
 router.delete('/delete', adminAuth, deleteAdmin);
 
