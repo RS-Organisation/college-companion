@@ -2,6 +2,7 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
+  GET_MARKS_OF_STUDENT,
   // GET_ATTENDANCE,
 } from '../actionsType';
 import Cookies from 'js-cookie';
@@ -11,6 +12,11 @@ const initialState = {
   isAuthenticated: false,
   attendance: [],
   subjectsList: [],
+  marksList: [],
+  marksSearchedQuery: {
+    examType: '',
+    semester: '',
+  },
 };
 
 const studentReducer = (state = initialState, action) => {
@@ -32,6 +38,13 @@ const studentReducer = (state = initialState, action) => {
         attendance: action?.payload?.attendance,
         subjectsList: action?.payload?.subjects,
         isAuthenticated: true,
+      };
+
+    case GET_MARKS_OF_STUDENT:
+      return {
+        ...state,
+        marksList: action?.payload?.marksList,
+        marksSearchedQuery: action?.payload?.queryObj,
       };
 
     case STUDENT_LOGOUT:

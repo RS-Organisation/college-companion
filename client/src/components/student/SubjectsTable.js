@@ -12,19 +12,6 @@ import useStyles from '../../styles/MarkAttendanceTable';
 
 import { useSelector } from 'react-redux';
 
-function createData(subjectCode, subjectName) {
-  return { subjectCode, subjectName };
-}
-
-const rows = [
-  createData('ETCS-206', 'Circuit and Systems'),
-  createData('ETCS-144', 'Applied Physics'),
-  createData('ETCS-208', 'Java Programming'),
-  createData('ETCS-207', 'Operating System'),
-  createData('ETCS-148', 'Applied Chemistry'),
-  createData('ETCS-209', 'Python Programming'),
-];
-
 const SubjectsTable = () => {
   const classes = useStyles();
   const { subjectsList } = useSelector((store) => store.studentReducer);

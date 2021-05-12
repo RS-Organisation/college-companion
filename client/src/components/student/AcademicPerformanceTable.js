@@ -10,22 +10,22 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../styles/MarkAttendanceTable';
 
-function createData(subjectCode, subjectName, marks) {
-  return { subjectCode, subjectName, marks };
-}
+// function createData(subjectCode, subjectName, marks) {
+//   return { subjectCode, subjectName, marks };
+// }
 
-const rows = [
-  createData('ETCS-206', 'Circuit and Systems', 65),
-  createData('ETCS-144', 'Applied Chemistry', 57),
-  createData('ETCS-205', 'Python Programming', 71),
-  createData('ETCS-106', 'Fundamental of Computation', 69),
-  createData('ETCS-141', 'Applied Physics', 51),
-  createData('ETCS-208', 'Java Programming', 49),
-];
+// const rows = [
+//   createData('ETCS-206', 'Circuit and Systems', 65),
+//   createData('ETCS-144', 'Applied Chemistry', 57),
+//   createData('ETCS-205', 'Python Programming', 71),
+//   createData('ETCS-106', 'Fundamental of Computation', 69),
+//   createData('ETCS-141', 'Applied Physics', 51),
+//   createData('ETCS-208', 'Java Programming', 49),
+// ];
 
 const AcademicPerformanceTable = (props) => {
   const classes = useStyles();
-  const { examType } = props;
+  const { examType, marksList } = props;
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.tableContainer}>
@@ -50,15 +50,13 @@ const AcademicPerformanceTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow hover key={index}>
+            {marksList.map((marks, index) => (
+              <TableRow hover key={marks._id}>
                 <TableCell align='center'>{index + 1}</TableCell>
-                <TableCell align='center'>{row.subjectCode}</TableCell>
-                <TableCell align='center'>{row.subjectName}</TableCell>
-                <TableCell align='center'>
-                  {examType === 'internal' ? 30 : 100}
-                </TableCell>
-                <TableCell align='center'>{row.marks}</TableCell>
+                <TableCell align='center'>{marks.subjectCode}</TableCell>
+                <TableCell align='center'>{'anonymous'}</TableCell>
+                <TableCell align='center'>{marks.totalMarks}</TableCell>
+                <TableCell align='center'>{marks.marks}</TableCell>
               </TableRow>
             ))}
           </TableBody>

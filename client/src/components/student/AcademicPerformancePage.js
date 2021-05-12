@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   FormControl,
@@ -13,50 +14,58 @@ import Header from './Header';
 import AcademicPerformanceTable from './AcademicPerformanceTable';
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-const initialData = {
-  subjectList: [],
-  semester: '',
-  examType: '',
-};
+import { getMarks } from '../../redux/actions/studentActions';
 
 const AcademicPerformancePage = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
-  const [details, setDetails] = useState(initialData);
-  const [clicked, setClicked] = useState(false);
+  const dispatch = useDispatch();
+
+  const { marksList, marksSearchedQuery } = useSelector(
+    (store) => store.studentReducer
+  );
+
+  const [details, setDetails] = useState({
+    examType: marksSearchedQuery.examType,
+    semester: marksSearchedQuery.semester,
+  });
+
+  const showMarksTable = details.examType !== '' && details.semester !== '';
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
-    setClicked(false);
     setDetails({ ...details, [name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setClicked(true);
-    console.log(details);
+    if (details.semester && details.examType) {
+      dispatch(getMarks(details));
+    }
+    // console.log(details);
   };
 
   return (
     <Header>
-      <div className={clicked ? classes.container95 : classes.container70}>
+      <div
+        className={showMarksTable ? classes.container95 : classes.container70}
+      >
         <div>
           <Typography variant='h4' className={classes.subtitle}>
             Academic Performance
-        </Typography>
+          </Typography>
           <Divider />
           <Grid
             container
             spacing={0}
-            justify={!clicked ? 'center' : 'flex-start'}
-            alignItems={!clicked ? 'center' : 'stretch'}
+            justify={!showMarksTable ? 'center' : 'flex-start'}
+            alignItems={!showMarksTable ? 'center' : 'stretch'}
           >
             <Grid item xs={12} lg={3}>
               <form
-                className={clicked ? classes.form60 : classes.form100}
+                className={showMarksTable ? classes.form60 : classes.form100}
                 onSubmit={handleSubmit}
               >
                 <FormControl
@@ -103,12 +112,15 @@ const AcademicPerformancePage = () => {
                   className={classes.filledButton}
                 >
                   Search
-              </Button>
+                </Button>
               </form>
             </Grid>
-            {clicked && (
+            {showMarksTable && (
               <Grid item xs={12} lg={9}>
-                <AcademicPerformanceTable examType={details.examType} />
+                <AcademicPerformanceTable
+                  examType={details.examType}
+                  marksList={marksList}
+                />
               </Grid>
             )}
           </Grid>

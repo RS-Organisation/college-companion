@@ -5,6 +5,7 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
+  GET_MARKS_OF_STUDENT,
   // GET_ATTENDANCE,
 } from '../actionsType';
 
@@ -95,6 +96,25 @@ export const updateStudent = (updates) => async (dispatch) => {
     dispatch({
       type: SET_STUDENT_DETAILS,
       payload: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getMarks = (formData) => async (dispatch) => {
+  try {
+    const { data } = await api.getMarksOfStudent(formData);
+    console.log(data);
+    dispatch({
+      type: GET_MARKS_OF_STUDENT,
+      payload: {
+        marksList: data,
+        queryObj: {
+          examType: formData.examType,
+          semester: formData.semester,
+        },
+      },
     });
   } catch (err) {
     console.log(err);

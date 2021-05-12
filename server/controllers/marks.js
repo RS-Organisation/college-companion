@@ -16,12 +16,13 @@ const getMarksOfAll = async (req, res) => {
 
 const getMarksById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { semester } = req.body;
+    const { _id } = req.studentDetails;
+    const { semester, examType } = req.query;
 
     const marksList = await Marks.find({
-      student: id,
-      semester
+      student: _id,
+      semester,
+      examType,
     });
     res.status(200).json(marksList);
   } catch (err) {

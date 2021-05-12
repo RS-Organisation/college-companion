@@ -71,3 +71,8 @@ export const getSubjectsForStudent = () => API.get('/subject/');
 // Attendance Routes
 
 export const getAttendance = () => API.get('/attendance/');
+
+// Marks Routes
+
+export const getMarksOfStudent = (formData) =>
+  API.get('/marks/', { params: formData });
