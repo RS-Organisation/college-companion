@@ -36,9 +36,12 @@ const MarkAttendancePage = () => {
 
   const dispatch = useDispatch();
 
-  const { studentsList, subjectsList, searchQueryForStudents } = useSelector(
-    (store) => store?.facultyReducer
-  );
+  const {
+    studentsList,
+    subjectsList,
+    searchQueryForStudents,
+    markAttendanceFlag,
+  } = useSelector((store) => store?.facultyReducer);
 
   const [details, setDetails] = useState(initialData);
   const [selected, setSelected] = useState([]);
@@ -85,7 +88,7 @@ const MarkAttendancePage = () => {
           Mark Attendance
         </Typography>
         <Divider />
-        {studentsList?.length === 0 ? (
+        {!markAttendanceFlag ? (
           <form className={classes.form35}>
             <FormControl
               variant='outlined'
@@ -169,7 +172,7 @@ const MarkAttendancePage = () => {
                   onChange={handleChangeDetails}
                   label='Subject Code'
                 >
-                  {subjectsList.forEach((subject) => (
+                  {subjectsList.map((subject) => (
                     <MenuItem
                       key={subject.subjectCode}
                       value={subject.subjectCode}

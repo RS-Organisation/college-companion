@@ -14,6 +14,7 @@ const initialState = {
   studentsList: [],
   subjectsList: [],
   searchQueryForStudents: {},
+  markAttendanceFlag: false,
 };
 
 const facultyReducer = (state = initialState, action) => {
@@ -41,6 +42,7 @@ const facultyReducer = (state = initialState, action) => {
         studentsList: action?.payload?.studentsList,
         subjectsList: action?.payload?.subjectsList,
         searchQueryForStudents: action?.payload?.searchQuery,
+        markAttendanceFlag: true,
       };
 
     case CLEAR_STUDENT_LIST:
@@ -49,6 +51,7 @@ const facultyReducer = (state = initialState, action) => {
         studentsList: [],
         subjectsList: [],
         searchQueryForStudents: {},
+        markAttendanceFlag: false,
       };
 
     case FACULTY_LOGOUT:
