@@ -18,10 +18,10 @@ import useStylesCommon from '../../styles/CommonStyles';
 import {
   getStudentList,
   clearStudentsList,
+  markAttendance,
 } from '../../redux/actions/facultyActions';
 
 const initialData = {
-  studentList: [],
   department: '',
   section: '',
   semester: '',
@@ -36,9 +36,12 @@ const MarkAttendancePage = () => {
 
   const dispatch = useDispatch();
 
-  const { studentsList } = useSelector((store) => store?.facultyReducer);
+  const { studentsList, subjectsList, searchQueryForStudents } = useSelector(
+    (store) => store?.facultyReducer
+  );
 
   const [details, setDetails] = useState(initialData);
+  const [selected, setSelected] = useState([]);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -53,19 +56,26 @@ const MarkAttendancePage = () => {
         semester: details.semester,
       };
       dispatch(getStudentList(searchedQuery));
-      // setClicked(true);
     }
   };
 
   const handleReset = () => {
-    // setClicked(false);
     dispatch(clearStudentsList());
     setDetails(initialData);
   };
 
   const handleSubmit = () => {
-    console.log(details);
-    handleReset();
+    if (details.subjectCode) {
+      const formData = {
+        allStudents: studentsList,
+        selectedStudents: selected,
+        subjectCode: details.subjectCode,
+        ...searchQueryForStudents,
+      };
+      dispatch(markAttendance(formData)).then(() => handleReset());
+    } else {
+      console.log('select subject code');
+    }
   };
 
   return (
@@ -159,10 +169,14 @@ const MarkAttendancePage = () => {
                   onChange={handleChangeDetails}
                   label='Subject Code'
                 >
-                  <MenuItem value={'ETCS-144'}>ETCS-144</MenuItem>
-                  <MenuItem value={'ETCS-206'}>ETCS-206</MenuItem>
-                  <MenuItem value={'ETCS-208'}>ETCS-208</MenuItem>
-                  <MenuItem value={'ETCS-216'}>ETCS-216</MenuItem>
+                  {subjectsList.forEach((subject) => (
+                    <MenuItem
+                      key={subject.subjectCode}
+                      value={subject.subjectCode}
+                    >
+                      {subject.subjectName}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <Button
@@ -173,7 +187,11 @@ const MarkAttendancePage = () => {
                 Back
               </Button>
             </div>
-            <MarkAttendanceTable studentsList={studentsList} />
+            <MarkAttendanceTable
+              studentsList={studentsList}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <div className={classes.buttonDiv}>
               <Button
                 variant='contained'

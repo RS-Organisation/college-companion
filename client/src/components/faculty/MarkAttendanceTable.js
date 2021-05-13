@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -49,17 +49,15 @@ const rows = [
 const MarkAttendanceTable = (props) => {
   // variables
   const classes = useStyles();
-  const rowCount = rows.length;
-  const [selected, setSelected] = useState([]);
-  const { studentsList } = props;
-
+  const { studentsList, selected, setSelected } = props;
+  const rowCount = studentsList.length;
   // handlers
-  const handleClick = (enrollmentNumber) => {
-    const selectedIndex = selected.indexOf(enrollmentNumber);
+  const handleClick = (id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, enrollmentNumber);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -76,15 +74,14 @@ const MarkAttendanceTable = (props) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((row) => row.enrollmentNumber);
+      const newSelecteds = studentsList.map((row) => row._id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const isSelected = (enrollmentNumber) =>
-    selected.indexOf(enrollmentNumber) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   return (
     <Paper className={classes.root}>
@@ -111,15 +108,15 @@ const MarkAttendanceTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => {
-              const isItemSelected = isSelected(row.enrollmentNumber);
-              const labelId = `attendance-table-checkbox-${index}`;
+            {studentsList.map((student, index) => {
+              const isItemSelected = isSelected(student._id);
+              const labelId = `attendance-table-checkbox-${student._id}`;
               return (
                 <TableRow
                   hover
                   role='checkbox'
-                  key={row.enrollmentNumber}
-                  onClick={(event) => handleClick(row.enrollmentNumber)}
+                  key={student._id}
+                  onClick={(event) => handleClick(student._id)}
                   aria-checked={isItemSelected}
                   tabIndex={-1}
                   selected={isItemSelected}
@@ -130,8 +127,10 @@ const MarkAttendanceTable = (props) => {
                       inputProps={{ 'aria-labelledby': labelId }}
                     />
                   </TableCell>
-                  <TableCell align='center'>{row.enrollmentNumber}</TableCell>
-                  <TableCell align='center'>{row.name}</TableCell>
+                  <TableCell align='center'>
+                    {student.enrollmentNumber}
+                  </TableCell>
+                  <TableCell align='center'>{student.name}</TableCell>
                 </TableRow>
               );
             })}

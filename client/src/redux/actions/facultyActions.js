@@ -7,6 +7,7 @@ import {
   SET_FACULTY_DETAILS,
   GET_STUDENT_LIST,
   CLEAR_STUDENT_LIST,
+  MARK_ATTENDANCE,
 } from '../actionsType';
 
 export const facultyLogin = (formData, history) => async (dispatch) => {
@@ -70,12 +71,34 @@ export const updateFaculty = (updates) => async (dispatch) => {
   }
 };
 
+export const markAttendance = (formData) => async (dispatch) => {
+  try {
+    // const { data } = await api.markAttendance(formData);
+    await api.markAttendance(formData);
+    dispatch({
+      type: MARK_ATTENDANCE,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getStudentList = (formData) => async (dispatch) => {
   try {
     const { data } = await api.getStudentsList(formData);
+    const subjectsQuery = {
+      department: formData.department,
+      semester: formData.semester,
+    };
+    const subjects = await api.getSubjectsForFaculty(subjectsQuery);
+
     dispatch({
       type: GET_STUDENT_LIST,
-      payload: { studentsList: data },
+      payload: {
+        studentsList: data,
+        searchQuery: formData,
+        subjectsList: subjects.data,
+      },
     });
   } catch (err) {
     console.log(err);

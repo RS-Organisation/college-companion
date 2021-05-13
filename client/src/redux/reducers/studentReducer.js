@@ -2,6 +2,7 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
+  SET_ADDITIONAL_DETAILS,
   GET_MARKS_OF_STUDENT,
   // GET_ATTENDANCE,
 } from '../actionsType';
@@ -34,10 +35,15 @@ const studentReducer = (state = initialState, action) => {
     case SET_STUDENT_DETAILS:
       return {
         ...state,
-        studentData: action?.payload?.userData,
-        attendance: action?.payload?.attendance,
-        subjectsList: action?.payload?.subjects,
+        studentData: action?.payload,
         isAuthenticated: true,
+      };
+
+    case SET_ADDITIONAL_DETAILS:
+      return {
+        ...state,
+        attendance: action?.payload?.attendance,
+        subjectsList: action?.payload?.students,
       };
 
     case GET_MARKS_OF_STUDENT:

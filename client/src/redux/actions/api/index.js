@@ -19,7 +19,6 @@ API.interceptors.request.use((req) => {
 });
 
 // Admin Routes
-
 export const getAdmin = () => API.get('/admin/');
 
 export const adminLogin = (formData) => API.post('/auth/admin-login', formData);
@@ -29,7 +28,6 @@ export const addAdmin = (formData) => API.post('/admin/add', formData);
 export const updateAdmin = (updates) => API.patch('/admin/update', updates);
 
 // Faculty Routes
-
 export const getFaculty = () => API.get('/faculty/');
 
 export const facultyLogin = (formData) =>
@@ -43,7 +41,6 @@ export const getFaculties = (formData) =>
 export const updateFaculty = (updates) => API.patch('/faculty/update', updates);
 
 // Student Routes
-
 export const getStudent = () => API.get('/student/');
 
 export const studentLogin = (formData) =>
@@ -60,19 +57,22 @@ export const getStudentsList = (formData) =>
 export const updateStudent = (updates) => API.patch('/student/update', updates);
 
 // Subject Routes
-
 export const addSubject = (formData) => API.post('/subject/add', formData);
 
 export const getSubjects = (formData) =>
   API.get('/subject/all', { params: formData });
 
+export const getSubjectsForFaculty = (formData) =>
+  API.get('/subject/getSubjects', { params: formData });
+
 export const getSubjectsForStudent = () => API.get('/subject/');
 
 // Attendance Routes
-
 export const getAttendance = () => API.get('/attendance/');
 
-// Marks Routes
+export const markAttendance = (formData) =>
+  API.post('/attendance/mark', formData);
 
+// Marks Routes
 export const getMarksOfStudent = (formData) =>
   API.get('/marks/', { params: formData });

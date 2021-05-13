@@ -4,6 +4,7 @@ import {
   SET_FACULTY_DETAILS,
   GET_STUDENT_LIST,
   CLEAR_STUDENT_LIST,
+  MARK_ATTENDANCE,
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
@@ -11,6 +12,8 @@ const initialState = {
   facultyData: null,
   isAuthenticated: false,
   studentsList: [],
+  subjectsList: [],
+  searchQueryForStudents: {},
 };
 
 const facultyReducer = (state = initialState, action) => {
@@ -36,17 +39,24 @@ const facultyReducer = (state = initialState, action) => {
       return {
         ...state,
         studentsList: action?.payload?.studentsList,
+        subjectsList: action?.payload?.subjectsList,
+        searchQueryForStudents: action?.payload?.searchQuery,
       };
 
     case CLEAR_STUDENT_LIST:
       return {
         ...state,
         studentsList: [],
+        subjectsList: [],
+        searchQueryForStudents: {},
       };
 
     case FACULTY_LOGOUT:
       Cookies.remove('facultyJWT');
       return { ...state, facultyData: null, isAuthenticated: false };
+
+    case MARK_ATTENDANCE:
+      return state;
 
     default:
       return state;

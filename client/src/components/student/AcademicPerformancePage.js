@@ -32,7 +32,8 @@ const AcademicPerformancePage = () => {
     semester: marksSearchedQuery.semester,
   });
 
-  const showMarksTable = details.examType !== '' && details.semester !== '';
+  const showMarksTable =
+    marksSearchedQuery.examType !== '' && marksSearchedQuery.semester !== '';
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -44,7 +45,6 @@ const AcademicPerformancePage = () => {
     if (details.semester && details.examType) {
       dispatch(getMarks(details));
     }
-    // console.log(details);
   };
 
   return (

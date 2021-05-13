@@ -25,7 +25,7 @@ import useStyles from '../../styles/MarkAttendanceTable';
 
 const AcademicPerformanceTable = (props) => {
   const classes = useStyles();
-  const { examType, marksList } = props;
+  const { marksList } = props;
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.tableContainer}>
