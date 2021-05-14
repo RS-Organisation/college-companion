@@ -33,15 +33,18 @@ const getMarksById = async (req, res) => {
 const uploadMarks = async (req, res) => {
   try {
     const {
+      marksList,
       section,
       department,
+      semester,
       subjectCode,
       examType,
-      totalMarks,
-      studentsList,
     } = req.body;
 
+    console.log(req.body.marksList);
+
     const sub = await Subject.findOne({ subjectCode });
+    console.log(sub);
 
     const isUploaded = await Marks.findOne({
       subject: sub._id,
@@ -54,19 +57,20 @@ const uploadMarks = async (req, res) => {
       const errorMessage = 'You have already uploaded marks of this exam';
       return res.status(400).json({ message: errorMessage });
     }
-    studentsList.forEach(async (stud) => {
+    marksList.forEach(async (stud) => {
       const newMarks = await new Marks({
-        student: stud.studentId,
+        student: stud.id,
         subject: sub._id,
         examType,
-        totalMarks,
+        totalMarks: (examType === 'internal') ? 25 : 75,
         section,
         department,
+        semester,
         marks: stud.marks,
       });
       await newMarks.save();
     });
-    return res.status(201).json({ message: 'Marks uploaded successfully.' });
+    return res.status(201).json({ message: 'Marks uploaded successfully' });
   } catch (err) {
     const errorMessage = `Error in uploading marks : ${err.message}`;
     return res.status(400).json({ message: errorMessage });

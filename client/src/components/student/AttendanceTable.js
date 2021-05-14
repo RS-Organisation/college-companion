@@ -30,8 +30,12 @@ const getPercentage = (totalLectures, attendedLectures) => {
 };
 
 const AttendanceTable = () => {
-  const { attendance } = useSelector((store) => store.studentReducer);
+  const { attendance, subjectsList } = useSelector((store) => store.studentReducer);
   // console.log(attendance);
+  const findSubjectName = (id) => {
+    return subjectsList.find(item => item._id === id);
+  }
+
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -66,12 +70,12 @@ const AttendanceTable = () => {
               {attendance.map((row, index) => (
                 <TableRow hover key={row._id}>
                   <TableCell align='center'>{index + 1}</TableCell>
-                  <TableCell align='center'>{row.subjectCode}</TableCell>
-                  <TableCell align='center'>{'anonymous'}</TableCell>
-                  <TableCell align='center'>{row.lecturesHeld}</TableCell>
+                  <TableCell align='center'>{findSubjectName(row.subject).subjectCode}</TableCell>
+                  <TableCell align='center'>{findSubjectName(row.subject).subjectName}</TableCell>
+                  <TableCell align='center'>{row.totalLecturesHeld}</TableCell>
                   <TableCell align='center'>{row.lecturesAttended}</TableCell>
                   <TableCell align='center'>
-                    {getPercentage(row.lecturesHeld, row.lecturesAttended)} %
+                    {getPercentage(row.totalLecturesHeld, row.lecturesAttended)} %
                   </TableCell>
                 </TableRow>
               ))}

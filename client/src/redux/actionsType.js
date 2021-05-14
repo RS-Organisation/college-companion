@@ -15,6 +15,7 @@ export const FACULTY_LOGIN = 'FACULTY_LOGIN';
 export const FACULTY_LOGOUT = 'FACULTY_LOGOUT';
 export const SET_FACULTY_DETAILS = 'SET_FACULTY_DETAILS';
 export const MARK_ATTENDANCE = 'MARK_ATTENDANCE';
+export const UPLOAD_MARKS = 'UPLOAD_MARKS'
 
 // Student Action Types
 export const STUDENT_LOGIN = 'STUDENT_LOGIN';

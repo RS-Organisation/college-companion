@@ -8,6 +8,7 @@ import {
   GET_STUDENT_LIST,
   CLEAR_STUDENT_LIST,
   MARK_ATTENDANCE,
+  UPLOAD_MARKS
 } from '../actionsType';
 
 export const facultyLogin = (formData, history) => async (dispatch) => {
@@ -77,6 +78,17 @@ export const markAttendance = (formData) => async (dispatch) => {
     await api.markAttendance(formData);
     dispatch({
       type: MARK_ATTENDANCE,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const uploadMarks = (formData) => async (dispatch) => {
+  try {
+    await api.uploadMarks(formData);
+    dispatch({
+      type: UPLOAD_MARKS,
     });
   } catch (err) {
     console.log(err);

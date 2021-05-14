@@ -30,20 +30,17 @@ const studentReducer = (state = initialState, action) => {
         ...state,
         studentData: action?.payload?.userDetails,
         isAuthenticated: true,
+        subjectsList: action?.payload?.subjects,
+        attendance: action?.payload?.attendance,
       };
 
     case SET_STUDENT_DETAILS:
       return {
         ...state,
-        studentData: action?.payload,
+        studentData: action?.payload.userDetails,
         isAuthenticated: true,
-      };
-
-    case SET_ADDITIONAL_DETAILS:
-      return {
-        ...state,
+        subjectsList: action?.payload?.subjects,
         attendance: action?.payload?.attendance,
-        subjectsList: action?.payload?.students,
       };
 
     case GET_MARKS_OF_STUDENT:
@@ -55,7 +52,7 @@ const studentReducer = (state = initialState, action) => {
 
     case STUDENT_LOGOUT:
       Cookies.remove('studentJWT');
-      return { ...state, studentData: null, isAuthenticated: false };
+      return initialState;
 
     // case GET_ATTENDANCE:
     //   return {

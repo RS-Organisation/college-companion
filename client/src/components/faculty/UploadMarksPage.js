@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
   Divider,
@@ -13,8 +14,14 @@ import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
 import UploadMarksTable from './UploadMarksTable';
 
+// Actions
+import {
+  getStudentList,
+  clearStudentsList,
+  uploadMarks,
+} from '../../redux/actions/facultyActions';
+
 const initialData = {
-  studentList: [],
   department: '',
   section: '',
   subjectCode: '',
@@ -27,8 +34,19 @@ const UploadMarksPage = () => {
     ...useStylesCommon(),
     ...useStyles()
   };
+
+  const dispatch = useDispatch();
+
+  const {
+    studentsList,
+    subjectsList,
+    searchQueryForStudents,
+    uploadMarksFlag,
+  } = useSelector((store) => store?.facultyReducer);
+
   const [details, setDetails] = useState(initialData);
-  const [clicked, setClicked] = useState(false);
+  // const [clicked, setClicked] = useState(false);
+  const [marksList, setMarksList] = useState([]);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -36,17 +54,33 @@ const UploadMarksPage = () => {
   };
 
   const handleSearch = () => {
-    setClicked(true);
+    if (details.department && details.section && details.semester) {
+      const searchedQuery = {
+        department: details.department,
+        section: details.section,
+        semester: details.semester,
+      };
+      dispatch(getStudentList(searchedQuery));
+    }
   };
 
   const handleReset = () => {
-    setClicked(false);
+    dispatch(clearStudentsList());
     setDetails(initialData);
   };
 
   const handleUpload = () => {
-    console.log(details);
-    handleReset();
+    if (details.subjectCode) {
+      const formData = {
+        marksList,
+        subjectCode: details.subjectCode,
+        examType: details.examType,
+        ...searchQueryForStudents,
+      };
+      dispatch(uploadMarks(formData)).then(() => handleReset());
+    } else {
+      console.log('select subject code');
+    }
   };
 
   return (
@@ -56,7 +90,7 @@ const UploadMarksPage = () => {
           Upload Marks
         </Typography>
         <Divider />
-        {!clicked ? (
+        {!uploadMarksFlag ? (
           <form className={classes.form35}>
             <FormControl
               variant='outlined'
@@ -136,10 +170,14 @@ const UploadMarksPage = () => {
                   onChange={handleChangeDetails}
                   label='Subject Code'
                 >
-                  <MenuItem value={'ETCS-144'}>ETCS-144</MenuItem>
-                  <MenuItem value={'ETCS-206'}>ETCS-206</MenuItem>
-                  <MenuItem value={'ETCS-208'}>ETCS-208</MenuItem>
-                  <MenuItem value={'ETCS-216'}>ETCS-216</MenuItem>
+                  {subjectsList.map((subject) => (
+                    <MenuItem
+                      key={subject.subjectCode}
+                      value={subject.subjectCode}
+                    >
+                      {subject.subjectName}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl
@@ -167,7 +205,11 @@ const UploadMarksPage = () => {
                 Back
               </Button>
             </div>
-            <UploadMarksTable />
+            <UploadMarksTable
+              studentsList={studentsList}
+              marksList={marksList}
+              setMarksList={setMarksList}
+            />
             <div className={classes.buttonDiv}>
               <Button
                 variant='contained'

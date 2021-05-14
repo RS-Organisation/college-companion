@@ -5,7 +5,7 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
-  SET_ADDITIONAL_DETAILS,
+  //SET_ADDITIONAL_DETAILS,
   GET_MARKS_OF_STUDENT,
   // GET_ATTENDANCE,
 } from '../actionsType';
@@ -13,12 +13,18 @@ import {
 export const studentLogin = (formData, history) => async (dispatch) => {
   try {
     const { data } = await api.studentLogin(formData);
+    // const attendance = await api.getAttendance();
+    // const subjects = await api.getSubjectsForStudent();
     dispatch({
       type: STUDENT_LOGIN,
-      payload: { userDetails: data.result, token: data.token },
+      payload: {
+        userDetails: data.result,
+        token: data.token,
+        // attendance: attendance.data,
+        // subjects: subjects.data,
+      },
     });
     history.push('/student');
-    setAdditionalDetails();
   } catch (err) {
     console.log(err);
   }
@@ -35,34 +41,23 @@ export const studentLogout = (history) => async (dispatch) => {
   }
 };
 
-export const setAdditionalDetails = () => async (dispatch) => {
+export const setStudentDetails = (history) => async (dispatch) => {
   try {
+    const { data } = await api.getStudent();
     const attendance = await api.getAttendance();
     const subjects = await api.getSubjectsForStudent();
-
     dispatch({
-      type: SET_ADDITIONAL_DETAILS,
+      type: SET_STUDENT_DETAILS,
       payload: {
+        userDetails: data,
         attendance: attendance.data,
         subjects: subjects.data,
       },
     });
-  } catch (err) {
-    console.log(err);
-  }
-};
 
-export const setStudentDetails = (history) => async (dispatch) => {
-  try {
-    const { data } = await api.getStudent();
-    dispatch({
-      type: SET_STUDENT_DETAILS,
-      payload: data,
-    });
     if (history.location.pathname === '/') {
       history.push('/student/');
     }
-    setAdditionalDetails();
   } catch (err) {
     console.log(err);
   }

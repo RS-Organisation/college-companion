@@ -5,6 +5,7 @@ import {
   GET_STUDENT_LIST,
   CLEAR_STUDENT_LIST,
   MARK_ATTENDANCE,
+  UPLOAD_MARKS,
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
@@ -15,6 +16,7 @@ const initialState = {
   subjectsList: [],
   searchQueryForStudents: {},
   markAttendanceFlag: false,
+  uploadMarksFlag: false,
 };
 
 const facultyReducer = (state = initialState, action) => {
@@ -43,6 +45,7 @@ const facultyReducer = (state = initialState, action) => {
         subjectsList: action?.payload?.subjectsList,
         searchQueryForStudents: action?.payload?.searchQuery,
         markAttendanceFlag: true,
+        uploadMarksFlag: true,
       };
 
     case CLEAR_STUDENT_LIST:
@@ -52,6 +55,7 @@ const facultyReducer = (state = initialState, action) => {
         subjectsList: [],
         searchQueryForStudents: {},
         markAttendanceFlag: false,
+        uploadMarksFlag: false,
       };
 
     case FACULTY_LOGOUT:
@@ -59,6 +63,9 @@ const facultyReducer = (state = initialState, action) => {
       return { ...state, facultyData: null, isAuthenticated: false };
 
     case MARK_ATTENDANCE:
+      return state;
+
+    case UPLOAD_MARKS:
       return state;
 
     default:

@@ -23,7 +23,7 @@ const AcademicPerformancePage = () => {
   };
   const dispatch = useDispatch();
 
-  const { marksList, marksSearchedQuery } = useSelector(
+  const { marksList, marksSearchedQuery, subjectsList } = useSelector(
     (store) => store.studentReducer
   );
 
@@ -120,6 +120,7 @@ const AcademicPerformancePage = () => {
                 <AcademicPerformanceTable
                   examType={details.examType}
                   marksList={marksList}
+                  subjectsList={subjectsList}
                 />
               </Grid>
             )}

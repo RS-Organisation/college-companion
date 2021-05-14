@@ -11,33 +11,31 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../styles/MarkAttendanceTable';
 
-function createData(name, enrollmentNumber, marks) {
-  return { name, enrollmentNumber, marks };
-}
-
-const rows = [
-  createData('Rishabh Choudhary', 'FAC2018001', 1),
-  createData('Rishabh Choudhary', 'FAC2018001', 1),
-  createData('Rishabh', 'FAC2018001', 1),
-  createData('Rishabh', 'FAC2018001', 1),
-  createData('Rishabh', 'FAC2018001', 1),
-  createData('Rishabh', 'FAC2018001', 1),
-  createData('Rishabh', 'FAC2018001', 1),
-  createData('Rishabh', 'FAC2018001', 1),
-  createData('Rishabh', 'FAC2018001', 2),
-  createData('Rishabh', 'FAC2018001', 2),
-  createData('Rishabh', 'FAC2018001', 2),
-  createData('Rishabh', 'FAC2018001', 2),
-  createData('Rishabh', 'FAC2018001', 3),
-  createData('Rishabh', 'FAC2018001', 3),
-  createData('Rishabh', 'FAC2018001', 3),
-  createData('Rishabh', 'FAC2018001', 3),
-  createData('Rishabh', 'FAC2018001', 3),
-  createData('Rishabh', 'FAC2018001', 3),
-];
-
-const UploadMarksTable = () => {
+const UploadMarksTable = (props) => {
+  // variables
   const classes = useStyles();
+  const { studentsList, marksList, setMarksList } = props;
+
+  // handlers
+  const handleChange = (e, id) => {
+    const marks = e.target.value;
+    const idx = marksList.findIndex(m => m.id === id);
+    let newMarksList = [];
+
+    if (idx === -1) {
+      newMarksList = newMarksList.concat(marksList, { id, marks });
+    }
+    else {
+      newMarksList = [
+        ...marksList.slice(0, idx),
+        Object.assign({}, marksList[idx], { marks }),
+        ...marksList.slice(idx + 1)
+      ];
+    }
+
+    setMarksList(newMarksList);
+  }
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.tableContainer}>
@@ -59,11 +57,11 @@ const UploadMarksTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {studentsList.map((student, index) => (
               <TableRow hover key={index}>
                 <TableCell align='center'>{index + 1}</TableCell>
-                <TableCell align='center'>{row.enrollmentNumber}</TableCell>
-                <TableCell align='center'>{row.name}</TableCell>
+                <TableCell align='center'>{student.enrollmentNumber}</TableCell>
+                <TableCell align='center'>{student.name}</TableCell>
                 <TableCell align='center' className={classes.inputTableCell}>
                   <TextField
                     variant='outlined'
@@ -71,6 +69,7 @@ const UploadMarksTable = () => {
                     type='number'
                     margin='dense'
                     className={classes.marksInputTextField}
+                    onChange={(e) => handleChange(e, student._id)}
                   />
                 </TableCell>
               </TableRow>

@@ -25,7 +25,12 @@ import useStyles from '../../styles/MarkAttendanceTable';
 
 const AcademicPerformanceTable = (props) => {
   const classes = useStyles();
-  const { marksList } = props;
+  const { marksList, subjectsList } = props;
+
+  const findSubjectName = (id) => {
+    return subjectsList.find(item => item._id === id);
+  }
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.tableContainer}>
@@ -53,8 +58,8 @@ const AcademicPerformanceTable = (props) => {
             {marksList.map((marks, index) => (
               <TableRow hover key={marks._id}>
                 <TableCell align='center'>{index + 1}</TableCell>
-                <TableCell align='center'>{marks.subjectCode}</TableCell>
-                <TableCell align='center'>{'anonymous'}</TableCell>
+                <TableCell align='center'>{findSubjectName(marks.subject).subjectCode}</TableCell>
+                <TableCell align='center'>{findSubjectName(marks.subject).subjectName}</TableCell>
                 <TableCell align='center'>{marks.totalMarks}</TableCell>
                 <TableCell align='center'>{marks.marks}</TableCell>
               </TableRow>

@@ -38,6 +38,7 @@ const markAttendance = async (req, res) => {
     const { allStudents, selectedStudents, subjectCode, semester } = req.body;
 
     const sub = await Subject.findOne({ subjectCode });
+    console.log(sub);
 
     allStudents.forEach(async (stud) => {
       if (selectedStudents.includes(stud._id)) {
@@ -100,7 +101,7 @@ const markAttendance = async (req, res) => {
     //         await alreadyExist.save();
     //     }
     // });
-    res.status(201).json({ message: 'Attendance marked successfully.' });
+    res.status(201).json({ message: 'Attendance marked successfully' });
   } catch (err) {
     const errorMessage = `Error in marking attendence : ${err.message}`;
     return res.status(400).json({ message: errorMessage });

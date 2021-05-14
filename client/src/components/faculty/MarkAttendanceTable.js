@@ -22,35 +22,12 @@ const CustomCheckbox = withStyles({
   checked: {},
 })((props) => <Checkbox color='default' {...props} />);
 
-function createData(name, enrollmentNumber) {
-  return { name, enrollmentNumber };
-}
-
-const rows = [
-  createData('Rishabh', 'FAC2018000'),
-  createData('Rishabh', 'FAC2018001'),
-  createData('Rishabh', 'FAC2018002'),
-  createData('Rishabh', 'FAC2018003'),
-  createData('Rishabh', 'FAC2018004'),
-  createData('Rishabh', 'FAC2018005'),
-  createData('Rishabh', 'FAC2018006'),
-  createData('Rishabh', 'FAC2018007'),
-  createData('Rishabh', 'FAC2018008'),
-  createData('Rishabh', 'FAC2018009'),
-  createData('Rishabh', 'FAC2018010'),
-  createData('Rishabh', 'FAC2018011'),
-  createData('Rishabh', 'FAC2018012'),
-  createData('Rishabh', 'FAC2018013'),
-  createData('Rishabh', 'FAC2018014'),
-  createData('Rishabh', 'FAC2018015'),
-  createData('Rishabh', 'FAC2018016'),
-];
-
 const MarkAttendanceTable = (props) => {
   // variables
   const classes = useStyles();
   const { studentsList, selected, setSelected } = props;
   const rowCount = studentsList.length;
+
   // handlers
   const handleClick = (id) => {
     const selectedIndex = selected.indexOf(id);

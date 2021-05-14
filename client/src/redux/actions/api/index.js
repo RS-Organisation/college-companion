@@ -76,3 +76,6 @@ export const markAttendance = (formData) =>
 // Marks Routes
 export const getMarksOfStudent = (formData) =>
   API.get('/marks/', { params: formData });
+
+export const uploadMarks = (formData) =>
+  API.post('/marks/upload', formData);
