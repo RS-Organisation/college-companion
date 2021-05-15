@@ -2,9 +2,9 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
-  SET_ADDITIONAL_DETAILS,
-  GET_MARKS_OF_STUDENT,
-  // GET_ATTENDANCE,
+  GET_STUDENT_MARKS,
+  GET_ATTENDANCE,
+  GET_SUBJECTS,
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
@@ -12,7 +12,7 @@ const initialState = {
   studentData: null,
   isAuthenticated: false,
   attendance: [],
-  subjectsList: [],
+  subjects: [],
   marksList: [],
   marksSearchedQuery: {
     examType: '',
@@ -30,8 +30,6 @@ const studentReducer = (state = initialState, action) => {
         ...state,
         studentData: action?.payload?.userDetails,
         isAuthenticated: true,
-        subjectsList: action?.payload?.subjects,
-        attendance: action?.payload?.attendance,
       };
 
     case SET_STUDENT_DETAILS:
@@ -39,11 +37,9 @@ const studentReducer = (state = initialState, action) => {
         ...state,
         studentData: action?.payload.userDetails,
         isAuthenticated: true,
-        subjectsList: action?.payload?.subjects,
-        attendance: action?.payload?.attendance,
       };
 
-    case GET_MARKS_OF_STUDENT:
+    case GET_STUDENT_MARKS:
       return {
         ...state,
         marksList: action?.payload?.marksList,
@@ -54,11 +50,17 @@ const studentReducer = (state = initialState, action) => {
       Cookies.remove('studentJWT');
       return initialState;
 
-    // case GET_ATTENDANCE:
-    //   return {
-    //     ...state,
-    //     attendance: action.payload,
-    //   };
+    case GET_ATTENDANCE:
+      return {
+        ...state,
+        attendance: action.payload,
+      };
+
+    case GET_SUBJECTS:
+      return {
+        ...state,
+        subjects: action?.payload?.subjects,
+      };
 
     default:
       return state;

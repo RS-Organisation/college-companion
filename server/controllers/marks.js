@@ -1,6 +1,8 @@
+const mongoose = require('mongoose');
 const Marks = require('../models/marks');
 const Subject = require('../models/subject');
-const mongoose = require('mongoose');
+
+// GET ROUTES
 
 const getMarksOfAll = async (req, res) => {
   try {
@@ -30,6 +32,8 @@ const getMarksById = async (req, res) => {
   }
 };
 
+// POST ROUTES
+
 const uploadMarks = async (req, res) => {
   try {
     const {
@@ -41,10 +45,7 @@ const uploadMarks = async (req, res) => {
       examType,
     } = req.body;
 
-    console.log(req.body.marksList);
-
     const sub = await Subject.findOne({ subjectCode });
-    console.log(sub);
 
     const isUploaded = await Marks.findOne({
       subject: sub._id,

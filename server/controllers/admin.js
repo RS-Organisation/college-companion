@@ -1,8 +1,7 @@
-const Admin = require('../models/admin');
 const mongoose = require('mongoose');
-const { generateRegistrationNumber } = require('../util/helperFunctions');
-
+const Admin = require('../models/admin');
 const bcrypt = require('bcryptjs');
+const { generateRegistrationNumber } = require('../util/helperFunctions');
 
 // GET ROUTES
 
@@ -10,7 +9,6 @@ const getAdminDetails = async (req, res) => {
   try {
     const { _id } = req.adminDetails;
     const admin = await Admin.findById(_id);
-    // const adminDetails = req.adminDetails;
     res.status(200).json(admin);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -55,23 +53,7 @@ const addAdmin = async (req, res) => {
   }
 };
 
-// UPDATE ROUTE
-
-// const updateProfile = async (req, res) => {
-//   try {
-//     const updates = req.body;
-//     const { _id } = req.adminDetails;
-//     const updatedDetails = await Admin.findByIdAndUpdate(_id, updates, {
-//       new: true,
-//     });
-//     res.status(200).json({
-//       result: updatedDetails,
-//       message: 'Admin details updated successfully',
-//     });
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
+// PATCH ROUTES
 
 const updateAdmin = async (req, res) => {
   try {
@@ -91,7 +73,8 @@ const updateAdmin = async (req, res) => {
   }
 };
 
-// Delete Route
+// DELETE ROUTES
+
 const deleteAdmin = async (req, res) => {
   try {
     const { registrationNumber } = req.body;

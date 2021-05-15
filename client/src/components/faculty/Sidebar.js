@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useTheme } from '@material-ui/core/styles';
 import {
   Drawer,
   CssBaseline,
@@ -11,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LockIcon from '@material-ui/icons/Lock';
@@ -22,9 +22,10 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import useStyles from '../../styles/Sidebar';
 
 export default function Sidebar(props) {
+  const { open, handleDrawerClose } = props;
+
   const classes = useStyles();
   const theme = useTheme();
-  const { open, handleDrawerClose } = props;
 
   return (
     <div className={classes.root}>
@@ -124,7 +125,6 @@ export default function Sidebar(props) {
         <Divider />
       </Drawer>
       <main className={`${classes.content} ${open && classes.contentShift}`}>
-        {/*<div className={classes.drawerHeader} />*/}
         {props.children}
       </main>
     </div>

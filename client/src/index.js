@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import jwt_decode from 'jwt-decode';
+import Cookies from 'js-cookie';
 import App, { history } from './App';
 import store from './redux/store';
 import './index.css';
@@ -18,9 +20,6 @@ import {
   setStudentDetails,
   studentLogout,
 } from './redux/actions/studentActions';
-
-import jwt_decode from 'jwt-decode';
-import Cookies from 'js-cookie';
 
 const jsx = (
   <Provider store={store}>

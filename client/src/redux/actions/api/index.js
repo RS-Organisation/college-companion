@@ -18,6 +18,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+
 // Admin Routes
 export const getAdmin = () => API.get('/admin/');
 
@@ -27,26 +28,23 @@ export const addAdmin = (formData) => API.post('/admin/add', formData);
 
 export const updateAdmin = (updates) => API.patch('/admin/update', updates);
 
+
 // Faculty Routes
 export const getFaculty = () => API.get('/faculty/');
+
+export const getFaculties = (formData) =>
+  API.get('/faculty/all', { params: formData });
 
 export const facultyLogin = (formData) =>
   API.post('/auth/faculty-login', formData);
 
 export const addFaculty = (formData) => API.post('/faculty/add', formData);
 
-export const getFaculties = (formData) =>
-  API.get('/faculty/all', { params: formData });
-
 export const updateFaculty = (updates) => API.patch('/faculty/update', updates);
+
 
 // Student Routes
 export const getStudent = () => API.get('/student/');
-
-export const studentLogin = (formData) =>
-  API.post('/auth/student-login', formData);
-
-export const addStudent = (formData) => API.post('/student/add', formData);
 
 export const getStudents = (formData) =>
   API.get('/student/all', { params: formData });
@@ -54,12 +52,16 @@ export const getStudents = (formData) =>
 export const getStudentsList = (formData) =>
   API.get('/student/fetch', { params: formData });
 
+export const studentLogin = (formData) =>
+  API.post('/auth/student-login', formData);
+
+export const addStudent = (formData) => API.post('/student/add', formData);
+
 export const updateStudent = (updates) => API.patch('/student/update', updates);
 
-// Subject Routes
-export const addSubject = (formData) => API.post('/subject/add', formData);
 
-export const getSubjects = (formData) =>
+// Subject Routes
+export const getSubjectsForAdmin = (formData) =>
   API.get('/subject/all', { params: formData });
 
 export const getSubjectsForFaculty = (formData) =>
@@ -67,11 +69,15 @@ export const getSubjectsForFaculty = (formData) =>
 
 export const getSubjectsForStudent = () => API.get('/subject/');
 
+export const addSubject = (formData) => API.post('/subject/add', formData);
+
+
 // Attendance Routes
 export const getAttendance = () => API.get('/attendance/');
 
 export const markAttendance = (formData) =>
   API.post('/attendance/mark', formData);
+
 
 // Marks Routes
 export const getMarksOfStudent = (formData) =>

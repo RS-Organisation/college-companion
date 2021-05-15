@@ -6,17 +6,18 @@ import {
   Avatar,
   Divider,
 } from '@material-ui/core';
+
+import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/ProfileDetails';
 import useStylesCommon from '../../styles/CommonStyles';
-import blankProfilePic from '../../images/blankProfilePic.svg';
 
 const ProfileDetails = (props) => {
+  const { faculty } = props;
+
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
   };
-
-  const { faculty } = props;
 
   const [details, setDetails] = useState(faculty);
 

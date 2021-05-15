@@ -1,7 +1,6 @@
 import 'date-fns';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
   Grid,
   Typography,
@@ -11,20 +10,20 @@ import {
   MenuItem,
   Modal,
 } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
-import { ThemeProvider } from '@material-ui/styles';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import EditIcon from '@material-ui/icons/Edit';
+import { ThemeProvider } from '@material-ui/styles';
+import DateFnsUtils from '@date-io/date-fns';
+
+import { updateStudent } from '../../redux/actions/studentActions';
+
+import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-import blankProfilePic from '../../images/blankProfilePic.svg';
-
-// Actions
-import { updateStudent } from '../../redux/actions/studentActions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -70,7 +69,6 @@ const UpdateProfile = () => {
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
     setChanges({ ...changes, dob });
-    // console.log(changes);
   };
 
   const handleChangeImage = (e) => {
@@ -90,7 +88,6 @@ const UpdateProfile = () => {
     if (changes && Object.keys(changes).length !== 0) {
       dispatch(updateStudent(changes));
     }
-    console.log(changes);
   };
 
   return (

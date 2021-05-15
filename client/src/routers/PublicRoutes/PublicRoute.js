@@ -11,6 +11,7 @@ const initialState = {
 const PublicRoute = ({ component: Component, ...rest }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [details, setDetails] = useState(initialState);
+
   const store = useSelector((store) => store);
 
   useEffect(() => {

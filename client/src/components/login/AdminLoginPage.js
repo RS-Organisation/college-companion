@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import loginImage from '../../images/loginImage.svg';
 import {
   Grid,
   Button,
@@ -13,10 +12,11 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ForwardIcon from '@material-ui/icons/Forward';
-import useStyles from '../../styles/LoginPage';
 
-// Actions
 import { adminLogin } from '../../redux/actions/adminActions';
+
+import loginImage from '../../images/loginImage.svg';
+import useStyles from '../../styles/LoginPage';
 
 const initialDetails = {
   registrationNumber: '',
@@ -27,6 +27,7 @@ const AdminLoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialDetails);
 

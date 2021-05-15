@@ -10,22 +10,28 @@ import {
   Typography,
   Divider,
 } from '@material-ui/core';
+
 import Header from './Header';
 import AcademicPerformanceTable from './AcademicPerformanceTable';
+import LoadingPage from '../utils/LoadingPage';
+import { getMarks, getSubjects } from '../../redux/actions/studentActions';
+
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-import { getMarks } from '../../redux/actions/studentActions';
 
 const AcademicPerformancePage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
   };
+
   const dispatch = useDispatch();
 
-  const { marksList, marksSearchedQuery, subjectsList } = useSelector(
-    (store) => store.studentReducer
-  );
+  const {
+    marksList,
+    marksSearchedQuery,
+    subjects
+  } = useSelector((store) => store.studentReducer);
 
   const [details, setDetails] = useState({
     examType: marksSearchedQuery.examType,
@@ -44,6 +50,7 @@ const AcademicPerformancePage = () => {
     e.preventDefault();
     if (details.semester && details.examType) {
       dispatch(getMarks(details));
+      dispatch(getSubjects());
     }
   };
 
@@ -117,11 +124,13 @@ const AcademicPerformancePage = () => {
             </Grid>
             {showMarksTable && (
               <Grid item xs={12} lg={9}>
-                <AcademicPerformanceTable
-                  examType={details.examType}
-                  marksList={marksList}
-                  subjectsList={subjectsList}
-                />
+                {subjects.length === 0 ? <LoadingPage /> : (
+                  <AcademicPerformanceTable
+                    examType={details.examType}
+                    marksList={marksList}
+                    subjectsList={subjects}
+                  />
+                )}
               </Grid>
             )}
           </Grid>

@@ -23,29 +23,17 @@ const getJoiningYear = (semester) => {
   var today = new Date();
   var month = today.getMonth() + 1;
   var year = today.getFullYear();
-
   var studyingYear = Math.ceil(semester / 2);
-
-  if (month >= 7) {
-    return (year - studyingYear + 1);
-  }
-  else {
-    return (year - studyingYear);
-  }
+  return (month >= 7) ? (year - studyingYear + 1) : (year - studyingYear);
 };
 
+// Function to find current semester from joining year
 const getSemester = (joiningYear) => {
   var today = new Date();
   var month = today.getMonth() + 1;
   var year = today.getFullYear();
-
   var semester = (year - joiningYear) * 2;
-  if (month >= 7) {
-    return semester + 1;
-  }
-  else {
-    return semester;
-  }
+  return (month >= 7) ? (semester + 1) : semester;
 };
 
 module.exports = {

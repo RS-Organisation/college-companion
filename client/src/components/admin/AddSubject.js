@@ -7,10 +7,12 @@ import {
   Divider,
   MenuItem
 } from '@material-ui/core';
+
 import Header from './Header';
+import { addSubject } from '../../redux/actions/adminActions';
+
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
-import { addSubject } from '../../redux/actions/adminActions';
 
 const initialData = {
   subjectName: '',

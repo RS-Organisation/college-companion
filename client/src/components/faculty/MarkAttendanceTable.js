@@ -10,6 +10,7 @@ import {
   Checkbox,
   withStyles,
 } from '@material-ui/core';
+
 import useStyles from '../../styles/MarkAttendanceTable';
 
 const CustomCheckbox = withStyles({
@@ -23,12 +24,10 @@ const CustomCheckbox = withStyles({
 })((props) => <Checkbox color='default' {...props} />);
 
 const MarkAttendanceTable = (props) => {
-  // variables
-  const classes = useStyles();
   const { studentsList, selected, setSelected } = props;
+  const classes = useStyles();
   const rowCount = studentsList.length;
 
-  // handlers
   const handleClick = (id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -45,7 +44,6 @@ const MarkAttendanceTable = (props) => {
         selected.slice(selectedIndex + 1)
       );
     }
-
     setSelected(newSelected);
   };
 

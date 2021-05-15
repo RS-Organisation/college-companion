@@ -10,21 +10,28 @@ import {
   Typography,
   Divider,
 } from '@material-ui/core';
+
 import Header from './Header';
 import StudentDetailTable from './StudentDetailTable';
+import { getStudents } from '../../redux/actions/adminActions';
+
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-import { getStudents } from '../../redux/actions/adminActions';
 
 const OurStudentsPage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles()
   };
+
   const dispatch = useDispatch();
-  const { allStudents, studentsDepartment, studentsYear } = useSelector(
-    (store) => store.adminReducer
-  );
+
+  const {
+    allStudents,
+    studentsDepartment,
+    studentsYear
+  } = useSelector((store) => store.adminReducer);
+
   const [details, setDetails] = useState({
     department: studentsDepartment,
     year: studentsYear

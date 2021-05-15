@@ -8,14 +8,19 @@ import {
   MenuItem,
   Divider
 } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
 import { ThemeProvider } from "@material-ui/styles";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 import Header from './Header';
+import { addStudent } from '../../redux/actions/adminActions';
+
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-import { addStudent } from '../../redux/actions/adminActions';
 
 const initialData = {
   name: '',

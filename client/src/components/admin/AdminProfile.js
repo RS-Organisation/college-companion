@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
+
 import Header from './Header';
 import UpdateProfile from './UpdateProfile';
 import UpdatePassword from './UpdatePassword';
+
 import useStyles from '../../styles/AdminProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 

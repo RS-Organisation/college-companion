@@ -9,17 +9,17 @@ import {
   MenuItem,
   Button,
 } from '@material-ui/core';
-import Header from './Header';
-import useStyles from '../../styles/MarkAttendancePage';
-import useStylesCommon from '../../styles/CommonStyles';
-import UploadMarksTable from './UploadMarksTable';
 
-// Actions
+import Header from './Header';
+import UploadMarksTable from './UploadMarksTable';
 import {
   getStudentList,
   clearStudentsList,
   uploadMarks,
 } from '../../redux/actions/facultyActions';
+
+import useStyles from '../../styles/MarkAttendancePage';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const initialData = {
   department: '',
@@ -45,7 +45,6 @@ const UploadMarksPage = () => {
   } = useSelector((store) => store?.facultyReducer);
 
   const [details, setDetails] = useState(initialData);
-  // const [clicked, setClicked] = useState(false);
   const [marksList, setMarksList] = useState([]);
 
   const handleChangeDetails = (e) => {
@@ -79,6 +78,7 @@ const UploadMarksPage = () => {
       };
       dispatch(uploadMarks(formData)).then(() => handleReset());
     } else {
+      // Add alert/snackbar instead of console.log
       console.log('select subject code');
     }
   };

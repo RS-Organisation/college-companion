@@ -10,20 +10,20 @@ import {
   MenuItem,
   Modal,
 } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
-import { ThemeProvider } from '@material-ui/styles';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import EditIcon from '@material-ui/icons/Edit';
+import { ThemeProvider } from '@material-ui/styles';
+import DateFnsUtils from '@date-io/date-fns';
+
+import { updateFaculty } from '../../redux/actions/facultyActions';
+
+import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-import blankProfilePic from '../../images/blankProfilePic.svg';
-
-// Actions
-import { updateFaculty } from '../../redux/actions/facultyActions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -87,7 +87,6 @@ const UpdateProfile = () => {
     e.preventDefault();
     if (changes && Object.keys(changes).length !== 0) {
       dispatch(updateFaculty(changes));
-      console.log(changes);
       setChanges({});
     }
   };

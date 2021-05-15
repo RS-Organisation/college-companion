@@ -9,17 +9,17 @@ import {
   MenuItem,
   Button,
 } from '@material-ui/core';
+
 import Header from './Header';
 import MarkAttendanceTable from './MarkAttendanceTable';
-import useStyles from '../../styles/MarkAttendancePage';
-import useStylesCommon from '../../styles/CommonStyles';
-
-// Actions
 import {
   getStudentList,
   clearStudentsList,
   markAttendance,
 } from '../../redux/actions/facultyActions';
+
+import useStyles from '../../styles/MarkAttendancePage';
+import useStylesCommon from '../../styles/CommonStyles';
 
 const initialData = {
   department: '',
@@ -77,6 +77,7 @@ const MarkAttendancePage = () => {
       };
       dispatch(markAttendance(formData)).then(() => handleReset());
     } else {
+      // Add alert/snackbar instead of console.log
       console.log('select subject code');
     }
   };

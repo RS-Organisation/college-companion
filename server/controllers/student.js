@@ -1,12 +1,11 @@
-const Student = require('../models/student');
+const { query } = require('express');
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
+const Student = require('../models/student');
 const {
   generateEnrollmentNumber,
   getJoiningYear,
 } = require('../util/helperFunctions');
-
-const bcrypt = require('bcryptjs');
-const { query } = require('express');
 
 // GET ROUTES
 
@@ -22,9 +21,7 @@ const getStudentDetails = async (req, res) => {
 
 const getStudents = async (req, res) => {
   try {
-    // const { department, year, section } = req.query;
     let queryObj;
-    // console.log(req.query);
     if (req.query.semester && req.query.section) {
       const joiningYear = getJoiningYear(parseInt(req.query.semester));
       queryObj = { ...req.query, joiningYear: joiningYear };
@@ -70,23 +67,7 @@ const addStudent = async (req, res) => {
   }
 };
 
-// UPDATE ROUTE
-
-// const updateProfile = async (req, res) => {
-//   try {
-//     const updates = req.body;
-//     const { _id } = req.studentDetails;
-//     const updatedDetails = await Student.findByIdAndUpdate(_id, updates, {
-//       new: true,
-//     });
-//     res.status(200).json({
-//       result: updatedDetails,
-//       message: 'Student details updated successfully',
-//     });
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
+// PATCH ROUTES
 
 const updateStudent = async (req, res) => {
   try {

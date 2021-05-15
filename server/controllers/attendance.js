@@ -1,7 +1,6 @@
+const mongoose = require('mongoose');
 const Attendance = require('../models/attendance');
 const Subject = require('../models/subject');
-const mongoose = require('mongoose');
-
 const { getSemester } = require('../util/helperFunctions');
 
 // GET ROUTES
@@ -38,7 +37,6 @@ const markAttendance = async (req, res) => {
     const { allStudents, selectedStudents, subjectCode, semester } = req.body;
 
     const sub = await Subject.findOne({ subjectCode });
-    console.log(sub);
 
     allStudents.forEach(async (stud) => {
       if (selectedStudents.includes(stud._id)) {
@@ -79,28 +77,7 @@ const markAttendance = async (req, res) => {
         }
       }
     });
-    // studentsList.forEach(async (stud) => {
-    //     const alreadyExist = await Attendance.findOne({
-    //         student: stud.studentId,
-    //         subject: sub._id
-    //     });
 
-    //     if (!alreadyExist) {
-    //         const attendance = new Attendance({
-    //             student: stud.studentId,
-    //             subject: sub._id,
-    //             semester
-    //         });
-    //         attendance.totalLecturesHeld += 1;
-    //         attendance.lecturesAttended += stud.isPresent;
-    //         await attendance.save();
-    //     }
-    //     else {
-    //         alreadyExist.totalLecturesHeld += 1;
-    //         alreadyExist.lecturesAttended += stud.isPresent;
-    //         await alreadyExist.save();
-    //     }
-    // });
     res.status(201).json({ message: 'Attendance marked successfully' });
   } catch (err) {
     const errorMessage = `Error in marking attendence : ${err.message}`;

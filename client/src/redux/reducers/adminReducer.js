@@ -8,7 +8,7 @@ import {
   ADD_SUBJECT,
   GET_FACULTIES,
   GET_STUDENTS,
-  GET_SUBJECTS
+  GET_ALL_SUBJECTS
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
@@ -69,7 +69,7 @@ const adminReducer = (state = initialState, action) => {
         studentsYear: action.payload.year
       };
 
-    case GET_SUBJECTS:
+    case GET_ALL_SUBJECTS:
       return {
         ...state,
         allSubjects: action.payload.subjects,

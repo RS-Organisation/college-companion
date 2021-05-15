@@ -42,21 +42,6 @@ export default makeStyles((theme) => ({
       outline: 'none',
     },
   },
-  outlinedButton: {
-    fontFamily: 'Nunito Sans, sans-serif',
-    textTransform: 'none',
-    padding: '6px 18px',
-    fontWeight: '600',
-    color: '#41aea9',
-    backgroundColor: '#fafafa',
-    border: '1px solid #41aea9',
-    transition: '0.3s ease-in-out',
-    '&:hover': {
-      backgroundColor: '#fafafa',
-      transform: 'scale(1.01)',
-      outline: 'none',
-    },
-  },
   form30: {
     display: 'flex',
     flexDirection: 'column',
@@ -104,6 +89,21 @@ export default makeStyles((theme) => ({
   },
   inputTextField: {
     width: '45%',
+  },
+  outlinedButton: {
+    fontFamily: 'Nunito Sans, sans-serif',
+    textTransform: 'none',
+    padding: '6px 18px',
+    fontWeight: '600',
+    color: '#41aea9',
+    backgroundColor: '#fafafa',
+    border: '1px solid #41aea9',
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      backgroundColor: '#fafafa',
+      transform: 'scale(1.01)',
+      outline: 'none',
+    },
   },
   rowWise: {
     display: 'flex',

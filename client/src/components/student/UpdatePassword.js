@@ -9,11 +9,11 @@ import {
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
+import { updateStudent } from '../../redux/actions/studentActions';
+
 import useStyles from '../../styles/UpdatePassword';
 import useStylesCommon from '../../styles/CommonStyles';
-
-// Actions
-import { updateStudent } from '../../redux/actions/studentActions';
 
 const UpdatePassword = () => {
   const classes = {

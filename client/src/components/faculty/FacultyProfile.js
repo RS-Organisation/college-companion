@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
+
 import Header from './Header';
 import UpdateProfile from './UpdateProfile';
 import UpdatePassword from './UpdatePassword';
+
 import useStyles from '../../styles/AdminProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 
@@ -11,6 +13,7 @@ const FacultyProfile = (props) => {
 		...useStylesCommon(),
 		...useStyles()
 	};
+
 	const selected = props?.location?.aboutProps?.selected || 'profile';
 	const [clickedButton, setClickedButton] = useState(selected);
 

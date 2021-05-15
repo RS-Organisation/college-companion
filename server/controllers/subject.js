@@ -1,6 +1,5 @@
-const Subject = require('../models/subject');
 const mongoose = require('mongoose');
-
+const Subject = require('../models/subject');
 const { getSemester } = require('../util/helperFunctions');
 
 // GET ROUTES
@@ -26,17 +25,6 @@ const getAllSubjects = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
-
-// const getSubjectsForStudent = async (req, res) => {
-//   try {
-// 		const {department, joiningYear} = req.studentDetails;
-// 		const semester =
-//     const subjects = await Subject.find(req.query);
-//     res.status(200).json(subjects);
-//   } catch (err) {
-//     res.status(404).json({ message: err.message });
-//   }
-// };
 
 // POST ROUTES
 

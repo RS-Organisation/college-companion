@@ -11,7 +11,7 @@ import {
   ADD_SUBJECT,
   GET_FACULTIES,
   GET_STUDENTS,
-  GET_SUBJECTS,
+  GET_ALL_SUBJECTS,
 } from '../actionsType';
 
 export const adminLogin = (formData, history) => async (dispatch) => {
@@ -21,7 +21,6 @@ export const adminLogin = (formData, history) => async (dispatch) => {
       type: ADMIN_LOGIN,
       payload: { userDetails: data.result, token: data.token },
     });
-
     history.push('/admin');
   } catch (err) {
     console.log(err);
@@ -128,9 +127,9 @@ export const getStudents = (formData) => async (dispatch) => {
 export const getSubjects = (formData) => async (dispatch) => {
   try {
     const { department, semester } = formData;
-    const subjects = await api.getSubjects(formData);
+    const subjects = await api.getSubjectsForAdmin(formData);
     dispatch({
-      type: GET_SUBJECTS,
+      type: GET_ALL_SUBJECTS,
       payload: {
         subjects: subjects.data,
         department,
@@ -142,33 +141,16 @@ export const getSubjects = (formData) => async (dispatch) => {
   }
 };
 
-// export const updateProfile = (updates) => async (dispatch) => {
-//   try {
-//     console.log('updates', updates);
-//     const { data } = await api.updateProfile(updates);
-//     console.log(data);
-//     dispatch({
-//       type: SET_ADMIN_DETAILS,
-//       payload: data.result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 export const updateAdmin = (updates) => async (dispatch) => {
   try {
-    var updatedData = {
-      ...updates
-    };
+    var updatedData = { ...updates };
     if (updates?.dob) {
       updatedData = {
         ...updatedData,
         dob: format(updates.dob, 'dd-MM-yyyy')
-      }
+      };
     }
     const { data } = await api.updateAdmin(updatedData);
-
     dispatch({
       type: SET_ADMIN_DETAILS,
       payload: data.result,

@@ -1,21 +1,27 @@
 import { React, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, IconButton, Menu, MenuItem } from '@material-ui/core';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Menu,
+  MenuItem
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import useStyles from '../../styles/Header';
 import Sidebar from './Sidebar';
-
 import { studentLogout } from '../../redux/actions/studentActions';
+
+import useStyles from '../../styles/Header';
 
 const Header = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [openAccount, setOpenAccount] = useState(false);
   const [openSetting, setOpenSetting] = useState(false);

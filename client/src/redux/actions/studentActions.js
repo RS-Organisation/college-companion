@@ -5,23 +5,19 @@ import {
   STUDENT_LOGIN,
   STUDENT_LOGOUT,
   SET_STUDENT_DETAILS,
-  //SET_ADDITIONAL_DETAILS,
-  GET_MARKS_OF_STUDENT,
-  // GET_ATTENDANCE,
+  GET_STUDENT_MARKS,
+  GET_ATTENDANCE,
+  GET_SUBJECTS,
 } from '../actionsType';
 
 export const studentLogin = (formData, history) => async (dispatch) => {
   try {
     const { data } = await api.studentLogin(formData);
-    // const attendance = await api.getAttendance();
-    // const subjects = await api.getSubjectsForStudent();
     dispatch({
       type: STUDENT_LOGIN,
       payload: {
         userDetails: data.result,
         token: data.token,
-        // attendance: attendance.data,
-        // subjects: subjects.data,
       },
     });
     history.push('/student');
@@ -44,17 +40,10 @@ export const studentLogout = (history) => async (dispatch) => {
 export const setStudentDetails = (history) => async (dispatch) => {
   try {
     const { data } = await api.getStudent();
-    const attendance = await api.getAttendance();
-    const subjects = await api.getSubjectsForStudent();
     dispatch({
       type: SET_STUDENT_DETAILS,
-      payload: {
-        userDetails: data,
-        attendance: attendance.data,
-        subjects: subjects.data,
-      },
+      payload: { userDetails: data },
     });
-
     if (history.location.pathname === '/') {
       history.push('/student/');
     }
@@ -63,36 +52,9 @@ export const setStudentDetails = (history) => async (dispatch) => {
   }
 };
 
-// export const updateProfile = (updates) => async (dispatch) => {
-//   try {
-//     const { data } = await api.updateStudentProfile(updates);
-//     console.log(data);
-//     dispatch({
-//       type: SET_STUDENT_DETAILS,
-//       payload: data.result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
-// export const updatePassword = (updates) => async (dispatch) => {
-//   try {
-//     const { data } = await api.updateStudentPassword(updates);
-//     dispatch({
-//       type: SET_STUDENT_DETAILS,
-//       payload: data.result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 export const updateStudent = (updates) => async (dispatch) => {
   try {
-    var updatedData = {
-      ...updates,
-    };
+    var updatedData = { ...updates };
     if (updates?.dob) {
       updatedData = {
         ...updatedData,
@@ -112,9 +74,8 @@ export const updateStudent = (updates) => async (dispatch) => {
 export const getMarks = (formData) => async (dispatch) => {
   try {
     const { data } = await api.getMarksOfStudent(formData);
-    console.log(data);
     dispatch({
-      type: GET_MARKS_OF_STUDENT,
+      type: GET_STUDENT_MARKS,
       payload: {
         marksList: data,
         queryObj: {
@@ -128,14 +89,26 @@ export const getMarks = (formData) => async (dispatch) => {
   }
 };
 
-// export const getAttendance = () => async (dispatch) => {
-//   try {
-//     const { data } = await api.getAttendance();
-//     dispatch({
-//       type: GET_ATTENDANCE,
-//       payload: data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+export const getAttendance = () => async (dispatch) => {
+  try {
+    const { data } = await api.getAttendance();
+    dispatch({
+      type: GET_ATTENDANCE,
+      payload: data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getSubjects = () => async (dispatch) => {
+  try {
+    const subjects = await api.getSubjectsForStudent();
+    dispatch({
+      type: GET_SUBJECTS,
+      payload: { subjects: subjects.data },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

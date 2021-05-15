@@ -1,5 +1,5 @@
-const Faculty = require('../models/faculty');
 const mongoose = require('mongoose');
+const Faculty = require('../models/faculty');
 const { generateRegistrationNumber } = require('../util/helperFunctions');
 
 // GET ROUTES
@@ -49,18 +49,7 @@ const addFaculty = async (req, res) => {
   }
 };
 
-// UPDATE ROUTE
-
-// const updateProfile = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const updates = req.body;
-//     const updatedDetails = await Faculty.findByIdAndUpdate(id, updates, { new: true });
-//     res.status(201).json({ message: 'Faculty details updated successfully' });
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
+// PATCH ROUTES
 
 const updateFaculty = async (req, res) => {
   try {
@@ -80,7 +69,8 @@ const updateFaculty = async (req, res) => {
   }
 };
 
-// Delete Route
+// DELETE ROUTES
+
 const deleteFaculty = async (req, res) => {
   try {
     const { registrationNumber } = req.body;

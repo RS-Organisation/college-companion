@@ -1,12 +1,10 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const Admin = require('../models/admin');
 const Student = require('../models/student');
 const Faculty = require('../models/faculty');
 
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-
 // Create New JWT Token
-
 const createToken = (userData) => {
   return jwt.sign({ ...userData }, process.env.JWT_SECRET, {
     expiresIn: '7d',
@@ -18,7 +16,6 @@ const adminLogin = async (req, res) => {
 
   try {
     const existingAdmin = await Admin.findOne({ registrationNumber });
-
     if (!existingAdmin) {
       return res.status(404).json({ message: "Admin doesn't exist." });
     }
@@ -27,7 +24,6 @@ const adminLogin = async (req, res) => {
       password,
       existingAdmin.password
     );
-
     if (!isPasswordCorrect) {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
@@ -46,7 +42,6 @@ const facultyLogin = async (req, res) => {
   const { registrationNumber, password } = req.body;
   try {
     const existingFaculty = await Faculty.findOne({ registrationNumber });
-
     if (!existingFaculty) {
       return res.status(404).json({ message: "Faculty doesn't exist." });
     }
@@ -55,7 +50,6 @@ const facultyLogin = async (req, res) => {
       password,
       existingFaculty.password
     );
-
     if (!isPasswordCorrect) {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }
@@ -74,7 +68,6 @@ const studentLogin = async (req, res) => {
   const { enrollmentNumber, password } = req.body;
   try {
     const existingStudent = await Student.findOne({ enrollmentNumber });
-
     if (!existingStudent) {
       return res.status(404).json({ message: "Student doesn't exist." });
     }
@@ -83,7 +76,6 @@ const studentLogin = async (req, res) => {
       password,
       existingStudent.password
     );
-
     if (!isPasswordCorrect) {
       return res.status(404).json({ message: 'Invalid Credentials' });
     }

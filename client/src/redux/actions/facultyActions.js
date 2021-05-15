@@ -18,7 +18,6 @@ export const facultyLogin = (formData, history) => async (dispatch) => {
       type: FACULTY_LOGIN,
       payload: { userDetails: data.result, token: data.token },
     });
-
     history.push('/faculty');
   } catch (err) {
     console.log(err);
@@ -53,9 +52,7 @@ export const setFacultyDetails = (history) => async (dispatch) => {
 
 export const updateFaculty = (updates) => async (dispatch) => {
   try {
-    var updatedData = {
-      ...updates,
-    };
+    var updatedData = { ...updates };
     if (updates?.dob) {
       updatedData = {
         ...updatedData,
@@ -74,7 +71,6 @@ export const updateFaculty = (updates) => async (dispatch) => {
 
 export const markAttendance = (formData) => async (dispatch) => {
   try {
-    // const { data } = await api.markAttendance(formData);
     await api.markAttendance(formData);
     dispatch({
       type: MARK_ATTENDANCE,
@@ -103,7 +99,6 @@ export const getStudentList = (formData) => async (dispatch) => {
       semester: formData.semester,
     };
     const subjects = await api.getSubjectsForFaculty(subjectsQuery);
-
     dispatch({
       type: GET_STUDENT_LIST,
       payload: {

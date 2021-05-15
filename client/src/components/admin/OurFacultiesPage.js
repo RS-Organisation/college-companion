@@ -10,21 +10,27 @@ import {
   Typography,
   Divider,
 } from '@material-ui/core';
+
 import Header from './Header';
 import FacultyDetailTable from './FacultyDetailTable';
+import { getFaculties } from '../../redux/actions/adminActions';
+
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-import { getFaculties } from '../../redux/actions/adminActions';
 
 const OurFacultiesPage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles()
   };
+
   const dispatch = useDispatch();
-  const { allFaculties, facultiesDepartment } = useSelector(
-    (store) => store.adminReducer
-  );
+
+  const {
+    allFaculties,
+    facultiesDepartment
+  } = useSelector((store) => store.adminReducer);
+
   const [department, setDepartment] = useState(facultiesDepartment);
 
   const handleChange = (event) => {

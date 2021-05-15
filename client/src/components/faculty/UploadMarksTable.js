@@ -9,14 +9,13 @@ import {
   Paper,
   TextField,
 } from '@material-ui/core';
+
 import useStyles from '../../styles/MarkAttendanceTable';
 
 const UploadMarksTable = (props) => {
-  // variables
-  const classes = useStyles();
   const { studentsList, marksList, setMarksList } = props;
+  const classes = useStyles();
 
-  // handlers
   const handleChange = (e, id) => {
     const marks = e.target.value;
     const idx = marksList.findIndex(m => m.id === id);
@@ -32,7 +31,6 @@ const UploadMarksTable = (props) => {
         ...marksList.slice(idx + 1)
       ];
     }
-
     setMarksList(newMarksList);
   }
 

@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import loginImage from '../../images/loginImage.svg';
 import {
   Grid,
   Button,
@@ -13,10 +12,12 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ForwardIcon from '@material-ui/icons/Forward';
-import useStyles from '../../styles/LoginPage';
 
 import { facultyLogin } from '../../redux/actions/facultyActions';
 import { studentLogin } from '../../redux/actions/studentActions';
+
+import loginImage from '../../images/loginImage.svg';
+import useStyles from '../../styles/LoginPage';
 
 const initialDetails = {
   registrationNumber: '',
@@ -29,6 +30,7 @@ const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialDetails);
 
@@ -85,22 +87,20 @@ const LoginPage = () => {
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('student')}
-                  className={`${classes.studentButton} ${
-                    formData.userType === 'student'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.studentButton} ${formData.userType === 'student'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Student Login
                 </Button>
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('faculty')}
-                  className={`${classes.facultyButton} ${
-                    formData.userType === 'faculty'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.facultyButton} ${formData.userType === 'faculty'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Faculty Login
                 </Button>

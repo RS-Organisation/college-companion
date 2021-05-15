@@ -6,13 +6,16 @@ import LoadingPage from '../../components/utils/LoadingPage';
 const PrivateFacultyRoute = ({ component: Component, ...rest }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const store = useSelector((store) => store);
+
   useEffect(() => {
     setIsAuthenticated(store?.facultyReducer?.isAuthenticated || false);
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
   }, [isLoading, store]);
+
   return (
     <Fragment>
       {isLoading ? (

@@ -12,7 +12,6 @@ const {
 const { adminAuth } = require('../middleware/authMiddleware');
 
 router.get('/', adminAuth, getAdminDetails);
-// router.patch('/updateProfile', adminAuth, updateProfile);
 router.patch('/update', adminAuth, updateAdmin);
 router.post('/add', adminAuth, addAdmin);
 router.delete('/delete', adminAuth, deleteAdmin);
