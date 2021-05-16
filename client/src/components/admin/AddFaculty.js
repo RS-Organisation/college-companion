@@ -6,13 +6,13 @@ import {
   TextField,
   Button,
   MenuItem,
-  Divider
+  Divider,
 } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from '@material-ui/styles';
 import DateFnsUtils from '@date-io/date-fns';
 
 import Header from './Header';
@@ -31,16 +31,43 @@ const initialData = {
   joiningYear: '',
   email: '',
   contactNumber: '',
-  aadharCardNumber: ''
+  aadharCardNumber: '',
 };
 
 const AddFaculty = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
   const [details, setDetails] = useState(initialData);
+  const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
+
+  const validator = () => {
+    let temp = {};
+    temp.name = details.name ? '' : 'Name is required';
+    temp.dob = details.dob ? '' : 'Date of birth is required';
+    temp.email = details.email ? '' : 'Email is required';
+    temp.joiningYear = details.joiningYear ? '' : 'Joining year is required';
+    temp.designation = details.designation ? '' : 'Designation is required';
+    temp.department = details.department ? '' : 'Department is required';
+    temp.contactNumber =
+      details.contactNumber.length === 0 ||
+      /^[6-9]\d{9}$/.test(details.contactNumber)
+        ? ''
+        : 'Invalid contact number (numbers only)';
+    temp.aadharCardNumber =
+      details.aadharCardNumber.length === 0 ||
+      /^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/.test(
+        details.aadharCardNumber
+      )
+        ? ''
+        : 'Invalid aadhar number (12-digits)';
+
+    setErrors({ ...temp });
+
+    return Object.values(temp).every((x) => x === '' || x === null);
+  };
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -51,10 +78,18 @@ const AddFaculty = () => {
     setDetails({ ...details, dob });
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(addFaculty(details));
+  //   setDetails(initialData);
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addFaculty(details));
-    setDetails(initialData);
+    if (validator()) {
+      dispatch(addFaculty(details));
+      setDetails(initialData);
+    }
   };
 
   return (
@@ -65,7 +100,7 @@ const AddFaculty = () => {
         </Typography>
         <Divider />
         <form
-          autoComplete="off"
+          autoComplete='off'
           className={`${classes.root} ${classes.form50}`}
           onSubmit={handleSubmit}
         >
@@ -79,6 +114,10 @@ const AddFaculty = () => {
               value={details.name}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.name !== '',
+                helperText: errors.name,
+              })}
             />
             <TextField
               select
@@ -101,11 +140,11 @@ const AddFaculty = () => {
               <ThemeProvider theme={materialTheme}>
                 <KeyboardDatePicker
                   name='dob'
-                  size="small"
-                  margin="normal"
-                  label="Date of Birth"
-                  inputVariant="outlined"
-                  format="dd-MM-yyyy"
+                  size='small'
+                  margin='normal'
+                  label='Date of Birth'
+                  inputVariant='outlined'
+                  format='dd-MM-yyyy'
                   value={details.dob}
                   onChange={handleChangeDOB}
                   className={classes.inputTextField}
@@ -121,6 +160,10 @@ const AddFaculty = () => {
               value={details.joiningYear}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.joiningYear !== '',
+                helperText: errors.joiningYear,
+              })}
             />
           </div>
           <div className={classes.rowWise}>
@@ -134,6 +177,10 @@ const AddFaculty = () => {
               value={details.department}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.department !== '',
+                helperText: errors.department,
+              })}
             >
               <MenuItem value={'CS'}>CSE</MenuItem>
               <MenuItem value={'IT'}>IT</MenuItem>
@@ -151,9 +198,17 @@ const AddFaculty = () => {
               value={details.designation}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.designation !== '',
+                helperText: errors.designation,
+              })}
             >
-              <MenuItem value={'Assistant Professor'}>Assistant Professor</MenuItem>
-              <MenuItem value={'Associate Professor'}>Associate Professor</MenuItem>
+              <MenuItem value={'Assistant Professor'}>
+                Assistant Professor
+              </MenuItem>
+              <MenuItem value={'Associate Professor'}>
+                Associate Professor
+              </MenuItem>
               <MenuItem value={'Professor'}>Professor</MenuItem>
               <MenuItem value={'HOD'}>HOD</MenuItem>
             </TextField>
@@ -169,6 +224,10 @@ const AddFaculty = () => {
               value={details.email}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.email !== '',
+                helperText: errors.email,
+              })}
             />
             <TextField
               type='tel'
@@ -180,6 +239,10 @@ const AddFaculty = () => {
               value={details.contactNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.contactNumber !== '',
+                helperText: errors.contactNumber,
+              })}
             />
           </div>
           <div className={classes.rowWise}>
@@ -192,6 +255,10 @@ const AddFaculty = () => {
               value={details.aadharCardNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.aadharCardNumber !== '',
+                helperText: errors.aadharCardNumber,
+              })}
             />
           </div>
           <Button
