@@ -10,7 +10,7 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import { updateStudent } from '../../redux/actions/studentActions';
+import { updateStudentDetails } from '../../redux/actions/studentActions';
 
 import useStyles from '../../styles/UpdatePassword';
 import useStylesCommon from '../../styles/CommonStyles';
@@ -46,7 +46,7 @@ const UpdatePassword = () => {
       const changes = {
         password: newPassword,
       };
-      dispatch(updateStudent(changes));
+      dispatch(updateStudentDetails(changes));
       setNewPassword('');
       setConfirmPassword('');
     }

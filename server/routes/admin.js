@@ -1,6 +1,7 @@
 // Admin Routes
 const express = require('express');
 const router = express.Router();
+const { upload } = require('../middleware/multerMiddleware');
 
 const {
   getAdminDetails,
@@ -12,7 +13,7 @@ const {
 const { adminAuth } = require('../middleware/authMiddleware');
 
 router.get('/', adminAuth, getAdminDetails);
-router.patch('/update', adminAuth, updateAdmin);
+router.patch('/update', adminAuth, upload.single('newAvatar'), updateAdmin);
 router.post('/add', adminAuth, addAdmin);
 router.delete('/delete', adminAuth, deleteAdmin);
 

@@ -50,7 +50,7 @@ export const setFacultyDetails = (history) => async (dispatch) => {
   }
 };
 
-export const updateFaculty = (updates) => async (dispatch) => {
+export const updateFacultyDetails = (updates) => async (dispatch) => {
   try {
     var updatedData = { ...updates };
     if (updates?.dob) {
@@ -59,7 +59,19 @@ export const updateFaculty = (updates) => async (dispatch) => {
         dob: format(updates.dob, 'dd-MM-yyyy'),
       };
     }
-    const { data } = await api.updateFaculty(updatedData);
+    const { data } = await api.updateFacultyDetails(updatedData);
+    dispatch({
+      type: SET_FACULTY_DETAILS,
+      payload: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateFacultyImage = (updates) => async (dispatch) => {
+  try {
+    const { data } = await api.updateFacultyImage(updates);
     dispatch({
       type: SET_FACULTY_DETAILS,
       payload: data.result,

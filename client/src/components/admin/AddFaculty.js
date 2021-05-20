@@ -53,14 +53,14 @@ const AddFaculty = () => {
     temp.department = details.department ? '' : 'Department is required';
     temp.contactNumber =
       details.contactNumber.length === 0 ||
-      /^[6-9]\d{9}$/.test(details.contactNumber)
+        /^[6-9]\d{9}$/.test(details.contactNumber)
         ? ''
         : 'Invalid contact number (numbers only)';
     temp.aadharCardNumber =
       details.aadharCardNumber.length === 0 ||
-      /^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/.test(
-        details.aadharCardNumber
-      )
+        /^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/.test(
+          details.aadharCardNumber
+        )
         ? ''
         : 'Invalid aadhar number (12-digits)';
 
@@ -139,6 +139,7 @@ const AddFaculty = () => {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <ThemeProvider theme={materialTheme}>
                 <KeyboardDatePicker
+                  required
                   name='dob'
                   size='small'
                   margin='normal'

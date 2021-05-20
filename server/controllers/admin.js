@@ -57,12 +57,14 @@ const addAdmin = async (req, res) => {
 
 const updateAdmin = async (req, res) => {
   try {
-    const updates = req.body;
+    var updates = req.file ? { avatar: req.file.filename } : req.body;
     const { _id } = req.adminDetails;
+
     if (updates.password) {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
     }
+    
     const updatedDetails = await Admin.findByIdAndUpdate(_id, updates, { new: true });
     res.status(200).json({
       result: updatedDetails,

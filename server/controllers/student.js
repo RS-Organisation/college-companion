@@ -71,12 +71,14 @@ const addStudent = async (req, res) => {
 
 const updateStudent = async (req, res) => {
   try {
-    const updates = req.body;
+    var updates = req.file ? { avatar: req.file.filename } : req.body;
     const { _id } = req.studentDetails;
+
     if (updates.password) {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
     }
+    
     const updatedDetails = await Student.findByIdAndUpdate(_id, updates, {
       new: true,
     });

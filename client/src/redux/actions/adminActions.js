@@ -141,7 +141,7 @@ export const getSubjects = (formData) => async (dispatch) => {
   }
 };
 
-export const updateAdmin = (updates) => async (dispatch) => {
+export const updateAdminDetails = (updates) => async (dispatch) => {
   try {
     var updatedData = { ...updates };
     if (updates?.dob) {
@@ -150,7 +150,19 @@ export const updateAdmin = (updates) => async (dispatch) => {
         dob: format(updates.dob, 'dd-MM-yyyy')
       };
     }
-    const { data } = await api.updateAdmin(updatedData);
+    const { data } = await api.updateAdminDetails(updatedData);
+    dispatch({
+      type: SET_ADMIN_DETAILS,
+      payload: data.result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateAdminImage = (updates) => async (dispatch) => {
+  try {
+    const { data } = await api.updateAdminImage(updates);
     dispatch({
       type: SET_ADMIN_DETAILS,
       payload: data.result,

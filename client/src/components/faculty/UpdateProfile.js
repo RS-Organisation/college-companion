@@ -18,7 +18,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import { ThemeProvider } from '@material-ui/styles';
 import DateFnsUtils from '@date-io/date-fns';
 
-import { updateFaculty } from '../../redux/actions/facultyActions';
+import { 
+  updateFacultyDetails, 
+  updateFacultyImage 
+} from '../../redux/actions/facultyActions';
 
 import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/UpdateProfile';
@@ -44,14 +47,6 @@ const UpdateProfile = () => {
     setChanges({ ...changes, [name]: e.target.value });
   };
 
-  const handleUploadImage = (e) => {
-    e.preventDefault();
-    if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateFaculty(changes));
-    }
-    handleCloseModal();
-  };
-
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -61,10 +56,9 @@ const UpdateProfile = () => {
   };
 
   const handleCancel = () => {
-    setDetails({ ...details, avatar: '' });
     setChanges({ ...changes, avatar: '' });
     handleCloseModal();
-  }
+  };
 
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
@@ -72,21 +66,33 @@ const UpdateProfile = () => {
   };
 
   const handleChangeImage = (e) => {
-    let file = e.target.files[0]
+    let file = e.target.files[0];
+    let fileSize = Math.round(file.size / 1024);
     if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setDetails({ ...details, avatar: reader.result });
-        setChanges({ ...changes, avatar: reader.result });
-      };
+      if (fileSize >= 1024) {
+        alert("File too Big, please select a file less than 1 MB");
+        handleCancel();
+      }
+      else {
+        setChanges({ ...changes, avatar: file });
+      }
     }
+  };
+
+  const handleUploadImage = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('newAvatar', changes.avatar);
+    if (changes && Object.keys(changes).length !== 0) {
+      dispatch(updateFacultyImage(formData));
+    }
+    handleCloseModal();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateFaculty(changes));
+      dispatch(updateFacultyDetails(changes));
       setChanges({});
     }
   };
@@ -101,7 +107,7 @@ const UpdateProfile = () => {
           <div>
             {details.avatar ? (
               <Avatar
-                src={details.avatar}
+                src={`http://localhost:5000/uploads/${details.avatar}`}
                 alt='profile-pic'
                 className={classes.avatar}
               />

@@ -56,7 +56,7 @@ const ProfileDetails = (props) => {
         <Grid item xs={12} lg={4} className={classes.avatarGrid}>
           {details.avatar ? (
             <Avatar
-              src={details.avatar}
+              src={`http://localhost:5000/uploads/${details.avatar}`}
               alt='profile-pic'
               className={classes.avatar}
             />

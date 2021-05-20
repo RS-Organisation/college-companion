@@ -18,6 +18,12 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+const config = {
+  headers: {
+    'content-type': 'multipart/form-data'
+  }
+};
+
 
 // Admin Routes
 export const getAdmin = () => API.get('/admin/');
@@ -26,7 +32,10 @@ export const adminLogin = (formData) => API.post('/auth/admin-login', formData);
 
 export const addAdmin = (formData) => API.post('/admin/add', formData);
 
-export const updateAdmin = (updates) => API.patch('/admin/update', updates);
+export const updateAdminDetails = (updates) => API.patch('/admin/update', updates);
+
+export const updateAdminImage = (updates) => 
+  API.patch('/admin/update', updates, config);
 
 
 // Faculty Routes
@@ -40,7 +49,10 @@ export const facultyLogin = (formData) =>
 
 export const addFaculty = (formData) => API.post('/faculty/add', formData);
 
-export const updateFaculty = (updates) => API.patch('/faculty/update', updates);
+export const updateFacultyDetails = (updates) => API.patch('/faculty/update', updates);
+
+export const updateFacultyImage = (updates) => 
+  API.patch('/faculty/update', updates, config);
 
 
 // Student Routes
@@ -57,7 +69,10 @@ export const studentLogin = (formData) =>
 
 export const addStudent = (formData) => API.post('/student/add', formData);
 
-export const updateStudent = (updates) => API.patch('/student/update', updates);
+export const updateStudentDetails = (updates) => API.patch('/student/update', updates);
+
+export const updateStudentImage = (updates) => 
+  API.patch('/student/update', updates, config);
 
 
 // Subject Routes
