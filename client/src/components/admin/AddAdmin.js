@@ -6,13 +6,13 @@ import {
   TextField,
   Button,
   MenuItem,
-  Divider
+  Divider,
 } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from '@material-ui/styles';
 import DateFnsUtils from '@date-io/date-fns';
 
 import Header from './Header';
@@ -22,22 +22,28 @@ import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
 
+import { validator } from '../utils/helperFunctions';
+
 const initialData = {
   name: '',
   dob: null,
   department: '',
   joiningYear: '',
   email: '',
-  contactNumber: ''
+  contactNumber: '',
 };
 
 const AddAdmin = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
   const [details, setDetails] = useState(initialData);
+  const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
+
+  // should contain only required fields
+  const fieldsToCheck = ['name', 'dob', 'email', 'joiningYear', 'department'];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -48,10 +54,24 @@ const AddAdmin = () => {
     setDetails({ ...details, dob });
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(addAdmin(details));
+  //   setDetails(initialData);
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addAdmin(details));
-    setDetails(initialData);
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator(details, fieldsToCheck);
+    if (flag === true) {
+      dispatch(addAdmin(details));
+      setDetails(initialData);
+      setErrors(null);
+    } else {
+      setErrors(flag);
+    }
   };
 
   return (
@@ -62,7 +82,7 @@ const AddAdmin = () => {
         </Typography>
         <Divider />
         <form
-          autoComplete="off"
+          autoComplete='off'
           className={`${classes.root} ${classes.form50}`}
           onSubmit={handleSubmit}
         >
@@ -76,19 +96,27 @@ const AddAdmin = () => {
               value={details.name}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.name !== '',
+                helperText: errors.name,
+              })}
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <ThemeProvider theme={materialTheme}>
                 <KeyboardDatePicker
                   name='dob'
-                  size="small"
-                  margin="normal"
-                  label="Date of Birth"
-                  inputVariant="outlined"
-                  format="dd-MM-yyyy"
+                  size='small'
+                  margin='normal'
+                  label='Date of Birth'
+                  inputVariant='outlined'
+                  format='dd-MM-yyyy'
                   value={details.dob}
                   onChange={handleChangeDOB}
                   className={classes.inputTextField}
+                  {...(errors && {
+                    error: errors.dob !== '',
+                    helperText: errors.dob,
+                  })}
                 />
               </ThemeProvider>
             </MuiPickersUtilsProvider>
@@ -104,6 +132,10 @@ const AddAdmin = () => {
               value={details.department}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.department !== '',
+                helperText: errors.department,
+              })}
             >
               <MenuItem value={'CS'}>CSE</MenuItem>
               <MenuItem value={'IT'}>IT</MenuItem>
@@ -120,6 +152,10 @@ const AddAdmin = () => {
               value={details.joiningYear}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.joiningYear !== '',
+                helperText: errors.joiningYear,
+              })}
             />
           </div>
           <div className={classes.rowWise}>
@@ -133,6 +169,10 @@ const AddAdmin = () => {
               value={details.email}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.email !== '',
+                helperText: errors.email,
+              })}
             />
             <TextField
               type='tel'
@@ -144,6 +184,10 @@ const AddAdmin = () => {
               value={details.contactNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.contactNumber !== '',
+                helperText: errors.contactNumber,
+              })}
             />
           </div>
           <Button
@@ -155,7 +199,7 @@ const AddAdmin = () => {
           </Button>
         </form>
       </div>
-    </Header >
+    </Header>
   );
 };
 

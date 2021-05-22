@@ -19,6 +19,8 @@ import { studentLogin } from '../../redux/actions/studentActions';
 import loginImage from '../../images/loginImage.svg';
 import useStyles from '../../styles/LoginPage';
 
+import { validator } from '../utils/helperFunctions';
+
 const initialDetails = {
   registrationNumber: '',
   enrollmentNumber: '',
@@ -33,23 +35,43 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialDetails);
+  const [errors, setErrors] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (formData.userType === 'student') {
+      // should contain only required fields
+      const fieldsToCheck = ['enrollmentNumber', 'password'];
       const data = {
         enrollmentNumber: formData.enrollmentNumber,
         password: formData.password,
       };
-      return dispatch(studentLogin(data, history));
+      const flag = validator(formData, fieldsToCheck);
+      if (flag === true) {
+        dispatch(studentLogin(data, history));
+        setFormData(initialDetails);
+        setErrors(null);
+      } else {
+        setErrors(flag);
+      }
+      return;
     }
     if (formData.userType === 'faculty') {
+      // should contain only required fields
+      const fieldsToCheck = ['registrationNumber', 'password'];
       const data = {
         registrationNumber: formData.registrationNumber,
         password: formData.password,
       };
-      return dispatch(facultyLogin(data, history));
+      const flag = validator(formData, fieldsToCheck);
+      if (flag === true) {
+        dispatch(facultyLogin(data, history));
+        setFormData(initialDetails);
+        setErrors(null);
+      } else {
+        setErrors(flag);
+      }
     }
   };
 
@@ -60,6 +82,7 @@ const LoginPage = () => {
 
   const handleSwitch = (userType) => {
     setFormData({ ...initialDetails, userType });
+    setErrors(null);
   };
 
   const handleShowPassword = () => {
@@ -87,20 +110,22 @@ const LoginPage = () => {
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('student')}
-                  className={`${classes.studentButton} ${formData.userType === 'student'
-                    ? classes.selectedButton
-                    : classes.nonSelectedButton
-                    }`}
+                  className={`${classes.studentButton} ${
+                    formData.userType === 'student'
+                      ? classes.selectedButton
+                      : classes.nonSelectedButton
+                  }`}
                 >
                   Student Login
                 </Button>
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('faculty')}
-                  className={`${classes.facultyButton} ${formData.userType === 'faculty'
-                    ? classes.selectedButton
-                    : classes.nonSelectedButton
-                    }`}
+                  className={`${classes.facultyButton} ${
+                    formData.userType === 'faculty'
+                      ? classes.selectedButton
+                      : classes.nonSelectedButton
+                  }`}
                 >
                   Faculty Login
                 </Button>
@@ -132,6 +157,16 @@ const LoginPage = () => {
                   variant='outlined'
                   size='small'
                   type='text'
+                  {...(errors && {
+                    error:
+                      formData.userType === 'student'
+                        ? errors.enrollmentNumber !== ''
+                        : errors.registrationNumber !== '',
+                    helperText:
+                      formData.userType === 'student'
+                        ? errors.enrollmentNumber
+                        : errors.registrationNumber,
+                  })}
                 />
                 <TextField
                   name='password'
@@ -151,6 +186,10 @@ const LoginPage = () => {
                       </InputAdornment>
                     ),
                   }}
+                  {...(errors && {
+                    error: errors.password !== '',
+                    helperText: errors.password,
+                  })}
                 />
                 <Button
                   type='submit'

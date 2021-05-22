@@ -6,13 +6,13 @@ import {
   TextField,
   Button,
   MenuItem,
-  Divider
+  Divider,
 } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from '@material-ui/styles';
 import DateFnsUtils from '@date-io/date-fns';
 
 import Header from './Header';
@@ -21,6 +21,8 @@ import { addStudent } from '../../redux/actions/adminActions';
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
+
+import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   name: '',
@@ -33,16 +35,28 @@ const initialData = {
   contactNumber: '',
   fatherName: '',
   fatherContactNumber: '',
-  aadharCardNumber: ''
+  aadharCardNumber: '',
 };
 
 const AddStudent = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
   const [details, setDetails] = useState(initialData);
+  const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
+
+  // should contain only required fields
+  const fieldsToCheck = [
+    'name',
+    'dob',
+    'email',
+    'joiningYear',
+    'department',
+    'section',
+    'fatherName',
+  ];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -53,10 +67,24 @@ const AddStudent = () => {
     setDetails({ ...details, dob });
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(addStudent(details));
+  //   setDetails(initialData);
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addStudent(details));
-    setDetails(initialData);
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator(details, fieldsToCheck);
+    if (flag === true) {
+      dispatch(addStudent(details));
+      setDetails(initialData);
+      setErrors(null);
+    } else {
+      setErrors(flag);
+    }
   };
 
   return (
@@ -67,7 +95,7 @@ const AddStudent = () => {
         </Typography>
         <Divider />
         <form
-          autoComplete="off"
+          autoComplete='off'
           className={`${classes.root} ${classes.form50}`}
           onSubmit={handleSubmit}
         >
@@ -81,6 +109,10 @@ const AddStudent = () => {
               value={details.name}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.name !== '',
+                helperText: errors.name,
+              })}
             />
             <TextField
               select
@@ -103,14 +135,18 @@ const AddStudent = () => {
               <ThemeProvider theme={materialTheme}>
                 <KeyboardDatePicker
                   name='dob'
-                  size="small"
-                  margin="normal"
-                  label="Date of Birth"
-                  inputVariant="outlined"
-                  format="dd-MM-yyyy"
+                  size='small'
+                  margin='normal'
+                  label='Date of Birth'
+                  inputVariant='outlined'
+                  format='dd-MM-yyyy'
                   value={details.dob}
                   onChange={handleChangeDOB}
                   className={classes.inputTextField}
+                  {...(errors && {
+                    error: errors.dob !== '',
+                    helperText: errors.dob,
+                  })}
                 />
               </ThemeProvider>
             </MuiPickersUtilsProvider>
@@ -123,6 +159,10 @@ const AddStudent = () => {
               value={details.joiningYear}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.joiningYear !== '',
+                helperText: errors.joiningYear,
+              })}
             />
           </div>
           <div className={classes.rowWise}>
@@ -136,6 +176,10 @@ const AddStudent = () => {
               value={details.department}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.department !== '',
+                helperText: errors.department,
+              })}
             >
               <MenuItem value={'CS'}>CSE</MenuItem>
               <MenuItem value={'IT'}>IT</MenuItem>
@@ -153,6 +197,10 @@ const AddStudent = () => {
               value={details.section}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.section !== '',
+                helperText: errors.section,
+              })}
             >
               <MenuItem value={'1'}>1</MenuItem>
               <MenuItem value={'2'}>2</MenuItem>
@@ -170,6 +218,10 @@ const AddStudent = () => {
               value={details.email}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.email !== '',
+                helperText: errors.email,
+              })}
             />
             <TextField
               type='tel'
@@ -181,6 +233,10 @@ const AddStudent = () => {
               value={details.contactNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.contactNumber !== '',
+                helperText: errors.contactNumber,
+              })}
             />
           </div>
           <div className={classes.rowWise}>
@@ -193,6 +249,10 @@ const AddStudent = () => {
               value={details.fatherName}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.fatherName !== '',
+                helperText: errors.fatherName,
+              })}
             />
             <TextField
               type='tel'
@@ -204,6 +264,10 @@ const AddStudent = () => {
               value={details.fatherContactNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.fatherContactNumber !== '',
+                helperText: errors.fatherContactNumber,
+              })}
             />
           </div>
           <div className={classes.rowWise}>
@@ -216,6 +280,10 @@ const AddStudent = () => {
               value={details.aadharCardNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
+              {...(errors && {
+                error: errors.aadharCardNumber !== '',
+                helperText: errors.aadharCardNumber,
+              })}
             />
           </div>
           <Button

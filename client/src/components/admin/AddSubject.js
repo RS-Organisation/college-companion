@@ -5,7 +5,7 @@ import {
   TextField,
   Button,
   Divider,
-  MenuItem
+  MenuItem,
 } from '@material-ui/core';
 
 import Header from './Header';
@@ -14,31 +14,56 @@ import { addSubject } from '../../redux/actions/adminActions';
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 
+import { validator } from '../utils/helperFunctions';
+
 const initialData = {
   subjectName: '',
   subjectCode: '',
   totalLectures: '',
   department: '',
-  semester: ''
+  semester: '',
 };
 
 const AddSubject = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
   const [details, setDetails] = useState(initialData);
+  const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
+
+  // should contain only required fields
+  const fieldsToCheck = [
+    'subjectName',
+    'subjectCode',
+    'department',
+    'semester',
+  ];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(addSubject(details));
+  //   setDetails(initialData);
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addSubject(details));
-    setDetails(initialData);
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator(details, fieldsToCheck);
+    if (flag === true) {
+      dispatch(addSubject(details));
+      setDetails(initialData);
+      setErrors(null);
+    } else {
+      setErrors(flag);
+    }
   };
 
   return (
@@ -49,7 +74,7 @@ const AddSubject = () => {
         </Typography>
         <Divider />
         <form
-          autoComplete="off"
+          autoComplete='off'
           className={`${classes.root} ${classes.form50}`}
           onSubmit={handleSubmit}
         >
@@ -61,6 +86,10 @@ const AddSubject = () => {
             margin='normal'
             value={details.subjectName}
             onChange={handleChangeDetails}
+            {...(errors && {
+              error: errors.subjectName !== '',
+              helperText: errors.subjectName,
+            })}
           />
           <TextField
             name='subjectCode'
@@ -70,6 +99,10 @@ const AddSubject = () => {
             margin='normal'
             value={details.subjectCode}
             onChange={handleChangeDetails}
+            {...(errors && {
+              error: errors.subjectCode !== '',
+              helperText: errors.subjectCode,
+            })}
           />
           <TextField
             type='number'
@@ -90,6 +123,10 @@ const AddSubject = () => {
             margin='normal'
             value={details.department}
             onChange={handleChangeDetails}
+            {...(errors && {
+              error: errors.department !== '',
+              helperText: errors.department,
+            })}
           >
             <MenuItem value={'CS'}>CSE</MenuItem>
             <MenuItem value={'IT'}>IT</MenuItem>
@@ -106,6 +143,10 @@ const AddSubject = () => {
             margin='normal'
             value={details.semester}
             onChange={handleChangeDetails}
+            {...(errors && {
+              error: errors.semester !== '',
+              helperText: errors.semester,
+            })}
           >
             <MenuItem value={'1'}>1</MenuItem>
             <MenuItem value={'2'}>2</MenuItem>

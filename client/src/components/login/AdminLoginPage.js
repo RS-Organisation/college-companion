@@ -18,6 +18,8 @@ import { adminLogin } from '../../redux/actions/adminActions';
 import loginImage from '../../images/loginImage.svg';
 import useStyles from '../../styles/LoginPage';
 
+import { validator } from '../utils/helperFunctions';
+
 const initialDetails = {
   registrationNumber: '',
   password: '',
@@ -30,6 +32,10 @@ const AdminLoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialDetails);
+  const [errors, setErrors] = useState(null);
+
+  // should contain only required fields
+  const fieldsToCheck = ['registrationNumber', 'password'];
 
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -39,9 +45,23 @@ const AdminLoginPage = () => {
     history.push('/');
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(adminLogin(formData, history));
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(adminLogin(formData, history));
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator(formData, fieldsToCheck);
+    if (flag === true) {
+      dispatch(adminLogin(formData, history));
+      setFormData(initialDetails);
+      setErrors(null);
+    } else {
+      setErrors(flag);
+    }
   };
 
   const handleChange = (e) => {
@@ -77,6 +97,10 @@ const AdminLoginPage = () => {
                   variant='outlined'
                   size='small'
                   type='text'
+                  {...(errors && {
+                    error: errors.registrationNumber !== '',
+                    helperText: errors.registrationNumber,
+                  })}
                 />
                 <TextField
                   name='password'
@@ -97,6 +121,10 @@ const AdminLoginPage = () => {
                       </InputAdornment>
                     ),
                   }}
+                  {...(errors && {
+                    error: errors.password !== '',
+                    helperText: errors.password,
+                  })}
                 />
                 <Button
                   type='submit'

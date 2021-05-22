@@ -22,6 +22,8 @@ import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
 
+import { validator } from '../utils/helperFunctions';
+
 const initialData = {
   name: '',
   gender: '',
@@ -30,8 +32,8 @@ const initialData = {
   designation: '',
   joiningYear: '',
   email: '',
-  contactNumber: '',
-  aadharCardNumber: '',
+  // contactNumber: '',
+  // aadharCardNumber: '',
 };
 
 const AddFaculty = () => {
@@ -43,31 +45,15 @@ const AddFaculty = () => {
   const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
 
-  const validator = () => {
-    let temp = {};
-    temp.name = details.name ? '' : 'Name is required';
-    temp.dob = details.dob ? '' : 'Date of birth is required';
-    temp.email = details.email ? '' : 'Email is required';
-    temp.joiningYear = details.joiningYear ? '' : 'Joining year is required';
-    temp.designation = details.designation ? '' : 'Designation is required';
-    temp.department = details.department ? '' : 'Department is required';
-    temp.contactNumber =
-      details.contactNumber.length === 0 ||
-        /^[6-9]\d{9}$/.test(details.contactNumber)
-        ? ''
-        : 'Invalid contact number (numbers only)';
-    temp.aadharCardNumber =
-      details.aadharCardNumber.length === 0 ||
-        /^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/.test(
-          details.aadharCardNumber
-        )
-        ? ''
-        : 'Invalid aadhar number (12-digits)';
-
-    setErrors({ ...temp });
-
-    return Object.values(temp).every((x) => x === '' || x === null);
-  };
+  // should contain only required fields
+  const fieldsToCheck = [
+    'name',
+    'dob',
+    'email',
+    'joiningYear',
+    'designation',
+    'department',
+  ];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -86,9 +72,15 @@ const AddFaculty = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validator()) {
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator(details, fieldsToCheck);
+    if (flag === true) {
       dispatch(addFaculty(details));
       setDetails(initialData);
+      setErrors(null);
+    } else {
+      setErrors(flag);
     }
   };
 
@@ -139,7 +131,6 @@ const AddFaculty = () => {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <ThemeProvider theme={materialTheme}>
                 <KeyboardDatePicker
-                  required
                   name='dob'
                   size='small'
                   margin='normal'
@@ -149,6 +140,10 @@ const AddFaculty = () => {
                   value={details.dob}
                   onChange={handleChangeDOB}
                   className={classes.inputTextField}
+                  {...(errors && {
+                    error: errors.dob !== '',
+                    helperText: errors.dob,
+                  })}
                 />
               </ThemeProvider>
             </MuiPickersUtilsProvider>
@@ -237,7 +232,7 @@ const AddFaculty = () => {
               variant='outlined'
               size='small'
               margin='normal'
-              value={details.contactNumber}
+              value={details?.contactNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
               {...(errors && {
@@ -253,7 +248,7 @@ const AddFaculty = () => {
               variant='outlined'
               size='small'
               margin='normal'
-              value={details.aadharCardNumber}
+              value={details?.aadharCardNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
               {...(errors && {
