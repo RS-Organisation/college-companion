@@ -58,10 +58,12 @@ const AddFaculty = () => {
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    setErrors({ ...errors, [name]: '' });
   };
 
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
+    setErrors({ ...errors, dob: '' });
   };
 
   // const handleSubmit = (e) => {
@@ -211,7 +213,6 @@ const AddFaculty = () => {
           </div>
           <div className={classes.rowWise}>
             <TextField
-              type='email'
               name='email'
               label='Email'
               variant='outlined'

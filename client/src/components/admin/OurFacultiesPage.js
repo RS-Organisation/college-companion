@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   FormControl,
+  FormHelperText,
   InputLabel,
   Select,
   MenuItem,
@@ -18,35 +19,56 @@ import { getFaculties } from '../../redux/actions/adminActions';
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
 
+import { validator } from '../utils/helperFunctions';
+
 const OurFacultiesPage = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
 
   const dispatch = useDispatch();
 
-  const {
-    allFaculties,
-    facultiesDepartment
-  } = useSelector((store) => store.adminReducer);
+  const { allFaculties, facultiesDepartment } = useSelector(
+    (store) => store.adminReducer
+  );
 
   const [department, setDepartment] = useState(facultiesDepartment);
+  const [errors, setErrors] = useState(null);
+
+  // should contain only required fields
+  const fieldsToCheck = ['department'];
 
   const handleChange = (event) => {
     setDepartment(event.target.value);
+    setErrors(null);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(getFaculties({ department }));
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   dispatch(getFaculties({ department }));
+  // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator({ department }, fieldsToCheck);
+    if (flag === true) {
+      dispatch(getFaculties({ department }));
+      setErrors(null);
+    } else {
+      setErrors(flag);
+    }
   };
 
-  const showFacultyTable = (facultiesDepartment !== '');
+  const showFacultyTable = facultiesDepartment !== '';
 
   return (
     <Header>
-      <div className={showFacultyTable ? classes.container95 : classes.container70}>
+      <div
+        className={showFacultyTable ? classes.container95 : classes.container70}
+      >
         <Typography variant='h4' className={classes.subtitle}>
           Our Faculties
         </Typography>
@@ -66,6 +88,9 @@ const OurFacultiesPage = () => {
                 variant='outlined'
                 size='small'
                 className={classes.root}
+                {...(errors && {
+                  error: errors.department !== '',
+                })}
               >
                 <InputLabel>Department</InputLabel>
                 <Select
@@ -79,6 +104,7 @@ const OurFacultiesPage = () => {
                   <MenuItem value={'EE'}>EEE</MenuItem>
                   <MenuItem value={'ME'}>ME</MenuItem>
                 </Select>
+                {errors && <FormHelperText>{errors.department}</FormHelperText>}
               </FormControl>
               <Button
                 variant='contained'

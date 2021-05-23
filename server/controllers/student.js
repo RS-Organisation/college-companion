@@ -27,8 +27,10 @@ const getStudents = async (req, res) => {
       queryObj = { ...req.query, joiningYear: joiningYear };
       delete queryObj.semester;
     } else {
+      const { year } = req.query;
       const joiningYear = getJoiningYear(year * 2);
       queryObj = { ...req.query, joiningYear: joiningYear };
+      delete queryObj.year;
     }
     const students = await Student.find(queryObj);
     res.status(200).json(students);
@@ -78,7 +80,7 @@ const updateStudent = async (req, res) => {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
     }
-    
+
     const updatedDetails = await Student.findByIdAndUpdate(_id, updates, {
       new: true,
     });

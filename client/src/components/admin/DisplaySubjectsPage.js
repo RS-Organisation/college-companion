@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   FormControl,
+  FormHelperText,
   InputLabel,
   Select,
   MenuItem,
   Button,
   Typography,
-  Divider
+  Divider,
 } from '@material-ui/core';
 
 import Header from './Header';
@@ -18,40 +19,61 @@ import { getSubjects } from '../../redux/actions/adminActions';
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
 
+import { validator } from '../utils/helperFunctions';
+
 const DisplaySubjectsPage = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
 
   const dispatch = useDispatch();
 
-  const {
-    allSubjects,
-    subjectsDepartment,
-    subjectsSemester
-  } = useSelector((store) => store.adminReducer);
+  const { allSubjects, subjectsDepartment, subjectsSemester } = useSelector(
+    (store) => store.adminReducer
+  );
 
   const [details, setDetails] = useState({
     department: subjectsDepartment,
-    semester: subjectsSemester
+    semester: subjectsSemester,
   });
+
+  const [errors, setErrors] = useState(null);
+
+  // should contain only required fields
+  const fieldsToCheck = ['department', 'semester'];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    setErrors({ ...errors, [name]: '' });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(getSubjects(details));
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   dispatch(getSubjects(details));
+  // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator(details, fieldsToCheck);
+    if (flag === true) {
+      dispatch(getSubjects(details));
+      setErrors(null);
+    } else {
+      setErrors(flag);
+    }
   };
 
-  const showSubjectTable = (subjectsDepartment !== '' && subjectsSemester !== '');
+  const showSubjectTable = subjectsDepartment !== '' && subjectsSemester !== '';
 
   return (
     <Header>
-      <div className={showSubjectTable ? classes.container95 : classes.container70}>
+      <div
+        className={showSubjectTable ? classes.container95 : classes.container70}
+      >
         <Typography variant='h4' className={classes.subtitle}>
           Subjects
         </Typography>
@@ -67,13 +89,20 @@ const DisplaySubjectsPage = () => {
               className={showSubjectTable ? classes.form60 : classes.form100}
               onSubmit={handleSubmit}
             >
-              <FormControl variant="outlined" size="small" className={classes.root}>
+              <FormControl
+                variant='outlined'
+                size='small'
+                className={classes.root}
+                {...(errors && {
+                  error: errors.department !== '',
+                })}
+              >
                 <InputLabel>Department</InputLabel>
                 <Select
                   name='department'
                   value={details.department}
                   onChange={handleChangeDetails}
-                  label="Department"
+                  label='Department'
                 >
                   <MenuItem value={'CS'}>CSE</MenuItem>
                   <MenuItem value={'IT'}>IT</MenuItem>
@@ -81,14 +110,22 @@ const DisplaySubjectsPage = () => {
                   <MenuItem value={'EE'}>EEE</MenuItem>
                   <MenuItem value={'ME'}>ME</MenuItem>
                 </Select>
+                {errors && <FormHelperText>{errors.department}</FormHelperText>}
               </FormControl>
-              <FormControl variant="outlined" size="small" className={classes.root}>
+              <FormControl
+                variant='outlined'
+                size='small'
+                className={classes.root}
+                {...(errors && {
+                  error: errors.semester !== '',
+                })}
+              >
                 <InputLabel>Semester</InputLabel>
                 <Select
                   name='semester'
                   value={details.semester}
                   onChange={handleChangeDetails}
-                  label="Semester"
+                  label='Semester'
                 >
                   <MenuItem value={1}>1</MenuItem>
                   <MenuItem value={2}>2</MenuItem>
@@ -99,6 +136,7 @@ const DisplaySubjectsPage = () => {
                   <MenuItem value={7}>7</MenuItem>
                   <MenuItem value={8}>8</MenuItem>
                 </Select>
+                {errors && <FormHelperText>{errors.semester}</FormHelperText>}
               </FormControl>
               <Button
                 variant='contained'

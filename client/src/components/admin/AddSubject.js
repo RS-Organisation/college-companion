@@ -44,6 +44,7 @@ const AddSubject = () => {
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    setErrors({ ...errors, [name]: '' });
   };
 
   // const handleSubmit = (e) => {
