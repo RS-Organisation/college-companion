@@ -41,7 +41,9 @@ const OurFacultiesPage = () => {
 
   const handleChange = (event) => {
     setDepartment(event.target.value);
-    setErrors(null);
+    if (errors) {
+      setErrors(null);
+    }
   };
 
   // const handleSubmit = (event) => {

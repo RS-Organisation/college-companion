@@ -9,6 +9,7 @@ const facultySchema = new Schema({
   // Personal Details
   name: {
     type: String,
+    trim: true,
     required: true,
   },
   gender: {

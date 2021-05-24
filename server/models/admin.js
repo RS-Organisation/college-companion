@@ -9,6 +9,7 @@ const adminSchema = new Schema({
   // Personal Details
   name: {
     type: String,
+    trim: true,
     required: true,
   },
   dob: {

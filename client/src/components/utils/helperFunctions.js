@@ -1,10 +1,17 @@
 import isEmail from 'validator/lib/isEmail';
 import isNumeric from 'validator/lib/isNumeric';
+import isAlpha from 'validator/lib/isAlpha';
 
 const checkContactNumber = (num) => {
   return num.length === 0 || /^[6-9]\d{9}$/.test(num)
     ? ''
     : 'Invalid contact number (numbers only)';
+};
+
+const checkName = (name) => {
+  return isAlpha(name, ['en-US'], { ignore: ' ' })
+    ? ''
+    : 'Name should contain aphabets and space only';
 };
 
 export const validator = (details, fieldsToCheck) => {
@@ -17,10 +24,27 @@ export const validator = (details, fieldsToCheck) => {
   // temp.department = details.department ? '' : 'Department is required';
 
   fieldsToCheck.map((field) => {
+    // Name should contain only alphabets
+    if (field === 'name' || field === 'subjectName') {
+      temp[field] = details[field]
+        ? checkName(details[field])
+        : 'Field is required';
+    }
+
     // email is correct or not
-    if (field === 'email' && !isEmail(details[field])) {
+    else if (field === 'email' && !isEmail(details[field])) {
       temp[field] = details[field] ? 'Invalid email' : 'Field is required';
     }
+
+    // Password is correct or not
+    else if (field === 'newPassword' || field === 'confirmPassword') {
+      temp[field] = details[field]
+        ? details[field].length < 8
+          ? 'Password must be atleast 8 characters.'
+          : ''
+        : 'Field is required';
+    }
+
     // Joining Year is correct or not
     else if (field === 'joiningYear') {
       if (!isNumeric(details[field], { no_symbols: true })) {
@@ -41,6 +65,12 @@ export const validator = (details, fieldsToCheck) => {
   });
 
   // since below fields are not required so we have check them separately only when they are available
+  if (details?.fatherName) {
+    temp.fatherName = checkName(details.fatherName);
+  } else {
+    temp.fatherName = '';
+  }
+
   if (details?.contactNumber) {
     temp.contactNumber = checkContactNumber(details.contactNumber);
   } else {

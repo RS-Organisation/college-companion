@@ -58,12 +58,16 @@ const AddFaculty = () => {
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
-    setErrors({ ...errors, [name]: '' });
+    if (errors) {
+      setErrors({ ...errors, [name]: '' });
+    }
   };
 
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
-    setErrors({ ...errors, dob: '' });
+    if (errors) {
+      setErrors({ ...errors, dob: '' });
+    }
   };
 
   // const handleSubmit = (e) => {

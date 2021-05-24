@@ -15,6 +15,8 @@ import { updateAdminDetails } from '../../redux/actions/adminActions';
 import useStyles from '../../styles/UpdatePassword';
 import useStylesCommon from '../../styles/CommonStyles';
 
+import { validator } from '../utils/helperFunctions';
+
 const UpdatePassword = () => {
   const classes = {
     ...useStylesCommon(),
@@ -27,6 +29,10 @@ const UpdatePassword = () => {
   const [showForm, setShowForm] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState(null);
+
+  // should contain only required fields
+  const fieldsToCheck = ['newPassword', 'confirmPassword'];
 
   const handleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -34,22 +40,64 @@ const UpdatePassword = () => {
 
   const handleNewPasswordChange = (e) => {
     setNewPassword(e.target.value);
+    if (errors) {
+      setErrors({ ...errors, newPassword: '' });
+    }
   };
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
+    if (errors) {
+      setErrors({ ...errors, confirmPassword: '' });
+    }
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (newPassword === confirmPassword) {
+  //     const changes = {
+  //       password: newPassword,
+  //     };
+  //     dispatch(updateAdminDetails(changes));
+  //     setNewPassword('');
+  //     setConfirmPassword('');
+  //   } else {
+  //     setErrors({ ...errors, confirmPassword: "Passwords don't match" });
+  //   }
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (newPassword === confirmPassword) {
-      const changes = {
-        password: newPassword,
-      };
-      dispatch(updateAdminDetails(changes));
-      setNewPassword('');
-      setConfirmPassword('');
+    const details = {
+      newPassword,
+      confirmPassword,
+    };
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const flag = validator(details, fieldsToCheck);
+    setErrors(null);
+    if (flag === true) {
+      if (newPassword === confirmPassword) {
+        const changes = {
+          password: newPassword,
+        };
+        dispatch(updateAdminDetails(changes));
+        setNewPassword('');
+        setConfirmPassword('');
+      } else {
+        setErrors({
+          newPassword: '',
+          confirmPassword: "Passwords don't match",
+        });
+      }
+    } else {
+      setErrors(flag);
     }
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setErrors(null);
   };
 
   return (
@@ -89,6 +137,10 @@ const UpdatePassword = () => {
               }}
               className={classes.formField}
               onChange={handleNewPasswordChange}
+              {...(errors && {
+                error: errors.newPassword !== '',
+                helperText: errors.newPassword,
+              })}
             />
             <TextField
               label='Confirm Password'
@@ -98,6 +150,10 @@ const UpdatePassword = () => {
               value={confirmPassword}
               className={classes.formField}
               onChange={handleConfirmPasswordChange}
+              {...(errors && {
+                error: errors.confirmPassword !== '',
+                helperText: errors.confirmPassword,
+              })}
             />
             <div className={classes.buttonDiv}>
               <Button
@@ -109,7 +165,7 @@ const UpdatePassword = () => {
               </Button>
               <Button
                 variant='contained'
-                onClick={() => setShowForm(false)}
+                onClick={handleCancel}
                 className={classes.outlinedButton}
               >
                 Cancel
