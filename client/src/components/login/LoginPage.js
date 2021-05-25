@@ -49,9 +49,10 @@ const LoginPage = () => {
       };
       const flag = validator(formData, fieldsToCheck);
       if (flag === true) {
-        dispatch(studentLogin(data, history));
-        setFormData(initialDetails);
         setErrors(null);
+        dispatch(studentLogin(data, history)).then(() =>
+          setFormData(initialDetails)
+        );
       } else {
         setErrors(flag);
       }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   FormControl,
+  FormHelperText,
   InputLabel,
   Select,
   MenuItem,
@@ -19,6 +20,8 @@ import { getMarks, getSubjects } from '../../redux/actions/studentActions';
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
 
+import { validator } from '../utils/helperFunctions';
+
 const AcademicPerformancePage = () => {
   const classes = {
     ...useStylesCommon(),
@@ -27,16 +30,15 @@ const AcademicPerformancePage = () => {
 
   const dispatch = useDispatch();
 
-  const {
-    marksList,
-    marksSearchedQuery,
-    subjects
-  } = useSelector((store) => store.studentReducer);
+  const { marksList, marksSearchedQuery, subjects } = useSelector(
+    (store) => store.studentReducer
+  );
 
   const [details, setDetails] = useState({
     examType: marksSearchedQuery.examType,
     semester: marksSearchedQuery.semester,
   });
+  const [errors, setErrors] = useState(null);
 
   const showMarksTable =
     marksSearchedQuery.examType !== '' && marksSearchedQuery.semester !== '';
@@ -44,13 +46,22 @@ const AcademicPerformancePage = () => {
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    if (errors) {
+      setErrors({ ...errors, [name]: '' });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (details.semester && details.examType) {
+    // should contain only required fields
+    const fieldsToCheck = ['semester', 'examType'];
+    const flag = validator(details, fieldsToCheck);
+    if (flag === true) {
       dispatch(getMarks(details));
       dispatch(getSubjects());
+      setErrors(null);
+    } else {
+      setErrors(flag);
     }
   };
 
@@ -79,6 +90,10 @@ const AcademicPerformancePage = () => {
                   variant='outlined'
                   size='small'
                   className={classes.root}
+                  {...(errors && {
+                    error: errors.examType !== '',
+                    helperText: errors.examType,
+                  })}
                 >
                   <InputLabel>Exam Type</InputLabel>
                   <Select
@@ -90,11 +105,16 @@ const AcademicPerformancePage = () => {
                     <MenuItem value={'internal'}>Internal</MenuItem>
                     <MenuItem value={'external'}>External</MenuItem>
                   </Select>
+                  {errors && <FormHelperText>{errors.examType}</FormHelperText>}
                 </FormControl>
                 <FormControl
                   variant='outlined'
                   size='small'
                   className={classes.root}
+                  {...(errors && {
+                    error: errors.semester !== '',
+                    helperText: errors.semester,
+                  })}
                 >
                   <InputLabel>Semester</InputLabel>
                   <Select
@@ -112,6 +132,7 @@ const AcademicPerformancePage = () => {
                     <MenuItem value={7}>7</MenuItem>
                     <MenuItem value={8}>8</MenuItem>
                   </Select>
+                  {errors && <FormHelperText>{errors.semester}</FormHelperText>}
                 </FormControl>
                 <Button
                   variant='contained'
@@ -124,7 +145,9 @@ const AcademicPerformancePage = () => {
             </Grid>
             {showMarksTable && (
               <Grid item xs={12} lg={9}>
-                {subjects.length === 0 ? <LoadingPage /> : (
+                {subjects.length === 0 ? (
+                  <LoadingPage />
+                ) : (
                   <AcademicPerformanceTable
                     examType={details.examType}
                     marksList={marksList}

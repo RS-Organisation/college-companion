@@ -56,9 +56,10 @@ const AdminLoginPage = () => {
     // if there is any error then flag will contain errors object
     const flag = validator(formData, fieldsToCheck);
     if (flag === true) {
-      dispatch(adminLogin(formData, history));
-      setFormData(initialDetails);
       setErrors(null);
+      dispatch(adminLogin(formData, history)).then(() =>
+        setFormData(initialDetails)
+      );
     } else {
       setErrors(flag);
     }

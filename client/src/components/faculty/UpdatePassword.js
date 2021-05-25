@@ -95,6 +95,8 @@ const UpdatePassword = () => {
 
   const handleCancel = () => {
     setShowForm(false);
+    setNewPassword('');
+    setConfirmPassword('');
     setErrors(null);
   };
 

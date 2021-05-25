@@ -18,15 +18,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import { ThemeProvider } from '@material-ui/styles';
 import DateFnsUtils from '@date-io/date-fns';
 
-import { 
-  updateStudentDetails, 
-  updateStudentImage 
+import {
+  updateStudentDetails,
+  updateStudentImage,
 } from '../../redux/actions/studentActions';
 
 import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
+
+import { validator } from '../utils/helperFunctions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -40,6 +42,17 @@ const UpdateProfile = () => {
   const [details, setDetails] = useState(student);
   const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
+  const [errors, setErrors] = useState(null);
+
+  // should contain only required fields
+  const fieldsToCheck = [
+    'name',
+    'dob',
+    'email',
+    'department',
+    'section',
+    'fatherName',
+  ];
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -58,11 +71,17 @@ const UpdateProfile = () => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
     setChanges({ ...changes, [name]: e.target.value });
+    if (errors) {
+      setErrors({ ...errors, [name]: '' });
+    }
   };
 
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
     setChanges({ ...changes, dob });
+    if (errors) {
+      setErrors({ ...errors, dob: '' });
+    }
   };
 
   const handleChangeImage = (e) => {
@@ -70,10 +89,9 @@ const UpdateProfile = () => {
     let fileSize = Math.round(file.size / 1024);
     if (file) {
       if (fileSize >= 1024) {
-        alert("File too Big, please select a file less than 1 MB");
+        alert('File too Big, please select a file less than 1 MB');
         handleCancel();
-      }
-      else {
+      } else {
         setChanges({ ...changes, avatar: file });
       }
     }
@@ -89,10 +107,27 @@ const UpdateProfile = () => {
     handleCloseModal();
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (changes && Object.keys(changes).length !== 0) {
+  //     dispatch(updateStudentDetails(changes));
+  //   }
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateStudentDetails(changes));
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const infoToCheck = { ...details, ...changes };
+    const flag = validator(infoToCheck, fieldsToCheck);
+    if (flag === true) {
+      setErrors(null);
+      if (changes && Object.keys(changes).length !== 0) {
+        dispatch(updateStudentDetails(changes));
+        setChanges({});
+      }
+    } else {
+      setErrors(flag);
     }
   };
 
@@ -162,6 +197,10 @@ const UpdateProfile = () => {
                 value={details.name}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.name !== '',
+                  helperText: errors.name,
+                })}
               />
               <TextField
                 select
@@ -187,6 +226,10 @@ const UpdateProfile = () => {
                 value={details.department}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.department !== '',
+                  helperText: errors.department,
+                })}
               >
                 <MenuItem value={'CS'}>CSE</MenuItem>
                 <MenuItem value={'IT'}>IT</MenuItem>
@@ -203,6 +246,10 @@ const UpdateProfile = () => {
                 value={details.section}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.section !== '',
+                  helperText: errors.section,
+                })}
               >
                 <MenuItem value={'1'}>1</MenuItem>
                 <MenuItem value={'2'}>2</MenuItem>
@@ -221,6 +268,10 @@ const UpdateProfile = () => {
                     value={details.dob}
                     onChange={handleChangeDOB}
                     className={classes.inputTextField}
+                    {...(errors && {
+                      error: errors.dob !== '',
+                      helperText: errors.dob,
+                    })}
                   />
                 </ThemeProvider>
               </MuiPickersUtilsProvider>
@@ -231,6 +282,10 @@ const UpdateProfile = () => {
                 value={details.email}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.email !== '',
+                  helperText: errors.email,
+                })}
               />
             </div>
             <div className={classes.rowWise}>
@@ -241,6 +296,10 @@ const UpdateProfile = () => {
                 value={details.contactNumber}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.contactNumber !== '',
+                  helperText: errors.contactNumber,
+                })}
               />
               <TextField
                 name='aadharCardNumber'
@@ -249,6 +308,10 @@ const UpdateProfile = () => {
                 value={details.aadharCardNumber}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.aadharCardNumber !== '',
+                  helperText: errors.aadharCardNumber,
+                })}
               />
             </div>
             <div className={classes.rowWise}>
@@ -259,6 +322,10 @@ const UpdateProfile = () => {
                 value={details.fatherName}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.fatherName !== '',
+                  helperText: errors.fatherName,
+                })}
               />
               <TextField
                 name='fatherContactNumber'
@@ -267,12 +334,17 @@ const UpdateProfile = () => {
                 value={details.fatherContactNumber}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.fatherContactNumber !== '',
+                  helperText: errors.fatherContactNumber,
+                })}
               />
             </div>
             <Button
               type='submit'
               variant='contained'
               className={`${classes.filledButton} ${classes.submitButton}`}
+              disabled={changes && Object.keys(changes).length === 0}
             >
               Save Changes
             </Button>
