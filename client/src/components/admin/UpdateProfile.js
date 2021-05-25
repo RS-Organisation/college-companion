@@ -123,7 +123,6 @@ const UpdateProfile = () => {
       }
     } else {
       setErrors(flag);
-      console.log(flag);
     }
   };
 
@@ -268,6 +267,7 @@ const UpdateProfile = () => {
               type='submit'
               variant='contained'
               className={`${classes.filledButton} ${classes.submitButton}`}
+              disabled={changes && Object.keys(changes).length === 0}
             >
               Save Changes
             </Button>

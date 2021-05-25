@@ -18,15 +18,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import { ThemeProvider } from '@material-ui/styles';
 import DateFnsUtils from '@date-io/date-fns';
 
-import { 
-  updateFacultyDetails, 
-  updateFacultyImage 
+import {
+  updateFacultyDetails,
+  updateFacultyImage,
 } from '../../redux/actions/facultyActions';
 
 import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
+
+import { validator } from '../utils/helperFunctions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -40,11 +42,18 @@ const UpdateProfile = () => {
   const [details, setDetails] = useState(faculty);
   const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
+  const [errors, setErrors] = useState(null);
+
+  // should contain only required fields
+  const fieldsToCheck = ['name', 'dob', 'email', 'department', 'designation'];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
     setChanges({ ...changes, [name]: e.target.value });
+    if (errors) {
+      setErrors({ ...errors, [name]: '' });
+    }
   };
 
   const handleOpenModal = () => {
@@ -63,6 +72,9 @@ const UpdateProfile = () => {
   const handleChangeDOB = (dob) => {
     setDetails({ ...details, dob });
     setChanges({ ...changes, dob });
+    if (errors) {
+      setErrors({ ...errors, dob: '' });
+    }
   };
 
   const handleChangeImage = (e) => {
@@ -70,10 +82,9 @@ const UpdateProfile = () => {
     let fileSize = Math.round(file.size / 1024);
     if (file) {
       if (fileSize >= 1024) {
-        alert("File too Big, please select a file less than 1 MB");
+        alert('File too Big, please select a file less than 1 MB');
         handleCancel();
-      }
-      else {
+      } else {
         setChanges({ ...changes, avatar: file });
       }
     }
@@ -89,11 +100,28 @@ const UpdateProfile = () => {
     handleCloseModal();
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (changes && Object.keys(changes).length !== 0) {
+  //     dispatch(updateFacultyDetails(changes));
+  //     setChanges({});
+  //   }
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (changes && Object.keys(changes).length !== 0) {
-      dispatch(updateFacultyDetails(changes));
-      setChanges({});
+    // if flag is true means there is no error in form and
+    // if there is any error then flag will contain errors object
+    const infoToCheck = { ...details, ...changes };
+    const flag = validator(infoToCheck, fieldsToCheck);
+    if (flag === true) {
+      setErrors(null);
+      if (changes && Object.keys(changes).length !== 0) {
+        dispatch(updateFacultyDetails(changes));
+        setChanges({});
+      }
+    } else {
+      setErrors(flag);
     }
   };
 
@@ -163,6 +191,10 @@ const UpdateProfile = () => {
                 value={details.name}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.name !== '',
+                  helperText: errors.name,
+                })}
               />
               <TextField
                 select
@@ -188,6 +220,10 @@ const UpdateProfile = () => {
                 value={details.department}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.department !== '',
+                  helperText: errors.department,
+                })}
               >
                 <MenuItem value={'CS'}>CSE</MenuItem>
                 <MenuItem value={'IT'}>IT</MenuItem>
@@ -204,6 +240,10 @@ const UpdateProfile = () => {
                 value={details.designation}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.designation !== '',
+                  helperText: errors.designation,
+                })}
               >
                 <MenuItem value={'Assistant Professor'}>
                   Assistant Professor
@@ -227,6 +267,10 @@ const UpdateProfile = () => {
                     value={details.dob}
                     onChange={handleChangeDOB}
                     className={classes.inputTextField}
+                    {...(errors && {
+                      error: errors.dob !== '',
+                      helperText: errors.dob,
+                    })}
                   />
                 </ThemeProvider>
               </MuiPickersUtilsProvider>
@@ -237,6 +281,10 @@ const UpdateProfile = () => {
                 value={details.email}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.email !== '',
+                  helperText: errors.email,
+                })}
               />
             </div>
             <div className={classes.rowWise}>
@@ -247,6 +295,10 @@ const UpdateProfile = () => {
                 value={details.contactNumber}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.contactNumber !== '',
+                  helperText: errors.contactNumber,
+                })}
               />
               <TextField
                 name='aadharCardNumber'
@@ -255,12 +307,17 @@ const UpdateProfile = () => {
                 value={details.aadharCardNumber}
                 onChange={handleChangeDetails}
                 className={classes.inputTextField}
+                {...(errors && {
+                  error: errors.aadharCardNumber !== '',
+                  helperText: errors.aadharCardNumber,
+                })}
               />
             </div>
             <Button
               type='submit'
               variant='contained'
               className={`${classes.filledButton} ${classes.submitButton}`}
+              disabled={changes && Object.keys(changes).length === 0}
             >
               Save Changes
             </Button>

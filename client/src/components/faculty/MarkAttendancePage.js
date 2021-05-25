@@ -4,6 +4,7 @@ import {
   Typography,
   Divider,
   FormControl,
+  FormHelperText,
   InputLabel,
   Select,
   MenuItem,
@@ -20,6 +21,8 @@ import {
 
 import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
+
+import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   department: '',
@@ -45,20 +48,30 @@ const MarkAttendancePage = () => {
 
   const [details, setDetails] = useState(initialData);
   const [selected, setSelected] = useState([]);
+  const [errors, setErrors] = useState(null);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
+    if (errors) {
+      setErrors({ ...errors, [name]: '' });
+    }
   };
 
   const handleSearch = () => {
-    if (details.department && details.section && details.semester) {
+    // should contain only required fields
+    const fieldsToCheck = ['department', 'section', 'semester'];
+    const flag = validator(details, fieldsToCheck);
+    if (flag === true) {
       const searchedQuery = {
         department: details.department,
         section: details.section,
         semester: details.semester,
       };
       dispatch(getStudentList(searchedQuery));
+      setErrors(null);
+    } else {
+      setErrors(flag);
     }
   };
 
@@ -68,7 +81,12 @@ const MarkAttendancePage = () => {
   };
 
   const handleSubmit = () => {
-    if (details.subjectCode) {
+    // should contain only required fields
+    const fieldsToCheck = ['subjectCode'];
+
+    const flag = validator({ subjectCode: details.subjectCode }, fieldsToCheck);
+    if (flag === true) {
+      setErrors(null);
       const formData = {
         allStudents: studentsList,
         selectedStudents: selected,
@@ -77,8 +95,7 @@ const MarkAttendancePage = () => {
       };
       dispatch(markAttendance(formData)).then(() => handleReset());
     } else {
-      // Add alert/snackbar instead of console.log
-      console.log('select subject code');
+      setErrors(flag);
     }
   };
 
@@ -95,6 +112,10 @@ const MarkAttendancePage = () => {
               variant='outlined'
               size='small'
               className={classes.root}
+              {...(errors && {
+                error: errors.department !== '',
+                helperText: errors.department,
+              })}
             >
               <InputLabel>Department</InputLabel>
               <Select
@@ -109,11 +130,16 @@ const MarkAttendancePage = () => {
                 <MenuItem value={'EE'}>EEE</MenuItem>
                 <MenuItem value={'ME'}>ME</MenuItem>
               </Select>
+              {errors && <FormHelperText>{errors.department}</FormHelperText>}
             </FormControl>
             <FormControl
               variant='outlined'
               size='small'
               className={classes.root}
+              {...(errors && {
+                error: errors.section !== '',
+                helperText: errors.section,
+              })}
             >
               <InputLabel>Section</InputLabel>
               <Select
@@ -126,11 +152,16 @@ const MarkAttendancePage = () => {
                 <MenuItem value={'2'}>2</MenuItem>
                 <MenuItem value={'3'}>3</MenuItem>
               </Select>
+              {errors && <FormHelperText>{errors.section}</FormHelperText>}
             </FormControl>
             <FormControl
               variant='outlined'
               size='small'
               className={classes.root}
+              {...(errors && {
+                error: errors.semester !== '',
+                helperText: errors.semester,
+              })}
             >
               <InputLabel>Semester</InputLabel>
               <Select
@@ -148,6 +179,7 @@ const MarkAttendancePage = () => {
                 <MenuItem value={7}>7</MenuItem>
                 <MenuItem value={8}>8</MenuItem>
               </Select>
+              {errors && <FormHelperText>{errors.semester}</FormHelperText>}
             </FormControl>
             <Button
               variant='contained'
@@ -165,13 +197,17 @@ const MarkAttendancePage = () => {
                 size='medium'
                 className={`${classes.root} ${classes.subjectCode}`}
                 margin='dense'
+                {...(errors && {
+                  error: errors.subjectCode !== '',
+                  helperText: errors.subjectCode,
+                })}
               >
-                <InputLabel>Subject Code</InputLabel>
+                <InputLabel>Subject</InputLabel>
                 <Select
                   name='subjectCode'
                   value={details.subjectCode}
                   onChange={handleChangeDetails}
-                  label='Subject Code'
+                  label='Subject'
                 >
                   {subjectsList.map((subject) => (
                     <MenuItem
@@ -182,6 +218,9 @@ const MarkAttendancePage = () => {
                     </MenuItem>
                   ))}
                 </Select>
+                {errors && (
+                  <FormHelperText>{errors.subjectCode}</FormHelperText>
+                )}
               </FormControl>
               <Button
                 variant='contained'
@@ -201,6 +240,7 @@ const MarkAttendancePage = () => {
                 variant='contained'
                 className={`${classes.filledButton} ${classes.submitButton}`}
                 onClick={handleSubmit}
+                disabled={selected.length === 0}
               >
                 Submit
               </Button>
