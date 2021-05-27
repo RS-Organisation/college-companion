@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
   Grid,
@@ -136,6 +136,15 @@ const AdminLoginPage = () => {
                   Login
                 </Button>
               </form>
+              <Link
+                to={{
+                  pathname: '/reset',
+                  aboutProps: { userType: 'admin' },
+                }}
+                className={classes.forgotLink}
+              >
+                Forgot password?
+              </Link>
             </div>
           </Grid>
         </Grid>

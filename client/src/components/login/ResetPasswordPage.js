@@ -1,38 +1,44 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import {
-  Typography,
-  Button,
   TextField,
+  Button,
   InputAdornment,
   IconButton,
+  Typography,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import { updateFacultyDetails } from '../../redux/actions/facultyActions';
+import {
+  resetPassword,
+  updatePasswordViaEmail
+} from '../../redux/actions/api/index';
 
-import useStyles from '../../styles/UpdatePassword';
-import useStylesCommon from '../../styles/CommonStyles';
+import useStyles from '../../styles/ResetPasswordPage';
 
 import { validator } from '../utils/helperFunctions';
 
-const UpdatePassword = () => {
-  const classes = {
-    ...useStylesCommon(),
-    ...useStyles(),
-  };
-
-  const dispatch = useDispatch();
-
+const ResetPasswordPage = (props) => {
+  const classes = useStyles();
+  const [user, setUser] = useState({ id: '', type: '' });
   const [showPassword, setShowPassword] = useState(false);
-  const [showForm, setShowForm] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState(null);
 
-  // should contain only required fields
-  const fieldsToCheck = ['newPassword', 'confirmPassword'];
+  useEffect(() => {
+    const { userType, token } = props.match.params;
+    async function fetchData() {
+      const { data } = await resetPassword({ userType, token });
+      if (data.success) {
+        setUser({ id: data.id, type: userType });
+      } else {
+        // Add snackbar
+        console.log('error');
+      }
+    }
+    fetchData();
+  }, [props.match.params]);
 
   const handleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -52,34 +58,20 @@ const UpdatePassword = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  // 	e.preventDefault();
-  // 	if (newPassword === confirmPassword) {
-  // 		const changes = {
-  // 			password: newPassword,
-  // 		};
-  // 		dispatch(updateFacultyDetails(changes));
-  // 		setNewPassword('');
-  // 		setConfirmPassword('');
-  // 	}
-  // };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const details = {
-      newPassword,
-      confirmPassword,
-    };
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(
+      { newPassword, confirmPassword },
+      ['newPassword', 'confirmPassword']
+    );
     if (flag === true) {
       setErrors(null);
       if (newPassword === confirmPassword) {
-        const changes = {
-          password: newPassword,
-        };
-        dispatch(updateFacultyDetails(changes));
+        await updatePasswordViaEmail({
+          id: user.id,
+          userType: user.type,
+          password: newPassword
+        });
         setNewPassword('');
         setConfirmPassword('');
       } else {
@@ -93,39 +85,24 @@ const UpdatePassword = () => {
     }
   };
 
-  const handleCancel = () => {
-    setShowForm(false);
-    setNewPassword('');
-    setConfirmPassword('');
-    setErrors(null);
-  };
-
   return (
-    <div>
-      <Typography variant='h5' className={classes.heading}>
-        Password
-      </Typography>
-      <div className={classes.formContainer}>
-        {!showForm ? (
-          <Button
-            variant='contained'
-            onClick={() => setShowForm(true)}
-            className={classes.filledButton}
-          >
-            Change Password
-          </Button>
-        ) : (
-          <form
-            autoComplete='off'
-            className={`${classes.root} ${classes.form30}`}
-            onSubmit={handleSubmit}
-          >
+    <div className={classes.main}>
+      <div className={classes.contentBox}>
+        <Typography variant='h4' className={classes.heading}>
+          Reset Password
+        </Typography>
+        <form
+          autoComplete='off'
+          className={`${classes.root}`}
+          onSubmit={handleSubmit}
+        >
+          <div className={classes.textContainer}>
             <TextField
               label='New Password'
               variant='outlined'
               size='small'
-              value={newPassword}
               type={showPassword ? 'text' : 'password'}
+              value={newPassword}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -142,6 +119,8 @@ const UpdatePassword = () => {
                 helperText: errors.newPassword,
               })}
             />
+          </div>
+          <div className={classes.textContainer}>
             <TextField
               label='Confirm Password'
               variant='outlined'
@@ -155,27 +134,21 @@ const UpdatePassword = () => {
                 helperText: errors.confirmPassword,
               })}
             />
-            <div className={classes.buttonDiv}>
-              <Button
-                variant='contained'
-                type='submit'
-                className={classes.filledButton}
-              >
-                Save Changes
-              </Button>
-              <Button
-                variant='contained'
-                onClick={handleCancel}
-                className={classes.outlinedButton}
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
-        )}
+          </div>
+          <div className={classes.textContainer}>
+            <Button
+              variant='contained'
+              type='submit'
+              className={classes.filledButton}
+            >
+              Reset Password
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );
-};
+}
 
-export default UpdatePassword;
+export default ResetPasswordPage;
+

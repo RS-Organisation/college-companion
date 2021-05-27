@@ -1,4 +1,4 @@
-import 'date-fns';
+import { parseISO } from 'date-fns';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -106,6 +106,8 @@ const UpdateProfile = () => {
     }
     handleCloseModal();
   };
+
+  // console.log(parseISO(details.dob));
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -264,8 +266,8 @@ const UpdateProfile = () => {
                     size='small'
                     margin='normal'
                     label='Date of Birth'
-                    format='dd/MM/yyyy'
-                    value={details.dob}
+                    format='dd-MM-yyyy'
+                    value={new Date(details.dob)}
                     onChange={handleChangeDOB}
                     className={classes.inputTextField}
                     {...(errors && {

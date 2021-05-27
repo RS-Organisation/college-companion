@@ -84,6 +84,7 @@ export default makeStyles((theme) => ({
   },
   loginButton: {
     width: '100%',
+    marginBottom: '1rem',
     fontFamily: 'Nunito Sans, sans-serif',
     fontSize: '1rem',
     textTransform: 'none',
@@ -131,5 +132,9 @@ export default makeStyles((theme) => ({
   adminDivider: {
     marginTop: '1rem',
     marginBottom: '3rem',
+  },
+  forgotLink: {
+    textDecoration: 'none',
+    color: '#41aea9',
   },
 }));

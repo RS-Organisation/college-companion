@@ -54,7 +54,7 @@ export const validator = (details, fieldsToCheck) => {
       } else {
         temp[field] =
           parseInt(details[field]) > 1946 &&
-          parseInt(details[field]) <= new Date().getFullYear()
+            parseInt(details[field]) <= new Date().getFullYear()
             ? ''
             : `Year should be in (1947-${new Date().getFullYear()})`;
       }
@@ -86,9 +86,9 @@ export const validator = (details, fieldsToCheck) => {
   if (details?.aadharCardNumber) {
     temp.aadharCardNumber =
       (details?.aadharCardNumber && details?.aadharCardNumber?.length === 0) ||
-      /^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/.test(
-        details.aadharCardNumber
-      )
+        /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/.test(
+          details.aadharCardNumber
+        )
         ? ''
         : 'Invalid aadhar number (12-digits)';
   } else {

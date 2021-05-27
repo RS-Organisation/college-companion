@@ -1,5 +1,7 @@
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 const Admin = require('../models/admin');
 const Student = require('../models/student');
 const Faculty = require('../models/faculty');
@@ -90,8 +92,138 @@ const studentLogin = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  const { email, userType } = req.body;
+  try {
+    var user;
+    if (userType === 'admin') {
+      user = await Admin.findOne({ email });
+    } else if (userType === 'faculty') {
+      user = await Faculty.findOne({ email });
+    } else if (userType === 'student') {
+      user = await Student.findOne({ email });
+    }
+
+    if (!user) {
+      res.status(403).json({ message: 'User does not exist.' });
+    } else {
+      const token = crypto.randomBytes(20).toString('hex');
+      user.resetPasswordToken = token;
+      user.resetPasswordExpires = Date.now() + 10 * 60 * 1000;
+      await user.save();
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: `${process.env.EMAIL_ADDRESS}`,
+          pass: `${process.env.EMAIL_PASSWORD}`,
+        },
+      });
+
+      const mailOptions = {
+        from: `${process.env.EMAIL_ADDRESS}`,
+        to: `${email}`,
+        subject: 'Link To Reset Password',
+        text:
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
+          + 'Please click on the following link, or paste this into your browser to complete the process within 10 minutes of receiving it:\n\n'
+          + `${process.env.CLIENT_URL}/reset/${userType}/${token}\n\n`
+          + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+      };
+
+      transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+          console.error('there was an error: ', err);
+        } else {
+          res.status(200).json({ message: 'Recovery email sent.' });
+        }
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { userType, token } = req.query;
+  try {
+    var user;
+    if (userType === 'admin') {
+      user = await Admin.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      });
+    } else if (userType === 'faculty') {
+      user = await Faculty.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      });
+    } else if (userType === 'student') {
+      user = await Student.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      });
+    }
+
+    if (!user) {
+      res.status(403).json({
+        success: false,
+        message: 'password reset link is invalid or has expired'
+      });
+    } else {
+      res.status(200).json({ success: true, id: user._id });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+};
+
+const updatePasswordViaEmail = async (req, res) => {
+  const { id, password, userType } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 12);
+  try {
+    if (userType === 'admin') {
+      user = await Admin.findByIdAndUpdate(
+        { _id: id },
+        {
+          password: hashedPassword,
+          resetPasswordToken: '',
+          resetPasswordExpires: null
+        },
+        { new: true }
+      );
+    } else if (userType === 'faculty') {
+      user = await Faculty.findByIdAndUpdate(
+        { _id: id },
+        {
+          password: hashedPassword,
+          resetPasswordToken: '',
+          resetPasswordExpires: null
+        },
+        { new: true }
+      );
+    } else if (userType === 'student') {
+      user = await Student.findByIdAndUpdate(
+        { _id: id },
+        {
+          password: hashedPassword,
+          resetPasswordToken: '',
+          resetPasswordExpires: null
+        },
+        { new: true }
+      );
+    }
+    res.status(200).json({ message: 'Password reset successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+};
+
 module.exports = {
   adminLogin,
   facultyLogin,
   studentLogin,
+  forgotPassword,
+  resetPassword,
+  updatePasswordViaEmail,
 };

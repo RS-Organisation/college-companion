@@ -44,6 +44,14 @@ const adminSchema = new Schema({
     type: Number,
     required: true,
   },
+
+  // Forget Password
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpires: {
+    type: Date
+  },
 });
 
 adminSchema.pre('save', async function (next) {

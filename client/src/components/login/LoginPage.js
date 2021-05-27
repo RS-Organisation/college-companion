@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
   Grid,
@@ -111,22 +111,20 @@ const LoginPage = () => {
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('student')}
-                  className={`${classes.studentButton} ${
-                    formData.userType === 'student'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.studentButton} ${formData.userType === 'student'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Student Login
                 </Button>
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('faculty')}
-                  className={`${classes.facultyButton} ${
-                    formData.userType === 'faculty'
-                      ? classes.selectedButton
-                      : classes.nonSelectedButton
-                  }`}
+                  className={`${classes.facultyButton} ${formData.userType === 'faculty'
+                    ? classes.selectedButton
+                    : classes.nonSelectedButton
+                    }`}
                 >
                   Faculty Login
                 </Button>
@@ -201,6 +199,15 @@ const LoginPage = () => {
                   Login
                 </Button>
               </form>
+              <Link
+                to={{
+                  pathname: '/reset',
+                  aboutProps: { userType: formData.userType },
+                }}
+                className={classes.forgotLink}
+              >
+                Forgot password?
+              </Link>
             </div>
           </Grid>
         </Grid>

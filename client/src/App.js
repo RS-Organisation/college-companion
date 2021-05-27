@@ -9,6 +9,8 @@ import PrivateStudentRoute from './routers/PrivateRoutes/PrivateStudentRoute';
 import PublicRoute from './routers/PublicRoutes/PublicRoute';
 
 import LoginPage from './components/login/LoginPage';
+import ForgotPasswordPage from './components/login/ForgotPasswordPage';
+import ResetPasswordPage from './components/login/ResetPasswordPage';
 
 // Student Imports
 import StudentDashboard from './components/student/StudentDashboard';
@@ -41,6 +43,8 @@ const App = () => {
     <BrowserRouter history={history}>
       <Switch>
         <PublicRoute path='/' exact component={LoginPage} />
+        <PublicRoute path='/reset' exact component={ForgotPasswordPage} />
+        <PublicRoute path='/reset/:userType/:token' exact component={ResetPasswordPage} />
 
         {/* Student Routes */}
         <PrivateStudentRoute

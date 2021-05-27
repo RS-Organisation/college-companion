@@ -63,8 +63,13 @@ const studentSchema = new Schema({
     type: Number,
     required: true,
   },
-  otp: {
+
+  // Forget Password
+  resetPasswordToken: {
     type: String,
+  },
+  resetPasswordExpires: {
+    type: Date
   },
 });
 

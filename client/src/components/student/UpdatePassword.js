@@ -73,8 +73,8 @@ const UpdatePassword = () => {
     // if flag is true means there is no error in form and
     // if there is any error then flag will contain errors object
     const flag = validator(details, fieldsToCheck);
-    setErrors(null);
     if (flag === true) {
+      setErrors(null);
       if (newPassword === confirmPassword) {
         const changes = {
           password: newPassword,
@@ -125,6 +125,7 @@ const UpdatePassword = () => {
               variant='outlined'
               size='small'
               type={showPassword ? 'text' : 'password'}
+              value={newPassword}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>

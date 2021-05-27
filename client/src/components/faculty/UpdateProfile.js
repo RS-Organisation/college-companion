@@ -263,7 +263,7 @@ const UpdateProfile = () => {
                     size='small'
                     margin='normal'
                     label='Date of Birth'
-                    format='dd/MM/yyyy'
+                    format='dd-MM-yyyy'
                     value={details.dob}
                     onChange={handleChangeDOB}
                     className={classes.inputTextField}

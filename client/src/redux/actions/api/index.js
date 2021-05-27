@@ -25,6 +25,13 @@ const config = {
 };
 
 
+export const sendEmail = (formData) => API.post('/auth/forgotPassword', formData);
+export const resetPassword = (formData) =>
+  API.get('/auth/resetPassword', { params: formData });
+export const updatePasswordViaEmail = (formData) =>
+  API.patch('/auth/updatePasswordViaEmail', formData);
+
+
 // Admin Routes
 export const getAdmin = () => API.get('/admin/');
 
@@ -34,7 +41,7 @@ export const addAdmin = (formData) => API.post('/admin/add', formData);
 
 export const updateAdminDetails = (updates) => API.patch('/admin/update', updates);
 
-export const updateAdminImage = (updates) => 
+export const updateAdminImage = (updates) =>
   API.patch('/admin/update', updates, config);
 
 
@@ -51,7 +58,7 @@ export const addFaculty = (formData) => API.post('/faculty/add', formData);
 
 export const updateFacultyDetails = (updates) => API.patch('/faculty/update', updates);
 
-export const updateFacultyImage = (updates) => 
+export const updateFacultyImage = (updates) =>
   API.patch('/faculty/update', updates, config);
 
 
@@ -71,7 +78,7 @@ export const addStudent = (formData) => API.post('/student/add', formData);
 
 export const updateStudentDetails = (updates) => API.patch('/student/update', updates);
 
-export const updateStudentImage = (updates) => 
+export const updateStudentImage = (updates) =>
   API.patch('/student/update', updates, config);
 
 
