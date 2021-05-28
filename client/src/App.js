@@ -37,14 +37,22 @@ import OurFacultiesPage from './components/admin/OurFacultiesPage';
 import OurStudentsPage from './components/admin/OurStudentsPage';
 import DisplaySubjectsPage from './components/admin/DisplaySubjectsPage';
 
+// Snackbar Import
+import CustomizedSnackbar from './components/utils/CustomizedSnackbar';
+
 export const history = createHistory();
 const App = () => {
   return (
     <BrowserRouter history={history}>
+      <CustomizedSnackbar />
       <Switch>
         <PublicRoute path='/' exact component={LoginPage} />
         <PublicRoute path='/reset' exact component={ForgotPasswordPage} />
-        <PublicRoute path='/reset/:userType/:token' exact component={ResetPasswordPage} />
+        <PublicRoute
+          path='/reset/:userType/:token'
+          exact
+          component={ResetPasswordPage}
+        />
 
         {/* Student Routes */}
         <PrivateStudentRoute
@@ -96,26 +104,14 @@ const App = () => {
         />
 
         {/* Admin Routes */}
-        <PublicRoute
-          path='/admin/login'
-          exact
-          component={AdminLoginPage}
-        />
-        <PrivateAdminRoute
-          path='/admin'
-          exact
-          component={AdminDashboard}
-        />
+        <PublicRoute path='/admin/login' exact component={AdminLoginPage} />
+        <PrivateAdminRoute path='/admin' exact component={AdminDashboard} />
         <PrivateAdminRoute
           path='/admin/profile'
           exact
           component={AdminProfile}
         />
-        <PrivateAdminRoute
-          path='/admin/addAdmin'
-          exact
-          component={AddAdmin}
-        />
+        <PrivateAdminRoute path='/admin/addAdmin' exact component={AddAdmin} />
         <PrivateAdminRoute
           path='/admin/addFaculty'
           exact

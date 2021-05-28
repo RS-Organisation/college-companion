@@ -12,6 +12,7 @@ import {
   GET_FACULTIES,
   GET_STUDENTS,
   GET_ALL_SUBJECTS,
+  SET_SNACKBAR,
 } from '../actionsType';
 
 export const adminLogin = (formData, history) => async (dispatch) => {
@@ -43,7 +44,7 @@ export const setAdminDetails = (history) => async (dispatch) => {
     const { data } = await api.getAdmin();
     dispatch({
       type: SET_ADMIN_DETAILS,
-      payload: data,
+      payload: data.result,
     });
     if (history.location.pathname === '/') {
       history.push('/admin/');
@@ -56,10 +57,27 @@ export const setAdminDetails = (history) => async (dispatch) => {
 export const addAdmin = (formData) => async (dispatch) => {
   try {
     const data = { ...formData, dob: format(formData.dob, 'dd-MM-yyyy') };
-    await api.addAdmin(data);
+    const res = await api.addAdmin(data);
     dispatch({ type: ADD_ADMIN });
+    if (res.data.success === true) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: res.data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    // console.log(err.message);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -94,11 +112,11 @@ export const addSubject = (formData) => async (dispatch) => {
 
 export const getFaculties = (formData) => async (dispatch) => {
   try {
-    const faculties = await api.getFaculties(formData);
+    const { data } = await api.getFaculties(formData);
     dispatch({
       type: GET_FACULTIES,
       payload: {
-        faculties: faculties.data,
+        faculties: data.result,
         department: formData.department,
       },
     });
@@ -110,11 +128,11 @@ export const getFaculties = (formData) => async (dispatch) => {
 export const getStudents = (formData) => async (dispatch) => {
   try {
     const { department, year } = formData;
-    const students = await api.getStudents(formData);
+    const { data } = await api.getStudents(formData);
     dispatch({
       type: GET_STUDENTS,
       payload: {
-        students: students.data,
+        students: data.result,
         department,
         year,
       },
@@ -127,11 +145,11 @@ export const getStudents = (formData) => async (dispatch) => {
 export const getSubjects = (formData) => async (dispatch) => {
   try {
     const { department, semester } = formData;
-    const subjects = await api.getSubjectsForAdmin(formData);
+    const { data } = await api.getSubjectsForAdmin(formData);
     dispatch({
       type: GET_ALL_SUBJECTS,
       payload: {
-        subjects: subjects.data,
+        subjects: data.result,
         department,
         semester,
       },
@@ -147,7 +165,7 @@ export const updateAdminDetails = (updates) => async (dispatch) => {
     if (updates?.dob) {
       updatedData = {
         ...updatedData,
-        dob: format(updates.dob, 'dd-MM-yyyy')
+        dob: format(updates.dob, 'dd-MM-yyyy'),
       };
     }
     const { data } = await api.updateAdminDetails(updatedData);

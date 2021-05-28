@@ -9,9 +9,9 @@ const getAdminDetails = async (req, res) => {
   try {
     const { _id } = req.adminDetails;
     const admin = await Admin.findById(_id);
-    res.status(200).json(admin);
+    res.status(200).json({ result: admin, success: true });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -47,9 +47,11 @@ const addAdmin = async (req, res) => {
     });
 
     await newAdmin.save();
-    res.status(201).json({ message: 'New admin added successfully' });
+    res
+      .status(201)
+      .json({ success: true, message: 'New admin added successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: 'Error in adding admin' });
   }
 };
 
@@ -64,14 +66,17 @@ const updateAdmin = async (req, res) => {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
     }
-    
-    const updatedDetails = await Admin.findByIdAndUpdate(_id, updates, { new: true });
+
+    const updatedDetails = await Admin.findByIdAndUpdate(_id, updates, {
+      new: true,
+    });
     res.status(200).json({
       result: updatedDetails,
+      success: true,
       message: 'Admin details updated successfully',
     });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 
@@ -81,9 +86,9 @@ const deleteAdmin = async (req, res) => {
   try {
     const { registrationNumber } = req.body;
     await Admin.findOneAndRemove({ registrationNumber });
-    res.json({ message: 'Admin deleted successfully' });
+    res.json({ success: true, message: 'Admin deleted successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 

@@ -13,9 +13,9 @@ const getStudentDetails = async (req, res) => {
   try {
     const { _id } = req.studentDetails;
     const student = await Student.findById(_id);
-    res.status(200).json(student);
+    res.status(200).json({ result: student, success: true });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -33,9 +33,15 @@ const getStudents = async (req, res) => {
       delete queryObj.year;
     }
     const students = await Student.find(queryObj);
-    res.status(200).json(students);
+    res
+      .status(200)
+      .json({
+        result: students,
+        success: true,
+        message: 'Students fetched successfully',
+      });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -63,9 +69,11 @@ const addStudent = async (req, res) => {
     });
 
     await newStudent.save();
-    res.status(201).json({ message: 'New student added successfully' });
+    res
+      .status(201)
+      .json({ success: true, message: 'New student added successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 
@@ -86,10 +94,11 @@ const updateStudent = async (req, res) => {
     });
     res.status(200).json({
       result: updatedDetails,
+      success: true,
       message: 'Student details updated successfully',
     });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 
@@ -98,9 +107,9 @@ const deleteStudent = async (req, res) => {
   try {
     const { enrollmentNumber } = req.body;
     await Student.findOneAndRemove({ enrollmentNumber });
-    res.json({ message: 'Student deleted successfully' });
+    res.json({ success: true, message: 'Student deleted successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 

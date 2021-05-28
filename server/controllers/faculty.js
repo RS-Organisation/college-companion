@@ -8,18 +8,24 @@ const getFacultyDetails = async (req, res) => {
   try {
     const { _id } = req.facultyDetails;
     const faculty = await Faculty.findById(_id);
-    res.status(200).json(faculty);
+    res.status(200).json({ result: faculty, success: true });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
 const getFaculties = async (req, res) => {
   try {
     const faculties = await Faculty.find(req.query);
-    res.status(200).json(faculties);
+    res
+      .status(200)
+      .json({
+        result: faculties,
+        success: true,
+        message: 'All faculties fetched',
+      });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -43,9 +49,11 @@ const addFaculty = async (req, res) => {
     });
 
     await newFaculty.save();
-    res.status(201).json({ message: 'New faculty added successfully' });
+    res
+      .status(201)
+      .json({ success: true, message: 'New faculty added successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 
@@ -60,14 +68,17 @@ const updateFaculty = async (req, res) => {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
     }
-    
-    const updatedDetails = await Faculty.findByIdAndUpdate(_id, updates, { new: true });
+
+    const updatedDetails = await Faculty.findByIdAndUpdate(_id, updates, {
+      new: true,
+    });
     res.status(200).json({
       result: updatedDetails,
+      success: true,
       message: 'Faculty details updated successfully',
     });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 
@@ -77,9 +88,9 @@ const deleteFaculty = async (req, res) => {
   try {
     const { registrationNumber } = req.body;
     await Faculty.findOneAndRemove({ registrationNumber });
-    res.json({ message: 'Faculty deleted successfully' });
+    res.json({ success: true, message: 'Faculty deleted successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 

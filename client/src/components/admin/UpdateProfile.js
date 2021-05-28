@@ -38,8 +38,9 @@ const UpdateProfile = () => {
 
   const dispatch = useDispatch();
   const admin = useSelector((store) => store.adminReducer.adminData);
-
-  const [details, setDetails] = useState(admin);
+  const date = admin.dob.split('-');
+  const genDob = new Date(`${date[2]}-${date[1]}-${date[0]}`);
+  const [details, setDetails] = useState({ ...admin, dob: genDob });
   const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [errors, setErrors] = useState(null);

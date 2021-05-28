@@ -15,7 +15,7 @@ export const FACULTY_LOGIN = 'FACULTY_LOGIN';
 export const FACULTY_LOGOUT = 'FACULTY_LOGOUT';
 export const SET_FACULTY_DETAILS = 'SET_FACULTY_DETAILS';
 export const MARK_ATTENDANCE = 'MARK_ATTENDANCE';
-export const UPLOAD_MARKS = 'UPLOAD_MARKS'
+export const UPLOAD_MARKS = 'UPLOAD_MARKS';
 
 // Student Action Types
 export const STUDENT_LOGIN = 'STUDENT_LOGIN';
@@ -26,3 +26,7 @@ export const CLEAR_STUDENT_LIST = 'CLEAR_STUDENT_LIST';
 export const GET_STUDENT_MARKS = 'GET_STUDENT_MARKS';
 export const GET_ATTENDANCE = 'GET_ATTENDANCE';
 export const GET_SUBJECTS = 'GET_SUBJECTS';
+
+// Snackbar
+export const SET_SNACKBAR = 'SET_SNACKBAR';
+export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';

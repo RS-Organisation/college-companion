@@ -13,9 +13,15 @@ const getAttendanceById = async (req, res) => {
       student: _id,
       semester,
     });
-    res.status(200).json(attendance);
+    res
+      .status(200)
+      .json({
+        result: attendance,
+        success: true,
+        message: 'Attendance fetched successfully',
+      });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -24,9 +30,15 @@ const getAttendanceOfAll = async (req, res) => {
     const { subjectCode } = req.body;
     const sub = await Subject.findOne({ subjectCode });
     const attendanceList = await Attendance.find({ subject: sub._id });
-    res.status(200).json(attendanceList);
+    res
+      .status(200)
+      .json({
+        result: attendanceList,
+        success: true,
+        message: 'Attendance fetched successfully',
+      });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -78,10 +90,12 @@ const markAttendance = async (req, res) => {
       }
     });
 
-    res.status(201).json({ message: 'Attendance marked successfully' });
+    res
+      .status(201)
+      .json({ success: true, message: 'Attendance marked successfully' });
   } catch (err) {
     const errorMessage = `Error in marking attendence : ${err.message}`;
-    return res.status(400).json({ message: errorMessage });
+    return res.status(400).json({ success: false, message: errorMessage });
   }
 };
 

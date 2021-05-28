@@ -10,9 +10,15 @@ const getMarksOfAll = async (req, res) => {
     const sub = await Subject.findOne({ subjectCode });
 
     const marksList = await Marks.find({ subject: sub._id });
-    res.status(200).json(marksList);
+    res
+      .status(200)
+      .json({
+        result: marksList,
+        success: true,
+        message: 'Marks of all students fetched',
+      });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -26,9 +32,15 @@ const getMarksById = async (req, res) => {
       semester,
       examType,
     });
-    res.status(200).json(marksList);
+    res
+      .status(200)
+      .json({
+        result: marksList,
+        success: true,
+        message: 'Marks successfully fetched',
+      });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -36,14 +48,8 @@ const getMarksById = async (req, res) => {
 
 const uploadMarks = async (req, res) => {
   try {
-    const {
-      marksList,
-      section,
-      department,
-      semester,
-      subjectCode,
-      examType,
-    } = req.body;
+    const { marksList, section, department, semester, subjectCode, examType } =
+      req.body;
 
     const sub = await Subject.findOne({ subjectCode });
 
@@ -56,14 +62,14 @@ const uploadMarks = async (req, res) => {
 
     if (isUploaded) {
       const errorMessage = 'You have already uploaded marks of this exam';
-      return res.status(400).json({ message: errorMessage });
+      return res.status(400).json({ success: false, message: errorMessage });
     }
     marksList.forEach(async (stud) => {
       const newMarks = await new Marks({
         student: stud.id,
         subject: sub._id,
         examType,
-        totalMarks: (examType === 'internal') ? 25 : 75,
+        totalMarks: examType === 'internal' ? 25 : 75,
         section,
         department,
         semester,
@@ -71,10 +77,12 @@ const uploadMarks = async (req, res) => {
       });
       await newMarks.save();
     });
-    return res.status(201).json({ message: 'Marks uploaded successfully' });
+    return res
+      .status(201)
+      .json({ success: true, message: 'Marks uploaded successfully' });
   } catch (err) {
     const errorMessage = `Error in uploading marks : ${err.message}`;
-    return res.status(400).json({ message: errorMessage });
+    return res.status(400).json({ success: false, message: errorMessage });
   }
 };
 

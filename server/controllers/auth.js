@@ -19,7 +19,9 @@ const adminLogin = async (req, res) => {
   try {
     const existingAdmin = await Admin.findOne({ registrationNumber });
     if (!existingAdmin) {
-      return res.status(404).json({ message: "Admin doesn't exist." });
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin doesn't exist." });
     }
 
     const isPasswordCorrect = await bcrypt.compare(
@@ -27,16 +29,18 @@ const adminLogin = async (req, res) => {
       existingAdmin.password
     );
     if (!isPasswordCorrect) {
-      return res.status(404).json({ message: 'Invalid Credentials' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Invalid Credentials' });
     }
 
     const admin = JSON.parse(JSON.stringify(existingAdmin));
     delete admin.password;
     const token = createToken(admin);
 
-    res.status(200).json({ result: existingAdmin, token });
+    res.status(200).json({ result: existingAdmin, success: true, token });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 };
 
@@ -45,7 +49,9 @@ const facultyLogin = async (req, res) => {
   try {
     const existingFaculty = await Faculty.findOne({ registrationNumber });
     if (!existingFaculty) {
-      return res.status(404).json({ message: "Faculty doesn't exist." });
+      return res
+        .status(404)
+        .json({ success: false, message: "Faculty doesn't exist." });
     }
 
     const isPasswordCorrect = await bcrypt.compare(
@@ -53,16 +59,18 @@ const facultyLogin = async (req, res) => {
       existingFaculty.password
     );
     if (!isPasswordCorrect) {
-      return res.status(404).json({ message: 'Invalid Credentials' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Invalid Credentials' });
     }
 
     const faculty = JSON.parse(JSON.stringify(existingFaculty));
     delete faculty.password;
     const token = createToken(faculty);
 
-    res.status(200).json({ result: existingFaculty, token });
+    res.status(200).json({ result: existingFaculty, success: true, token });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 };
 
@@ -71,7 +79,9 @@ const studentLogin = async (req, res) => {
   try {
     const existingStudent = await Student.findOne({ enrollmentNumber });
     if (!existingStudent) {
-      return res.status(404).json({ message: "Student doesn't exist." });
+      return res
+        .status(404)
+        .json({ success: false, message: "Student doesn't exist." });
     }
 
     const isPasswordCorrect = await bcrypt.compare(
@@ -79,16 +89,18 @@ const studentLogin = async (req, res) => {
       existingStudent.password
     );
     if (!isPasswordCorrect) {
-      return res.status(404).json({ message: 'Invalid Credentials' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Invalid Credentials' });
     }
 
     const student = JSON.parse(JSON.stringify(existingStudent));
     delete student.password;
     const token = createToken(student);
 
-    res.status(200).json({ result: existingStudent, token });
+    res.status(200).json({ success: true, result: existingStudent, token });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 };
 
@@ -105,7 +117,7 @@ const forgotPassword = async (req, res) => {
     }
 
     if (!user) {
-      res.status(403).json({ message: 'User does not exist.' });
+      res.status(403).json({ success: false, message: 'User does not exist.' });
     } else {
       const token = crypto.randomBytes(20).toString('hex');
       user.resetPasswordToken = token;
@@ -125,22 +137,26 @@ const forgotPassword = async (req, res) => {
         to: `${email}`,
         subject: 'Link To Reset Password',
         text:
-          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
-          + 'Please click on the following link, or paste this into your browser to complete the process within 10 minutes of receiving it:\n\n'
-          + `${process.env.CLIENT_URL}/reset/${userType}/${token}\n\n`
-          + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process within 10 minutes of receiving it:\n\n' +
+          `${process.env.CLIENT_URL}/reset/${userType}/${token}\n\n` +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n',
       };
 
       transporter.sendMail(mailOptions, (err, response) => {
         if (err) {
-          console.error('there was an error: ', err);
+          res
+            .status(500)
+            .json({ success: false, message: 'Something went wrong.' });
         } else {
-          res.status(200).json({ message: 'Recovery email sent.' });
+          res
+            .status(200)
+            .json({ success: true, message: 'Recovery email sent.' });
         }
       });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 };
 
@@ -168,13 +184,13 @@ const resetPassword = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: false,
-        message: 'password reset link is invalid or has expired'
+        message: 'password reset link is invalid or has expired',
       });
     } else {
       res.status(200).json({ success: true, id: user._id });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 };
 
@@ -182,13 +198,14 @@ const updatePasswordViaEmail = async (req, res) => {
   const { id, password, userType } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   try {
+    var user;
     if (userType === 'admin') {
       user = await Admin.findByIdAndUpdate(
         { _id: id },
         {
           password: hashedPassword,
           resetPasswordToken: '',
-          resetPasswordExpires: null
+          resetPasswordExpires: null,
         },
         { new: true }
       );
@@ -198,7 +215,7 @@ const updatePasswordViaEmail = async (req, res) => {
         {
           password: hashedPassword,
           resetPasswordToken: '',
-          resetPasswordExpires: null
+          resetPasswordExpires: null,
         },
         { new: true }
       );
@@ -208,14 +225,16 @@ const updatePasswordViaEmail = async (req, res) => {
         {
           password: hashedPassword,
           resetPasswordToken: '',
-          resetPasswordExpires: null
+          resetPasswordExpires: null,
         },
         { new: true }
       );
     }
-    res.status(200).json({ message: 'Password reset successfully' });
+    res
+      .status(200)
+      .json({ success: true, message: 'Password reset successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 };
 

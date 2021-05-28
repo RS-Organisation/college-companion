@@ -8,7 +8,7 @@ import {
   GET_STUDENT_LIST,
   CLEAR_STUDENT_LIST,
   MARK_ATTENDANCE,
-  UPLOAD_MARKS
+  UPLOAD_MARKS,
 } from '../actionsType';
 
 export const facultyLogin = (formData, history) => async (dispatch) => {
@@ -40,7 +40,7 @@ export const setFacultyDetails = (history) => async (dispatch) => {
     const { data } = await api.getFaculty();
     dispatch({
       type: SET_FACULTY_DETAILS,
-      payload: data,
+      payload: data.result,
     });
     if (history.location.pathname === '/') {
       history.push('/faculty/');
@@ -114,9 +114,9 @@ export const getStudentList = (formData) => async (dispatch) => {
     dispatch({
       type: GET_STUDENT_LIST,
       payload: {
-        studentsList: data,
+        studentsList: data.result,
         searchQuery: formData,
-        subjectsList: subjects.data,
+        subjectsList: subjects.data.result,
       },
     });
   } catch (err) {

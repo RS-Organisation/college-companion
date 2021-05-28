@@ -42,7 +42,7 @@ export const setStudentDetails = (history) => async (dispatch) => {
     const { data } = await api.getStudent();
     dispatch({
       type: SET_STUDENT_DETAILS,
-      payload: { userDetails: data },
+      payload: { userDetails: data.result },
     });
     if (history.location.pathname === '/') {
       history.push('/student/');
@@ -89,7 +89,7 @@ export const getMarks = (formData) => async (dispatch) => {
     dispatch({
       type: GET_STUDENT_MARKS,
       payload: {
-        marksList: data,
+        marksList: data.result,
         queryObj: {
           examType: formData.examType,
           semester: formData.semester,
@@ -106,7 +106,7 @@ export const getAttendance = () => async (dispatch) => {
     const { data } = await api.getAttendance();
     dispatch({
       type: GET_ATTENDANCE,
-      payload: data,
+      payload: data.result,
     });
   } catch (err) {
     console.log(err);
@@ -115,10 +115,10 @@ export const getAttendance = () => async (dispatch) => {
 
 export const getSubjects = () => async (dispatch) => {
   try {
-    const subjects = await api.getSubjectsForStudent();
+    const { data } = await api.getSubjectsForStudent();
     dispatch({
       type: GET_SUBJECTS,
-      payload: { subjects: subjects.data },
+      payload: { subjects: data.result },
     });
   } catch (err) {
     console.log(err);

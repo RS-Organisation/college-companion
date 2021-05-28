@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns';
+import 'date-fns';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -29,6 +29,7 @@ import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
 
 import { validator } from '../utils/helperFunctions';
+import { setSnackbar } from '../../redux/actions/snackbarActions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -38,8 +39,9 @@ const UpdateProfile = () => {
 
   const dispatch = useDispatch();
   const student = useSelector((store) => store.studentReducer.studentData);
-
-  const [details, setDetails] = useState(student);
+  const date = student.dob.split('-');
+  const genDob = new Date(`${date[2]}-${date[1]}-${date[0]}`);
+  const [details, setDetails] = useState({ ...student, dob: genDob });
   const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [errors, setErrors] = useState(null);
@@ -131,6 +133,16 @@ const UpdateProfile = () => {
     } else {
       setErrors(flag);
     }
+  };
+
+  //remove this
+  const testSnackbar = () => {
+    dispatch(
+      setSnackbar({
+        snackbarType: 'success',
+        snackbarMessage: 'Test Success',
+      })
+    );
   };
 
   return (
@@ -349,6 +361,10 @@ const UpdateProfile = () => {
               disabled={changes && Object.keys(changes).length === 0}
             >
               Save Changes
+            </Button>
+            {/*remove this*/}
+            <Button type='submit' variant='contained' onClick={testSnackbar}>
+              test
             </Button>
           </form>
         </Grid>

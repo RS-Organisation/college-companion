@@ -72,9 +72,10 @@ const AddAdmin = () => {
     // if there is any error then flag will contain errors object
     const flag = validator(details, fieldsToCheck);
     if (flag === true) {
-      dispatch(addAdmin(details));
-      setDetails(initialData);
-      setErrors(null);
+      dispatch(addAdmin(details)).then(() => {
+        setDetails(initialData);
+        setErrors(null);
+      });
     } else {
       setErrors(flag);
     }

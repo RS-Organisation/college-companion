@@ -20,9 +20,15 @@ const getAllSubjects = async (req, res) => {
       };
     }
     const subjects = await Subject.find(queryData);
-    res.status(200).json(subjects);
+    res
+      .status(200)
+      .json({
+        result: subjects,
+        success: true,
+        message: 'Subjects fetched successfully',
+      });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ success: false, message: err.message });
   }
 };
 
@@ -33,9 +39,11 @@ const addSubject = async (req, res) => {
   try {
     const newSubject = new Subject({ ...details });
     await newSubject.save();
-    res.status(201).json({ message: 'New subject added successfully' });
+    res
+      .status(201)
+      .json({ success: true, message: 'New subject added successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 
