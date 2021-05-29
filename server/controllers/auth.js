@@ -184,7 +184,7 @@ const resetPassword = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: false,
-        message: 'password reset link is invalid or has expired',
+        message: 'Password reset link is invalid or has expired',
       });
     } else {
       res.status(200).json({ success: true, id: user._id });

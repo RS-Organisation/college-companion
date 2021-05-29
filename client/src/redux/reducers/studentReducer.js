@@ -35,7 +35,7 @@ const studentReducer = (state = initialState, action) => {
     case SET_STUDENT_DETAILS:
       return {
         ...state,
-        studentData: action?.payload.userDetails,
+        studentData: action?.payload,
         isAuthenticated: true,
       };
 

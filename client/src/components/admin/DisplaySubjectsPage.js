@@ -46,7 +46,9 @@ const DisplaySubjectsPage = () => {
   const handleChangeDetails = (e) => {
     const { name } = e.target;
     setDetails({ ...details, [name]: e.target.value });
-    setErrors({ ...errors, [name]: '' });
+    if (errors) {
+      setErrors({ ...errors, [name]: '' });
+    }
   };
 
   // const handleSubmit = (event) => {

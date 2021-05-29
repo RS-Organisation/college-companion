@@ -61,9 +61,10 @@ const AddSubject = () => {
     // if there is any error then flag will contain errors object
     const flag = validator(details, fieldsToCheck);
     if (flag === true) {
-      dispatch(addSubject(details));
-      setDetails(initialData);
-      setErrors(null);
+      dispatch(addSubject(details)).then(() => {
+        setDetails(initialData);
+        setErrors(null);
+      });
     } else {
       setErrors(flag);
     }

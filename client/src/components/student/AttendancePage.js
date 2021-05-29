@@ -30,7 +30,6 @@ const AttendancePage = () => {
         setLoading(false);
       }, 500);
     }
-
   }, [dispatch, attendance.length, subjects.length, loading]);
 
   return (
@@ -40,11 +39,10 @@ const AttendancePage = () => {
           Your Attendance
         </Typography>
         <Divider />
-        {loading ? <LoadingPage /> : (
-          <AttendanceTable
-            attendance={attendance}
-            subjects={subjects}
-          />
+        {loading ? (
+          <LoadingPage />
+        ) : (
+          <AttendanceTable attendance={attendance} subjects={subjects} />
         )}
       </div>
     </Header>

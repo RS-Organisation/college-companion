@@ -24,7 +24,14 @@ export const adminLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/admin');
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -35,7 +42,13 @@ export const adminLogout = (history) => async (dispatch) => {
     });
     history.push('/admin/login');
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: 'Something went wrong. Please try again',
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -50,7 +63,13 @@ export const setAdminDetails = (history) => async (dispatch) => {
       history.push('/admin/');
     }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -59,7 +78,7 @@ export const addAdmin = (formData) => async (dispatch) => {
     const data = { ...formData, dob: format(formData.dob, 'dd-MM-yyyy') };
     const res = await api.addAdmin(data);
     dispatch({ type: ADD_ADMIN });
-    if (res.data.success === true) {
+    if (res.data.success) {
       dispatch({
         type: SET_SNACKBAR,
         payload: {
@@ -84,29 +103,74 @@ export const addAdmin = (formData) => async (dispatch) => {
 export const addFaculty = (formData) => async (dispatch) => {
   try {
     const data = { ...formData, dob: format(formData.dob, 'dd-MM-yyyy') };
-    await api.addFaculty(data);
+    const res = await api.addFaculty(data);
     dispatch({ type: ADD_FACULTY });
+    if (res.data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: res.data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
 export const addStudent = (formData) => async (dispatch) => {
   try {
     const data = { ...formData, dob: format(formData.dob, 'dd-MM-yyyy') };
-    await api.addStudent(data);
+    const res = await api.addStudent(data);
     dispatch({ type: ADD_STUDENT });
+    if (res.data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: res.data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
 export const addSubject = (formData) => async (dispatch) => {
   try {
-    await api.addSubject(formData);
+    const res = await api.addSubject(formData);
     dispatch({ type: ADD_SUBJECT });
+    if (res.data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: res.data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -120,8 +184,23 @@ export const getFaculties = (formData) => async (dispatch) => {
         department: formData.department,
       },
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -137,8 +216,23 @@ export const getStudents = (formData) => async (dispatch) => {
         year,
       },
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -154,8 +248,23 @@ export const getSubjects = (formData) => async (dispatch) => {
         semester,
       },
     });
+    if (data?.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -173,8 +282,23 @@ export const updateAdminDetails = (updates) => async (dispatch) => {
       type: SET_ADMIN_DETAILS,
       payload: data.result,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -185,7 +309,22 @@ export const updateAdminImage = (updates) => async (dispatch) => {
       type: SET_ADMIN_DETAILS,
       payload: data.result,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: 'Profile image updated',
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };

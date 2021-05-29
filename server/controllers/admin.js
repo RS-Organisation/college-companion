@@ -11,7 +11,9 @@ const getAdminDetails = async (req, res) => {
     const admin = await Admin.findById(_id);
     res.status(200).json({ result: admin, success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res
+      .status(404)
+      .json({ success: false, message: 'Error in fetching details' });
   }
 };
 
@@ -76,7 +78,9 @@ const updateAdmin = async (req, res) => {
       message: 'Admin details updated successfully',
     });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({ success: false, message: 'Updation failed! Please try again' });
   }
 };
 
@@ -88,7 +92,9 @@ const deleteAdmin = async (req, res) => {
     await Admin.findOneAndRemove({ registrationNumber });
     res.json({ success: true, message: 'Admin deleted successfully' });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({ success: false, message: 'Request failed! Please try again' });
   }
 };
 

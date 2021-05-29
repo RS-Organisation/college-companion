@@ -9,6 +9,7 @@ import {
   CLEAR_STUDENT_LIST,
   MARK_ATTENDANCE,
   UPLOAD_MARKS,
+  SET_SNACKBAR,
 } from '../actionsType';
 
 export const facultyLogin = (formData, history) => async (dispatch) => {
@@ -20,7 +21,14 @@ export const facultyLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/faculty');
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -31,7 +39,14 @@ export const facultyLogout = (history) => async (dispatch) => {
     });
     history.push('/');
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: 'Something went wrong. Please try again',
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -46,7 +61,14 @@ export const setFacultyDetails = (history) => async (dispatch) => {
       history.push('/faculty/');
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -64,8 +86,24 @@ export const updateFacultyDetails = (updates) => async (dispatch) => {
       type: SET_FACULTY_DETAILS,
       payload: data.result,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -76,30 +114,78 @@ export const updateFacultyImage = (updates) => async (dispatch) => {
       type: SET_FACULTY_DETAILS,
       payload: data.result,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: 'Profile image updated',
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
 export const markAttendance = (formData) => async (dispatch) => {
   try {
-    await api.markAttendance(formData);
+    const { data } = await api.markAttendance(formData);
     dispatch({
       type: MARK_ATTENDANCE,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
 export const uploadMarks = (formData) => async (dispatch) => {
   try {
-    await api.uploadMarks(formData);
+    const { data } = await api.uploadMarks(formData);
     dispatch({
       type: UPLOAD_MARKS,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -119,8 +205,24 @@ export const getStudentList = (formData) => async (dispatch) => {
         subjectsList: subjects.data.result,
       },
     });
+    if (data.success && subjects.data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: 'Details fetched successfully',
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -130,6 +232,13 @@ export const clearStudentsList = (formData) => async (dispatch) => {
       type: CLEAR_STUDENT_LIST,
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: 'Something went wrong. Please try again',
+        snackbarType: 'error',
+      },
+    });
   }
 };

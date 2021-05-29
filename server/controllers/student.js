@@ -15,7 +15,12 @@ const getStudentDetails = async (req, res) => {
     const student = await Student.findById(_id);
     res.status(200).json({ result: student, success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res
+      .status(404)
+      .json({
+        success: false,
+        message: 'Error in fetching details. Please try again',
+      });
   }
 };
 
@@ -33,15 +38,18 @@ const getStudents = async (req, res) => {
       delete queryObj.year;
     }
     const students = await Student.find(queryObj);
-    res
-      .status(200)
-      .json({
-        result: students,
-        success: true,
-        message: 'Students fetched successfully',
-      });
+    res.status(200).json({
+      result: students,
+      success: true,
+      message: 'Students fetched successfully',
+    });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res
+      .status(404)
+      .json({
+        success: false,
+        message: 'Error in fetching students. Please try again',
+      });
   }
 };
 
@@ -73,7 +81,12 @@ const addStudent = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'New student added successfully' });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({
+        success: false,
+        message: 'Error in adding student. Please try again',
+      });
   }
 };
 
@@ -98,7 +111,9 @@ const updateStudent = async (req, res) => {
       message: 'Student details updated successfully',
     });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({ success: false, message: 'Updation failed! Please try again' });
   }
 };
 
@@ -109,7 +124,9 @@ const deleteStudent = async (req, res) => {
     await Student.findOneAndRemove({ enrollmentNumber });
     res.json({ success: true, message: 'Student deleted successfully' });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({ success: false, message: 'Request failed! Please try again' });
   }
 };
 

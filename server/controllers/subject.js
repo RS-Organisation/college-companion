@@ -20,15 +20,18 @@ const getAllSubjects = async (req, res) => {
       };
     }
     const subjects = await Subject.find(queryData);
-    res
-      .status(200)
-      .json({
-        result: subjects,
-        success: true,
-        message: 'Subjects fetched successfully',
-      });
+    res.status(200).json({
+      result: subjects,
+      success: true,
+      message: 'Subjects fetched successfully',
+    });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res
+      .status(404)
+      .json({
+        success: false,
+        message: 'Error in fetching subjects. Please try again',
+      });
   }
 };
 
@@ -43,7 +46,12 @@ const addSubject = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'New subject added successfully' });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({
+        success: false,
+        message: 'Error in adding subject. Please try again',
+      });
   }
 };
 

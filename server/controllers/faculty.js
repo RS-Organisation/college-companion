@@ -10,22 +10,26 @@ const getFacultyDetails = async (req, res) => {
     const faculty = await Faculty.findById(_id);
     res.status(200).json({ result: faculty, success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.status(404).json({
+      success: false,
+      message: 'Error in fetching faculty details. Please try again',
+    });
   }
 };
 
 const getFaculties = async (req, res) => {
   try {
     const faculties = await Faculty.find(req.query);
-    res
-      .status(200)
-      .json({
-        result: faculties,
-        success: true,
-        message: 'All faculties fetched',
-      });
+    res.status(200).json({
+      result: faculties,
+      success: true,
+      message: 'All faculties fetched',
+    });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.status(404).json({
+      success: false,
+      message: 'Error in fetching faculty details. Please try again',
+    });
   }
 };
 
@@ -53,7 +57,10 @@ const addFaculty = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'New faculty added successfully' });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(400).json({
+      success: false,
+      message: 'Error in adding faculty. Please try later',
+    });
   }
 };
 
@@ -78,7 +85,9 @@ const updateFaculty = async (req, res) => {
       message: 'Faculty details updated successfully',
     });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({ success: false, message: 'Updation failed! Please try again' });
   }
 };
 
@@ -90,7 +99,9 @@ const deleteFaculty = async (req, res) => {
     await Faculty.findOneAndRemove({ registrationNumber });
     res.json({ success: true, message: 'Faculty deleted successfully' });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res
+      .status(400)
+      .json({ success: false, message: 'Request failed! Please try again' });
   }
 };
 

@@ -13,15 +13,16 @@ const getAttendanceById = async (req, res) => {
       student: _id,
       semester,
     });
-    res
-      .status(200)
-      .json({
-        result: attendance,
-        success: true,
-        message: 'Attendance fetched successfully',
-      });
+    res.status(200).json({
+      result: attendance,
+      success: true,
+      message: 'Attendance fetched successfully',
+    });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.status(404).json({
+      success: false,
+      message: "Attendance can't fetched. Please try again",
+    });
   }
 };
 
@@ -30,15 +31,16 @@ const getAttendanceOfAll = async (req, res) => {
     const { subjectCode } = req.body;
     const sub = await Subject.findOne({ subjectCode });
     const attendanceList = await Attendance.find({ subject: sub._id });
-    res
-      .status(200)
-      .json({
-        result: attendanceList,
-        success: true,
-        message: 'Attendance fetched successfully',
-      });
+    res.status(200).json({
+      result: attendanceList,
+      success: true,
+      message: 'Attendance fetched successfully',
+    });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.status(404).json({
+      success: false,
+      message: 'Error in fetching attendance. Please try again',
+    });
   }
 };
 
@@ -94,8 +96,10 @@ const markAttendance = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'Attendance marked successfully' });
   } catch (err) {
-    const errorMessage = `Error in marking attendence : ${err.message}`;
-    return res.status(400).json({ success: false, message: errorMessage });
+    return res.status(400).json({
+      success: false,
+      message: 'Error in marking attendence. Please try again',
+    });
   }
 };
 

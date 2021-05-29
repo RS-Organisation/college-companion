@@ -8,6 +8,7 @@ import {
   GET_STUDENT_MARKS,
   GET_ATTENDANCE,
   GET_SUBJECTS,
+  SET_SNACKBAR,
 } from '../actionsType';
 
 export const studentLogin = (formData, history) => async (dispatch) => {
@@ -22,7 +23,14 @@ export const studentLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/student');
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -33,7 +41,14 @@ export const studentLogout = (history) => async (dispatch) => {
     });
     history.push('/');
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: 'Something went wrong. Please try again',
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -42,13 +57,20 @@ export const setStudentDetails = (history) => async (dispatch) => {
     const { data } = await api.getStudent();
     dispatch({
       type: SET_STUDENT_DETAILS,
-      payload: { userDetails: data.result },
+      payload: data.result,
     });
     if (history.location.pathname === '/') {
       history.push('/student/');
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -66,8 +88,24 @@ export const updateStudentDetails = (updates) => async (dispatch) => {
       type: SET_STUDENT_DETAILS,
       payload: data.result,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
     console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -78,8 +116,24 @@ export const updateStudentImage = (updates) => async (dispatch) => {
       type: SET_STUDENT_DETAILS,
       payload: data.result,
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: 'Profile image updated',
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -96,8 +150,24 @@ export const getMarks = (formData) => async (dispatch) => {
         },
       },
     });
+    if (data.success) {
+      dispatch({
+        type: SET_SNACKBAR,
+        payload: {
+          snackbarMessage: data.message,
+          snackbarType: 'success',
+        },
+      });
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -109,7 +179,14 @@ export const getAttendance = () => async (dispatch) => {
       payload: data.result,
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };
 
@@ -121,6 +198,13 @@ export const getSubjects = () => async (dispatch) => {
       payload: { subjects: data.result },
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
   }
 };

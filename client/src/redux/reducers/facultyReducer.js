@@ -60,7 +60,7 @@ const facultyReducer = (state = initialState, action) => {
 
     case FACULTY_LOGOUT:
       Cookies.remove('facultyJWT');
-      return { ...state, facultyData: null, isAuthenticated: false };
+      return initialState;
 
     case MARK_ATTENDANCE:
       return state;

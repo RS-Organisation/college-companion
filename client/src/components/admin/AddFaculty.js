@@ -82,9 +82,10 @@ const AddFaculty = () => {
     // if there is any error then flag will contain errors object
     const flag = validator(details, fieldsToCheck);
     if (flag === true) {
-      dispatch(addFaculty(details));
-      setDetails(initialData);
-      setErrors(null);
+      dispatch(addFaculty(details)).then(() => {
+        setDetails(initialData);
+        setErrors(null);
+      });
     } else {
       setErrors(flag);
     }

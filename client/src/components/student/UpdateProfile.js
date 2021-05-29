@@ -29,7 +29,6 @@ import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
 
 import { validator } from '../utils/helperFunctions';
-import { setSnackbar } from '../../redux/actions/snackbarActions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -109,8 +108,6 @@ const UpdateProfile = () => {
     handleCloseModal();
   };
 
-  // console.log(parseISO(details.dob));
-
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   if (changes && Object.keys(changes).length !== 0) {
@@ -133,16 +130,6 @@ const UpdateProfile = () => {
     } else {
       setErrors(flag);
     }
-  };
-
-  //remove this
-  const testSnackbar = () => {
-    dispatch(
-      setSnackbar({
-        snackbarType: 'success',
-        snackbarMessage: 'Test Success',
-      })
-    );
   };
 
   return (
@@ -361,10 +348,6 @@ const UpdateProfile = () => {
               disabled={changes && Object.keys(changes).length === 0}
             >
               Save Changes
-            </Button>
-            {/*remove this*/}
-            <Button type='submit' variant='contained' onClick={testSnackbar}>
-              test
             </Button>
           </form>
         </Grid>

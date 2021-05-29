@@ -8,7 +8,7 @@ import {
   ADD_SUBJECT,
   GET_FACULTIES,
   GET_STUDENTS,
-  GET_ALL_SUBJECTS
+  GET_ALL_SUBJECTS,
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
@@ -22,7 +22,7 @@ const initialState = {
   studentsYear: '',
   allSubjects: [],
   subjectsDepartment: '',
-  subjectsSemester: ''
+  subjectsSemester: '',
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -46,7 +46,7 @@ const adminReducer = (state = initialState, action) => {
 
     case ADMIN_LOGOUT:
       Cookies.remove('adminJWT');
-      return { ...state, adminData: null, isAuthenticated: false };
+      return initialState;
 
     case ADD_ADMIN:
     case ADD_FACULTY:
@@ -58,7 +58,7 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         allFaculties: action.payload.faculties,
-        facultiesDepartment: action.payload.department
+        facultiesDepartment: action.payload.department,
       };
 
     case GET_STUDENTS:
@@ -66,7 +66,7 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         allStudents: action.payload.students,
         studentsDepartment: action.payload.department,
-        studentsYear: action.payload.year
+        studentsYear: action.payload.year,
       };
 
     case GET_ALL_SUBJECTS:
@@ -74,7 +74,7 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         allSubjects: action.payload.subjects,
         subjectsDepartment: action.payload.department,
-        subjectsSemester: action.payload.semester
+        subjectsSemester: action.payload.semester,
       };
 
     default:

@@ -69,7 +69,7 @@ const studentSchema = new Schema({
     type: String,
   },
   resetPasswordExpires: {
-    type: Date
+    type: Date,
   },
 });
 

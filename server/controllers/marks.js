@@ -10,15 +10,18 @@ const getMarksOfAll = async (req, res) => {
     const sub = await Subject.findOne({ subjectCode });
 
     const marksList = await Marks.find({ subject: sub._id });
-    res
-      .status(200)
-      .json({
-        result: marksList,
-        success: true,
-        message: 'Marks of all students fetched',
-      });
+    res.status(200).json({
+      result: marksList,
+      success: true,
+      message: 'Marks of all students fetched',
+    });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res
+      .status(404)
+      .json({
+        success: false,
+        message: 'Error in fetching marks list. Please try again',
+      });
   }
 };
 
@@ -32,15 +35,18 @@ const getMarksById = async (req, res) => {
       semester,
       examType,
     });
-    res
-      .status(200)
-      .json({
-        result: marksList,
-        success: true,
-        message: 'Marks successfully fetched',
-      });
+    res.status(200).json({
+      result: marksList,
+      success: true,
+      message: 'Marks successfully fetched',
+    });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res
+      .status(404)
+      .json({
+        success: false,
+        message: 'Error in marks list. Please try again',
+      });
   }
 };
 
@@ -81,8 +87,12 @@ const uploadMarks = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'Marks uploaded successfully' });
   } catch (err) {
-    const errorMessage = `Error in uploading marks : ${err.message}`;
-    return res.status(400).json({ success: false, message: errorMessage });
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: 'Error in uploading marks. Please try again',
+      });
   }
 };
 
