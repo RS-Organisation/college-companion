@@ -18,11 +18,11 @@ import {
   clearStudentsList,
   markAttendance,
 } from '../../redux/actions/facultyActions';
+import { validator } from '../utils/helperFunctions';
+import { departments, sections, semesters } from '../utils/defaultValues';
 
 import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   department: '',
@@ -59,9 +59,8 @@ const MarkAttendancePage = () => {
   };
 
   const handleSearch = () => {
-    // should contain only required fields
-    const fieldsToCheck = ['department', 'section', 'semester'];
-    const flag = validator(details, fieldsToCheck);
+    const requiredFields = ['department', 'section', 'semester'];
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       const searchedQuery = {
         department: details.department,
@@ -81,10 +80,8 @@ const MarkAttendancePage = () => {
   };
 
   const handleSubmit = () => {
-    // should contain only required fields
-    const fieldsToCheck = ['subjectCode'];
-
-    const flag = validator({ subjectCode: details.subjectCode }, fieldsToCheck);
+    const requiredFields = ['subjectCode'];
+    const flag = validator({ subjectCode: details.subjectCode }, requiredFields);
     if (flag === true) {
       setErrors(null);
       const formData = {
@@ -124,11 +121,9 @@ const MarkAttendancePage = () => {
                 onChange={handleChangeDetails}
                 label='Department'
               >
-                <MenuItem value={'CS'}>CSE</MenuItem>
-                <MenuItem value={'IT'}>IT</MenuItem>
-                <MenuItem value={'EC'}>ECE</MenuItem>
-                <MenuItem value={'EE'}>EEE</MenuItem>
-                <MenuItem value={'ME'}>ME</MenuItem>
+                {Object.entries(departments).map(([key, value]) => (
+                  <MenuItem value={key}>{value}</MenuItem>
+                ))}
               </Select>
               {errors && <FormHelperText>{errors.department}</FormHelperText>}
             </FormControl>
@@ -148,9 +143,9 @@ const MarkAttendancePage = () => {
                 onChange={handleChangeDetails}
                 label='Section'
               >
-                <MenuItem value={'1'}>1</MenuItem>
-                <MenuItem value={'2'}>2</MenuItem>
-                <MenuItem value={'3'}>3</MenuItem>
+                {sections.map(section => (
+                  <MenuItem value={section}>{section}</MenuItem>
+                ))}
               </Select>
               {errors && <FormHelperText>{errors.section}</FormHelperText>}
             </FormControl>
@@ -170,14 +165,9 @@ const MarkAttendancePage = () => {
                 onChange={handleChangeDetails}
                 label='Semester'
               >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={6}>6</MenuItem>
-                <MenuItem value={7}>7</MenuItem>
-                <MenuItem value={8}>8</MenuItem>
+                {semesters.map(semester => (
+                  <MenuItem value={semester}>{semester}</MenuItem>
+                ))}
               </Select>
               {errors && <FormHelperText>{errors.semester}</FormHelperText>}
             </FormControl>

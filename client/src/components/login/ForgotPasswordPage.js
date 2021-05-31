@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { TextField, Typography, Button } from '@material-ui/core';
 
+import { setSnackbar } from '../../redux/actions/snackbarActions';
 import { validator } from '../utils/helperFunctions';
 import { sendEmail } from '../../redux/actions/api/index';
 
@@ -10,6 +12,7 @@ import useStyles from '../../styles/ForgotPasswordPage';
 
 const ForgotPasswordPage = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState(null);
@@ -37,13 +40,18 @@ const ForgotPasswordPage = (props) => {
     const flag = validator({ email }, ['email']);
     if (flag === true) {
       setErrors(null);
-      await sendEmail({ email, userType })
-      // .then(response => {
-      //   console.log(response.data);
-      //   if (response.data === 'email not in db') {
-
-      //   }
-      // })
+      try {
+        const { data } = await sendEmail({ email, userType });
+        dispatch(setSnackbar({
+          snackbarType: 'success', 
+          snackbarMessage: data.message
+        }));
+      } catch (error) {
+        dispatch(setSnackbar({
+          snackbarType: 'error', 
+          snackbarMessage: error.response.data.message
+        }));
+      }
     } else {
       setErrors(flag);
     }

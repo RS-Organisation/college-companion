@@ -11,6 +11,7 @@ import PublicRoute from './routers/PublicRoutes/PublicRoute';
 import LoginPage from './components/login/LoginPage';
 import ForgotPasswordPage from './components/login/ForgotPasswordPage';
 import ResetPasswordPage from './components/login/ResetPasswordPage';
+import linkExpiredPage from './components/login/linkExpiredPage';
 
 // Student Imports
 import StudentDashboard from './components/student/StudentDashboard';
@@ -48,6 +49,7 @@ const App = () => {
       <Switch>
         <PublicRoute path='/' exact component={LoginPage} />
         <PublicRoute path='/reset' exact component={ForgotPasswordPage} />
+        <PublicRoute path='/reset/link-expired' exact component={linkExpiredPage} />
         <PublicRoute
           path='/reset/:userType/:token'
           exact

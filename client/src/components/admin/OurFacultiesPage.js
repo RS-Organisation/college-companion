@@ -15,29 +15,28 @@ import {
 import Header from './Header';
 import FacultyDetailTable from './FacultyDetailTable';
 import { getFaculties } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
+import { departments } from '../utils/defaultValues';
 
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const OurFacultiesPage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
   };
-
   const dispatch = useDispatch();
 
-  const { allFaculties, facultiesDepartment } = useSelector(
-    (store) => store.adminReducer
-  );
+  const { 
+    allFaculties, 
+    facultiesDepartment 
+  } = useSelector((store) => store.adminReducer);
 
   const [department, setDepartment] = useState(facultiesDepartment);
   const [errors, setErrors] = useState(null);
 
-  // should contain only required fields
-  const fieldsToCheck = ['department'];
+  const requiredFields = ['department'];
 
   const handleChange = (event) => {
     setDepartment(event.target.value);
@@ -46,16 +45,9 @@ const OurFacultiesPage = () => {
     }
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   dispatch(getFaculties({ department }));
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator({ department }, fieldsToCheck);
+    const flag = validator({ department }, requiredFields);
     if (flag === true) {
       dispatch(getFaculties({ department }));
       setErrors(null);
@@ -68,9 +60,7 @@ const OurFacultiesPage = () => {
 
   return (
     <Header>
-      <div
-        className={showFacultyTable ? classes.container95 : classes.container70}
-      >
+      <div className={showFacultyTable ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Our Faculties
         </Typography>
@@ -100,11 +90,9 @@ const OurFacultiesPage = () => {
                   onChange={handleChange}
                   label='Department'
                 >
-                  <MenuItem value={'CS'}>CSE</MenuItem>
-                  <MenuItem value={'IT'}>IT</MenuItem>
-                  <MenuItem value={'EC'}>ECE</MenuItem>
-                  <MenuItem value={'EE'}>EEE</MenuItem>
-                  <MenuItem value={'ME'}>ME</MenuItem>
+                  {Object.entries(departments).map(([key, value]) => (
+                    <MenuItem value={key}>{value}</MenuItem>
+                  ))}
                 </Select>
                 {errors && <FormHelperText>{errors.department}</FormHelperText>}
               </FormControl>

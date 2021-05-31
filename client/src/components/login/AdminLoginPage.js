@@ -14,11 +14,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ForwardIcon from '@material-ui/icons/Forward';
 
 import { adminLogin } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
 
 import loginImage from '../../images/loginImage.svg';
 import useStyles from '../../styles/LoginPage';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialDetails = {
   registrationNumber: '',
@@ -31,11 +30,11 @@ const AdminLoginPage = () => {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState(initialDetails);
   const [errors, setErrors] = useState(null);
 
-  // should contain only required fields
-  const fieldsToCheck = ['registrationNumber', 'password'];
+  const requiredFields = ['registrationNumber', 'password'];
 
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -45,21 +44,16 @@ const AdminLoginPage = () => {
     history.push('/');
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(adminLogin(formData, history));
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(formData, fieldsToCheck);
+    const flag = validator(formData, requiredFields);
     if (flag === true) {
       setErrors(null);
-      dispatch(adminLogin(formData, history)).then(() =>
-        setFormData(initialDetails)
-      );
+      setIsLoading(true);
+      dispatch(adminLogin(formData, history)).then(() => {
+        setFormData(initialDetails);
+        setIsLoading(false);
+      });
     } else {
       setErrors(flag);
     }
@@ -127,14 +121,16 @@ const AdminLoginPage = () => {
                     helperText: errors.password,
                   })}
                 />
-                <Button
-                  type='submit'
-                  variant='contained'
-                  color='primary'
-                  className={classes.loginButton}
-                >
-                  Login
-                </Button>
+                {isLoading ? <p>Loading...</p> : (
+                  <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    className={classes.loginButton}
+                  >
+                    Login
+                  </Button>
+                )}
               </form>
               <Link
                 to={{

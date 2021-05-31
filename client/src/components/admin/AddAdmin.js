@@ -17,12 +17,12 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import Header from './Header';
 import { addAdmin } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
+import { departments } from '../utils/defaultValues';
 
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   name: '',
@@ -42,8 +42,7 @@ const AddAdmin = () => {
   const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
 
-  // should contain only required fields
-  const fieldsToCheck = ['name', 'dob', 'email', 'joiningYear', 'department'];
+  const requiredFields = ['name', 'dob', 'email', 'joiningYear', 'department'];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -60,17 +59,9 @@ const AddAdmin = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(addAdmin(details));
-  //   setDetails(initialData);
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       dispatch(addAdmin(details)).then(() => {
         setDetails(initialData);
@@ -144,13 +135,12 @@ const AddAdmin = () => {
                 helperText: errors.department,
               })}
             >
-              <MenuItem value={'CS'}>CSE</MenuItem>
-              <MenuItem value={'IT'}>IT</MenuItem>
-              <MenuItem value={'EC'}>ECE</MenuItem>
-              <MenuItem value={'EE'}>EEE</MenuItem>
-              <MenuItem value={'ME'}>ME</MenuItem>
+              {Object.entries(departments).map(([key, value]) => (
+                <MenuItem value={key}>{value}</MenuItem>
+              ))}
             </TextField>
             <TextField
+              type='number'
               name='joiningYear'
               label='Joining Year'
               variant='outlined'

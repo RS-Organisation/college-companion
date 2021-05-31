@@ -24,7 +24,6 @@ export const adminLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/admin');
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -88,8 +87,6 @@ export const addAdmin = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
-    // console.log(err);
-    // console.log(err.message);
     dispatch({
       type: SET_SNACKBAR,
       payload: {

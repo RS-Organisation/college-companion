@@ -9,6 +9,7 @@ import {
   Paper,
 } from '@material-ui/core';
 
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import useStyles from '../../styles/MarkAttendanceTable';
 
 const findSubjectName = (id, subjects) => {
@@ -27,7 +28,11 @@ const AttendanceTable = (props) => {
   return (
     <Paper className={classes.root}>
       {!attendance.length ? (
-        <div>No Data</div>
+        <div className={classes.noDataDiv}>
+          <SentimentVeryDissatisfiedIcon className={classes.noDataIcon} />
+          <h2 className={classes.noDataHeading}>Oops!</h2>
+          <p className={classes.noDataText}>No Data Found</p>
+        </div>
       ) : (
         <TableContainer className={classes.tableContainer}>
           <Table stickyHeader aria-label='Subject Detail Table'>

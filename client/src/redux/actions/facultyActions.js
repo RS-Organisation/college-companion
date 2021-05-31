@@ -21,7 +21,6 @@ export const facultyLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/faculty');
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -39,7 +38,6 @@ export const facultyLogout = (history) => async (dispatch) => {
     });
     history.push('/');
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -61,7 +59,6 @@ export const setFacultyDetails = (history) => async (dispatch) => {
       history.push('/faculty/');
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -96,7 +93,6 @@ export const updateFacultyDetails = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -124,7 +120,6 @@ export const updateFacultyImage = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -151,7 +146,6 @@ export const markAttendance = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -178,7 +172,6 @@ export const uploadMarks = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -215,7 +208,6 @@ export const getStudentList = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -232,7 +224,6 @@ export const clearStudentsList = (formData) => async (dispatch) => {
       type: CLEAR_STUDENT_LIST,
     });
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {

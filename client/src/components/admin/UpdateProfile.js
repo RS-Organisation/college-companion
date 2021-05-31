@@ -22,13 +22,14 @@ import {
   updateAdminDetails,
   updateAdminImage,
 } from '../../redux/actions/adminActions';
+import { setSnackbar } from '../../redux/actions/snackbarActions';
+import { validator } from '../utils/helperFunctions';
+import { departments } from '../utils/defaultValues';
 
 import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-
-import { validator } from '../utils/helperFunctions';
 
 const UpdateProfile = () => {
   const classes = {
@@ -45,8 +46,7 @@ const UpdateProfile = () => {
   const [openModal, setOpenModal] = useState(false);
   const [errors, setErrors] = useState(null);
 
-  // should contain only required fields
-  const fieldsToCheck = ['name', 'dob', 'email', 'department'];
+  const requiredFields = ['name', 'dob', 'email', 'department'];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -83,8 +83,10 @@ const UpdateProfile = () => {
     let fileSize = Math.round(file.size / 1024);
     if (file) {
       if (fileSize >= 1024) {
-        // this alert will change with snackbar
-        alert('File too Big, please select a file less than 1 MB');
+        dispatch(setSnackbar({ 
+          snackbarType: 'error', 
+          snackbarMessage: 'File too big, please select a file less than 1 MB'
+        }));
         handleCancelUpload();
       } else {
         setChanges({ ...changes, avatar: file });
@@ -102,20 +104,10 @@ const UpdateProfile = () => {
     handleCloseModal();
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (changes && Object.keys(changes).length !== 0) {
-  //     dispatch(updateAdminDetails(changes));
-  //     setChanges({});
-  //   }
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
     const infoToCheck = { ...details, ...changes };
-    const flag = validator(infoToCheck, fieldsToCheck);
+    const flag = validator(infoToCheck, requiredFields);
     if (flag === true) {
       setErrors(null);
       if (changes && Object.keys(changes).length !== 0) {
@@ -157,7 +149,7 @@ const UpdateProfile = () => {
               </Typography>
               <input
                 type='file'
-                accept='image/*'
+                accept='image/png, image/jpg, image/jpeg'
                 onChange={handleChangeImage}
               />
               <div className={`${classes.rowWise} ${classes.buttonDiv}`}>
@@ -231,11 +223,9 @@ const UpdateProfile = () => {
                   helperText: errors.department,
                 })}
               >
-                <MenuItem value='CS'>CSE</MenuItem>
-                <MenuItem value='IT'>IT</MenuItem>
-                <MenuItem value='EC'>ECE</MenuItem>
-                <MenuItem value='EE'>EEE</MenuItem>
-                <MenuItem value='ME'>ME</MenuItem>
+                {Object.entries(departments).map(([key, value]) => (
+                  <MenuItem value={key}>{value}</MenuItem>
+                ))}
               </TextField>
               <TextField
                 name='email'
@@ -252,6 +242,7 @@ const UpdateProfile = () => {
             </div>
             <div className={classes.rowWise}>
               <TextField
+                type='tel'
                 name='contactNumber'
                 label='Contact Number'
                 margin='normal'

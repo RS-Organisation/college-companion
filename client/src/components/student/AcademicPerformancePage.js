@@ -16,11 +16,11 @@ import Header from './Header';
 import AcademicPerformanceTable from './AcademicPerformanceTable';
 import LoadingPage from '../utils/LoadingPage';
 import { getMarks, getSubjects } from '../../redux/actions/studentActions';
+import { validator } from '../utils/helperFunctions';
+import { examTypes, semesters } from '../utils/defaultValues';
 
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const AcademicPerformancePage = () => {
   const classes = {
@@ -53,9 +53,8 @@ const AcademicPerformancePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // should contain only required fields
-    const fieldsToCheck = ['semester', 'examType'];
-    const flag = validator(details, fieldsToCheck);
+    const requiredFields = ['semester', 'examType'];
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       dispatch(getMarks(details));
       dispatch(getSubjects());
@@ -67,9 +66,7 @@ const AcademicPerformancePage = () => {
 
   return (
     <Header>
-      <div
-        className={showMarksTable ? classes.container95 : classes.container70}
-      >
+      <div className={showMarksTable ? classes.container95 : classes.container70}>
         <div>
           <Typography variant='h4' className={classes.subtitle}>
             Academic Performance
@@ -102,8 +99,9 @@ const AcademicPerformancePage = () => {
                     onChange={handleChangeDetails}
                     label='Exam Type'
                   >
-                    <MenuItem value={'internal'}>Internal</MenuItem>
-                    <MenuItem value={'external'}>External</MenuItem>
+                    {examTypes.map(examType => (
+                      <MenuItem value={examType}>{examType}</MenuItem>
+                    ))}
                   </Select>
                   {errors && <FormHelperText>{errors.examType}</FormHelperText>}
                 </FormControl>
@@ -123,14 +121,9 @@ const AcademicPerformancePage = () => {
                     onChange={handleChangeDetails}
                     label='Semester'
                   >
-                    <MenuItem value={1}>1</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={6}>6</MenuItem>
-                    <MenuItem value={7}>7</MenuItem>
-                    <MenuItem value={8}>8</MenuItem>
+                    {semesters.map(semester => (
+                      <MenuItem value={semester}>{semester}</MenuItem>
+                    ))}
                   </Select>
                   {errors && <FormHelperText>{errors.semester}</FormHelperText>}
                 </FormControl>

@@ -15,23 +15,24 @@ import {
 import Header from './Header';
 import StudentDetailTable from './StudentDetailTable';
 import { getStudents } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
+import { departments, years } from '../utils/defaultValues';
 
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const OurStudentsPage = () => {
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
   };
-
   const dispatch = useDispatch();
 
-  const { allStudents, studentsDepartment, studentsYear } = useSelector(
-    (store) => store.adminReducer
-  );
+  const { 
+    allStudents, 
+    studentsDepartment, 
+    studentsYear 
+  } = useSelector((store) => store.adminReducer);
 
   const [details, setDetails] = useState({
     department: studentsDepartment,
@@ -40,8 +41,7 @@ const OurStudentsPage = () => {
 
   const [errors, setErrors] = useState(null);
 
-  // should contain only required fields
-  const fieldsToCheck = ['department', 'year'];
+  const requiredFields = ['department', 'year'];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -51,16 +51,9 @@ const OurStudentsPage = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(getStudents(details));
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       dispatch(getStudents(details));
       setErrors(null);
@@ -73,9 +66,7 @@ const OurStudentsPage = () => {
 
   return (
     <Header>
-      <div
-        className={showStudentTable ? classes.container95 : classes.container70}
-      >
+      <div className={showStudentTable ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Our Students
         </Typography>
@@ -106,11 +97,9 @@ const OurStudentsPage = () => {
                   onChange={handleChangeDetails}
                   label='Department'
                 >
-                  <MenuItem value={'CS'}>CSE</MenuItem>
-                  <MenuItem value={'IT'}>IT</MenuItem>
-                  <MenuItem value={'EC'}>ECE</MenuItem>
-                  <MenuItem value={'EE'}>EEE</MenuItem>
-                  <MenuItem value={'ME'}>ME</MenuItem>
+                  {Object.entries(departments).map(([key, value]) => (
+                    <MenuItem value={key}>{value}</MenuItem>
+                  ))}
                 </Select>
                 {errors && <FormHelperText>{errors.department}</FormHelperText>}
               </FormControl>
@@ -129,10 +118,9 @@ const OurStudentsPage = () => {
                   onChange={handleChangeDetails}
                   label='Year'
                 >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
+                  {years.map(year => (
+                    <MenuItem value={year}>{year}</MenuItem>
+                  ))}
                 </Select>
                 {errors && <FormHelperText>{errors.year}</FormHelperText>}
               </FormControl>

@@ -17,12 +17,12 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import Header from './Header';
 import { addFaculty } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
+import { departments, genders, designations } from '../utils/defaultValues';
 
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   name: '',
@@ -32,8 +32,8 @@ const initialData = {
   designation: '',
   joiningYear: '',
   email: '',
-  // contactNumber: '',
-  // aadharCardNumber: '',
+  contactNumber: '',
+  aadharCardNumber: '',
 };
 
 const AddFaculty = () => {
@@ -45,8 +45,7 @@ const AddFaculty = () => {
   const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
 
-  // should contain only required fields
-  const fieldsToCheck = [
+  const requiredFields = [
     'name',
     'dob',
     'email',
@@ -70,17 +69,9 @@ const AddFaculty = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(addFaculty(details));
-  //   setDetails(initialData);
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       dispatch(addFaculty(details)).then(() => {
         setDetails(initialData);
@@ -129,9 +120,9 @@ const AddFaculty = () => {
               onChange={handleChangeDetails}
               className={classes.inputTextField}
             >
-              <MenuItem value={'M'}>Male</MenuItem>
-              <MenuItem value={'F'}>Female</MenuItem>
-              <MenuItem value={'O'}>Other</MenuItem>
+              {Object.entries(genders).map(([key, value]) => (
+                <MenuItem value={key}>{value}</MenuItem>
+              ))}
             </TextField>
           </div>
           <div className={classes.rowWise}>
@@ -155,6 +146,7 @@ const AddFaculty = () => {
               </ThemeProvider>
             </MuiPickersUtilsProvider>
             <TextField
+              type='number'
               name='joiningYear'
               label='Joining Year'
               variant='outlined'
@@ -185,11 +177,9 @@ const AddFaculty = () => {
                 helperText: errors.department,
               })}
             >
-              <MenuItem value={'CS'}>CSE</MenuItem>
-              <MenuItem value={'IT'}>IT</MenuItem>
-              <MenuItem value={'EC'}>ECE</MenuItem>
-              <MenuItem value={'EE'}>EEE</MenuItem>
-              <MenuItem value={'ME'}>ME</MenuItem>
+              {Object.entries(departments).map(([key, value]) => (
+                <MenuItem value={key}>{value}</MenuItem>
+              ))}
             </TextField>
             <TextField
               select
@@ -206,14 +196,9 @@ const AddFaculty = () => {
                 helperText: errors.designation,
               })}
             >
-              <MenuItem value={'Assistant Professor'}>
-                Assistant Professor
-              </MenuItem>
-              <MenuItem value={'Associate Professor'}>
-                Associate Professor
-              </MenuItem>
-              <MenuItem value={'Professor'}>Professor</MenuItem>
-              <MenuItem value={'HOD'}>HOD</MenuItem>
+              {designations.map(designation => (
+                <MenuItem value={designation}>{designation}</MenuItem>
+              ))}
             </TextField>
           </div>
           <div className={classes.rowWise}>
@@ -238,7 +223,7 @@ const AddFaculty = () => {
               variant='outlined'
               size='small'
               margin='normal'
-              value={details?.contactNumber}
+              value={details.contactNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
               {...(errors && {
@@ -254,7 +239,7 @@ const AddFaculty = () => {
               variant='outlined'
               size='small'
               margin='normal'
-              value={details?.aadharCardNumber}
+              value={details.aadharCardNumber}
               onChange={handleChangeDetails}
               className={classes.inputTextField}
               {...(errors && {

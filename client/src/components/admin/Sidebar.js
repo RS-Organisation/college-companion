@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
   Drawer,
@@ -32,6 +33,9 @@ export default function Sidebar(props) {
   const classes = useStyles();
   const theme = useTheme();
 
+  const adminName = useSelector((store) => store.adminReducer.adminData.name);
+  const firstName = adminName.split(' ')[0];
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -45,7 +49,7 @@ export default function Sidebar(props) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <h1 className={classes.drawerTitle}>Hi, Admin!</h1>
+          <h1 className={classes.drawerTitle}>Hi, {firstName}</h1>
           <IconButton className={classes.leftIcon} onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />

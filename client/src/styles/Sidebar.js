@@ -48,7 +48,7 @@ export default makeStyles((theme) => ({
     marginLeft: 0,
   },
   drawerTitle: {
-    marginLeft: '1rem',
+    marginLeft: '0.5rem',
     fontFamily: 'Nunito Sans',
     fontSize: '1.5rem',
     color: '#41aea9',

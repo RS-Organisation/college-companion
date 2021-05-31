@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
   Drawer,
@@ -19,6 +20,8 @@ import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 import PublishIcon from '@material-ui/icons/Publish';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
+import { clearStudentsList } from '../../redux/actions/facultyActions';
+
 import useStyles from '../../styles/Sidebar';
 
 export default function Sidebar(props) {
@@ -26,6 +29,15 @@ export default function Sidebar(props) {
 
   const classes = useStyles();
   const theme = useTheme();
+
+  const dispatch = useDispatch();
+
+  const facultyName = useSelector((store) => store.facultyReducer.facultyData.name);
+  const firstName = facultyName.split(' ')[0];
+
+  const handleClick = () => {
+    dispatch(clearStudentsList());
+  };
 
   return (
     <div className={classes.root}>
@@ -40,7 +52,7 @@ export default function Sidebar(props) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <h1 className={classes.drawerTitle}>Hi, Faculty!</h1>
+          <h1 className={classes.drawerTitle}>Hi, {firstName}</h1>
           <IconButton className={classes.leftIcon} onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -61,7 +73,12 @@ export default function Sidebar(props) {
           </List>
         </NavLink>
         <Divider />
-        <NavLink to='/faculty/markAttendance' exact className={classes.navLink}>
+        <NavLink
+          to='/faculty/markAttendance'
+          exact
+          className={classes.navLink}
+          onClick={handleClick}
+        >
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>
@@ -72,7 +89,12 @@ export default function Sidebar(props) {
           </List>
         </NavLink>
         <Divider />
-        <NavLink to='/faculty/uploadMarks' exact className={classes.navLink}>
+        <NavLink
+          to='/faculty/uploadMarks'
+          exact
+          className={classes.navLink}
+          onClick={handleClick}
+        >
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>

@@ -17,12 +17,12 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import Header from './Header';
 import { addStudent } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
+import { departments, genders, sections } from '../utils/defaultValues';
 
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   name: '',
@@ -47,8 +47,7 @@ const AddStudent = () => {
   const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
 
-  // should contain only required fields
-  const fieldsToCheck = [
+  const requiredFields = [
     'name',
     'dob',
     'email',
@@ -73,17 +72,9 @@ const AddStudent = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(addStudent(details));
-  //   setDetails(initialData);
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       dispatch(addStudent(details)).then(() => {
         setDetails(initialData);
@@ -132,9 +123,9 @@ const AddStudent = () => {
               onChange={handleChangeDetails}
               className={classes.inputTextField}
             >
-              <MenuItem value={'M'}>Male</MenuItem>
-              <MenuItem value={'F'}>Female</MenuItem>
-              <MenuItem value={'O'}>Other</MenuItem>
+              {Object.entries(genders).map(([key, value]) => (
+                <MenuItem value={key}>{value}</MenuItem>
+              ))}
             </TextField>
           </div>
           <div className={classes.rowWise}>
@@ -158,6 +149,7 @@ const AddStudent = () => {
               </ThemeProvider>
             </MuiPickersUtilsProvider>
             <TextField
+              type='number'
               name='joiningYear'
               label='Joining Year'
               variant='outlined'
@@ -188,11 +180,9 @@ const AddStudent = () => {
                 helperText: errors.department,
               })}
             >
-              <MenuItem value={'CS'}>CSE</MenuItem>
-              <MenuItem value={'IT'}>IT</MenuItem>
-              <MenuItem value={'EC'}>ECE</MenuItem>
-              <MenuItem value={'EE'}>EEE</MenuItem>
-              <MenuItem value={'ME'}>ME</MenuItem>
+              {Object.entries(departments).map(([key, value]) => (
+                <MenuItem value={key}>{value}</MenuItem>
+              ))}
             </TextField>
             <TextField
               select
@@ -209,9 +199,9 @@ const AddStudent = () => {
                 helperText: errors.section,
               })}
             >
-              <MenuItem value={'1'}>1</MenuItem>
-              <MenuItem value={'2'}>2</MenuItem>
-              <MenuItem value={'3'}>3</MenuItem>
+              {sections.map(section => (
+                <MenuItem value={section}>{section}</MenuItem>
+              ))}
             </TextField>
           </div>
           <div className={classes.rowWise}>

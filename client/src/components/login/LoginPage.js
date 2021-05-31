@@ -15,11 +15,10 @@ import ForwardIcon from '@material-ui/icons/Forward';
 
 import { facultyLogin } from '../../redux/actions/facultyActions';
 import { studentLogin } from '../../redux/actions/studentActions';
+import { validator } from '../utils/helperFunctions';
 
 import loginImage from '../../images/loginImage.svg';
 import useStyles from '../../styles/LoginPage';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialDetails = {
   registrationNumber: '',
@@ -34,42 +33,45 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState(initialDetails);
   const [errors, setErrors] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (formData.userType === 'student') {
-      // should contain only required fields
-      const fieldsToCheck = ['enrollmentNumber', 'password'];
+      const requiredFields = ['enrollmentNumber', 'password'];
       const data = {
         enrollmentNumber: formData.enrollmentNumber,
         password: formData.password,
       };
-      const flag = validator(formData, fieldsToCheck);
+      const flag = validator(formData, requiredFields);
       if (flag === true) {
         setErrors(null);
-        dispatch(studentLogin(data, history)).then(() =>
-          setFormData(initialDetails)
-        );
+        setIsLoading(true);
+        dispatch(studentLogin(data, history)).then(() => {
+          setFormData(initialDetails);
+          setIsLoading(false);
+        });
       } else {
         setErrors(flag);
       }
       return;
     }
     if (formData.userType === 'faculty') {
-      // should contain only required fields
-      const fieldsToCheck = ['registrationNumber', 'password'];
+      const requiredFields = ['registrationNumber', 'password'];
       const data = {
         registrationNumber: formData.registrationNumber,
         password: formData.password,
       };
-      const flag = validator(formData, fieldsToCheck);
+      const flag = validator(formData, requiredFields);
       if (flag === true) {
-        dispatch(facultyLogin(data, history));
-        setFormData(initialDetails);
         setErrors(null);
+        setIsLoading(true);
+        dispatch(facultyLogin(data, history)).then(() => {
+          setFormData(initialDetails);
+          setIsLoading(false);
+        });
       } else {
         setErrors(flag);
       }
@@ -190,14 +192,16 @@ const LoginPage = () => {
                     helperText: errors.password,
                   })}
                 />
-                <Button
-                  type='submit'
-                  variant='contained'
-                  color='primary'
-                  className={classes.loginButton}
-                >
-                  Login
-                </Button>
+                {isLoading ? <p>Loading...</p> : (
+                  <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    className={classes.loginButton}
+                  >
+                    Login
+                  </Button>
+                )}
               </form>
               <Link
                 to={{

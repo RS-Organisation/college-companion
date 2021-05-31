@@ -23,7 +23,6 @@ export const studentLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/student');
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -41,7 +40,6 @@ export const studentLogout = (history) => async (dispatch) => {
     });
     history.push('/');
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -63,7 +61,6 @@ export const setStudentDetails = (history) => async (dispatch) => {
       history.push('/student/');
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -98,7 +95,6 @@ export const updateStudentDetails = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
-    console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -126,7 +122,6 @@ export const updateStudentImage = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -151,16 +146,25 @@ export const getMarks = (formData) => async (dispatch) => {
       },
     });
     if (data.success) {
-      dispatch({
-        type: SET_SNACKBAR,
-        payload: {
-          snackbarMessage: data.message,
-          snackbarType: 'success',
-        },
-      });
+      if (data.result.length === 0) {
+        dispatch({
+          type: SET_SNACKBAR,
+          payload: {
+            snackbarMessage: 'No data found from database',
+            snackbarType: 'warning',
+          },
+        });
+      } else {
+        dispatch({
+          type: SET_SNACKBAR,
+          payload: {
+            snackbarMessage: data.message,
+            snackbarType: 'success',
+          },
+        });
+      }
     }
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -179,7 +183,6 @@ export const getAttendance = () => async (dispatch) => {
       payload: data.result,
     });
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {
@@ -198,7 +201,6 @@ export const getSubjects = () => async (dispatch) => {
       payload: { subjects: data.result },
     });
   } catch (err) {
-    // console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {

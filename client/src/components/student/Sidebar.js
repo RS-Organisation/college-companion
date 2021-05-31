@@ -1,6 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { useTheme } from '@material-ui/core/styles';
 import {
   Drawer,
   CssBaseline,
@@ -11,6 +11,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -29,6 +30,9 @@ export default function Sidebar(props) {
   const classes = useStyles();
   const theme = useTheme();
 
+  const studentName = useSelector((store) => store.studentReducer.studentData.name);
+  const firstName = studentName.split(' ')[0];
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -42,7 +46,7 @@ export default function Sidebar(props) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <h1 className={classes.drawerTitle}>Hi, Roopin!</h1>
+          <h1 className={classes.drawerTitle}>Hi, {firstName}</h1>
           <IconButton className={classes.leftIcon} onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />

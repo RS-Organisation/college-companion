@@ -11,11 +11,10 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { updateFacultyDetails } from '../../redux/actions/facultyActions';
+import { validator } from '../utils/helperFunctions';
 
 import useStyles from '../../styles/UpdatePassword';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const UpdatePassword = () => {
   const classes = {
@@ -31,8 +30,7 @@ const UpdatePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState(null);
 
-  // should contain only required fields
-  const fieldsToCheck = ['newPassword', 'confirmPassword'];
+  const requiredFields = ['newPassword', 'confirmPassword'];
 
   const handleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -52,27 +50,13 @@ const UpdatePassword = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  // 	e.preventDefault();
-  // 	if (newPassword === confirmPassword) {
-  // 		const changes = {
-  // 			password: newPassword,
-  // 		};
-  // 		dispatch(updateFacultyDetails(changes));
-  // 		setNewPassword('');
-  // 		setConfirmPassword('');
-  // 	}
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const details = {
       newPassword,
       confirmPassword,
     };
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       setErrors(null);
       if (newPassword === confirmPassword) {

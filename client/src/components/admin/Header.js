@@ -3,7 +3,7 @@ import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppBar, Toolbar, IconButton, Menu, MenuItem } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 import Sidebar from './Sidebar';
@@ -134,7 +134,7 @@ const Header = (props) => {
               className={classes.accountCircle}
               onClick={handleAccountOpen}
             >
-              <AccountCircle />
+              <PowerSettingsNewIcon />
             </IconButton>
             <Menu
               className={classes.menu}
@@ -150,12 +150,6 @@ const Header = (props) => {
               open={openAccount}
               onClose={handleAccountClose}
             >
-              <MenuItem
-                onClick={handleAccountClose}
-                className={classes.menuItem}
-              >
-                Profile
-              </MenuItem>
               <MenuItem onClick={handleLogout} className={classes.menuItem}>
                 Logout
               </MenuItem>

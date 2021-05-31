@@ -75,7 +75,7 @@ const uploadMarks = async (req, res) => {
         student: stud.id,
         subject: sub._id,
         examType,
-        totalMarks: examType === 'internal' ? 25 : 75,
+        totalMarks: examType === 'Internal' ? 25 : 75,
         section,
         department,
         semester,

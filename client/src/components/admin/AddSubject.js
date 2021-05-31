@@ -10,11 +10,11 @@ import {
 
 import Header from './Header';
 import { addSubject } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
+import { departments, semesters } from '../utils/defaultValues';
 
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   subjectName: '',
@@ -33,8 +33,7 @@ const AddSubject = () => {
   const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
 
-  // should contain only required fields
-  const fieldsToCheck = [
+  const requiredFields = [
     'subjectName',
     'subjectCode',
     'department',
@@ -49,17 +48,9 @@ const AddSubject = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(addSubject(details));
-  //   setDetails(initialData);
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       dispatch(addSubject(details)).then(() => {
         setDetails(initialData);
@@ -132,11 +123,9 @@ const AddSubject = () => {
               helperText: errors.department,
             })}
           >
-            <MenuItem value={'CS'}>CSE</MenuItem>
-            <MenuItem value={'IT'}>IT</MenuItem>
-            <MenuItem value={'EC'}>ECE</MenuItem>
-            <MenuItem value={'EE'}>EEE</MenuItem>
-            <MenuItem value={'ME'}>ME</MenuItem>
+            {Object.entries(departments).map(([key, value]) => (
+              <MenuItem value={key}>{value}</MenuItem>
+            ))}
           </TextField>
           <TextField
             select
@@ -152,14 +141,9 @@ const AddSubject = () => {
               helperText: errors.semester,
             })}
           >
-            <MenuItem value={'1'}>1</MenuItem>
-            <MenuItem value={'2'}>2</MenuItem>
-            <MenuItem value={'3'}>3</MenuItem>
-            <MenuItem value={'4'}>4</MenuItem>
-            <MenuItem value={'5'}>5</MenuItem>
-            <MenuItem value={'6'}>6</MenuItem>
-            <MenuItem value={'7'}>7</MenuItem>
-            <MenuItem value={'8'}>8</MenuItem>
+            {semesters.map(semester => (
+              <MenuItem value={semester}>{semester}</MenuItem>
+            ))}
           </TextField>
           <Button
             variant='contained'

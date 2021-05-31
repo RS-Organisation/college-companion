@@ -29,5 +29,27 @@ export default makeStyles((theme) => ({
   },
   inputTableCell: {
     padding: '6px 0 9px 0'
-  }
+  },
+  noDataDiv: {
+    backgroundColor: '#41aea9',
+    color: '#ffff',
+    textAlign: 'center',
+    padding: '3rem',
+  },
+  noDataIcon: {
+    fontSize: '5rem',
+  },
+  noDataHeading: {
+    fontFamily: 'Nunito Sans, sans-serif',
+    fontWeight: '600',
+    fontSize: '3.5rem',
+    marginTop: '2rem',
+    marginBottom: '0',
+  },
+  noDataText: {
+    fontFamily: 'Nunito Sans, sans-serif',
+    fontWeight: '300',
+    fontSize: '1.2rem',
+    marginTop: '0.5rem',
+  },
 }));

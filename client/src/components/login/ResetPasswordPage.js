@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   TextField,
   Button,
@@ -13,13 +15,15 @@ import {
   resetPassword,
   updatePasswordViaEmail
 } from '../../redux/actions/api/index';
+import { setSnackbar } from '../../redux/actions/snackbarActions';
+import { validator } from '../utils/helperFunctions';
 
 import useStyles from '../../styles/ResetPasswordPage';
 
-import { validator } from '../utils/helperFunctions';
-
 const ResetPasswordPage = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [user, setUser] = useState({ id: '', type: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [newPassword, setNewPassword] = useState('');
@@ -29,16 +33,18 @@ const ResetPasswordPage = (props) => {
   useEffect(() => {
     const { userType, token } = props.match.params;
     async function fetchData() {
-      const { data } = await resetPassword({ userType, token });
-      if (data.success) {
-        setUser({ id: data.id, type: userType });
-      } else {
-        // Add snackbar
-        console.log('error');
+      try {
+        const { data } = await resetPassword({ userType, token });
+        if (data.success) {
+          setUser({ id: data.id, type: userType });
+        }
+      }
+      catch (error) {
+        history.push('/reset/link-expired');
       }
     }
     fetchData();
-  }, [props.match.params]);
+  }, [props.match.params, history]);
 
   const handleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -67,13 +73,24 @@ const ResetPasswordPage = (props) => {
     if (flag === true) {
       setErrors(null);
       if (newPassword === confirmPassword) {
-        await updatePasswordViaEmail({
-          id: user.id,
-          userType: user.type,
-          password: newPassword
-        });
-        setNewPassword('');
-        setConfirmPassword('');
+        try {
+          const { data } = await updatePasswordViaEmail({
+            id: user.id,
+            userType: user.type,
+            password: newPassword
+          });
+          dispatch(setSnackbar({
+            snackbarType: 'success', 
+            snackbarMessage: data.message
+          }));
+          setNewPassword('');
+          setConfirmPassword('');
+        } catch (error) {
+          dispatch(setSnackbar({
+            snackbarType: 'error', 
+            snackbarMessage: error.response.data.message
+          }));
+        }  
       } else {
         setErrors({
           newPassword: '',

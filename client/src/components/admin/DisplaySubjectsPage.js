@@ -15,11 +15,11 @@ import {
 import Header from './Header';
 import SubjectDetailTable from './SubjectDetailTable';
 import { getSubjects } from '../../redux/actions/adminActions';
+import { validator } from '../utils/helperFunctions';
+import { departments, semesters } from '../utils/defaultValues';
 
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const DisplaySubjectsPage = () => {
   const classes = {
@@ -29,9 +29,11 @@ const DisplaySubjectsPage = () => {
 
   const dispatch = useDispatch();
 
-  const { allSubjects, subjectsDepartment, subjectsSemester } = useSelector(
-    (store) => store.adminReducer
-  );
+  const { 
+    allSubjects, 
+    subjectsDepartment, 
+    subjectsSemester 
+  } = useSelector((store) => store.adminReducer);
 
   const [details, setDetails] = useState({
     department: subjectsDepartment,
@@ -40,8 +42,7 @@ const DisplaySubjectsPage = () => {
 
   const [errors, setErrors] = useState(null);
 
-  // should contain only required fields
-  const fieldsToCheck = ['department', 'semester'];
+  const requiredFields = ['department', 'semester'];
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -51,16 +52,9 @@ const DisplaySubjectsPage = () => {
     }
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   dispatch(getSubjects(details));
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if flag is true means there is no error in form and
-    // if there is any error then flag will contain errors object
-    const flag = validator(details, fieldsToCheck);
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       dispatch(getSubjects(details));
       setErrors(null);
@@ -73,9 +67,7 @@ const DisplaySubjectsPage = () => {
 
   return (
     <Header>
-      <div
-        className={showSubjectTable ? classes.container95 : classes.container70}
-      >
+      <div className={showSubjectTable ? classes.container95 : classes.container70}>
         <Typography variant='h4' className={classes.subtitle}>
           Subjects
         </Typography>
@@ -106,11 +98,9 @@ const DisplaySubjectsPage = () => {
                   onChange={handleChangeDetails}
                   label='Department'
                 >
-                  <MenuItem value={'CS'}>CSE</MenuItem>
-                  <MenuItem value={'IT'}>IT</MenuItem>
-                  <MenuItem value={'EC'}>ECE</MenuItem>
-                  <MenuItem value={'EE'}>EEE</MenuItem>
-                  <MenuItem value={'ME'}>ME</MenuItem>
+                  {Object.entries(departments).map(([key, value]) => (
+                    <MenuItem value={key}>{value}</MenuItem>
+                  ))}
                 </Select>
                 {errors && <FormHelperText>{errors.department}</FormHelperText>}
               </FormControl>
@@ -129,14 +119,9 @@ const DisplaySubjectsPage = () => {
                   onChange={handleChangeDetails}
                   label='Semester'
                 >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
-                  <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={6}>6</MenuItem>
-                  <MenuItem value={7}>7</MenuItem>
-                  <MenuItem value={8}>8</MenuItem>
+                  {semesters.map(semester => (
+                    <MenuItem value={semester}>{semester}</MenuItem>
+                  ))}
                 </Select>
                 {errors && <FormHelperText>{errors.semester}</FormHelperText>}
               </FormControl>

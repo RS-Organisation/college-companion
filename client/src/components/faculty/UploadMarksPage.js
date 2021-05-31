@@ -18,11 +18,16 @@ import {
   clearStudentsList,
   uploadMarks,
 } from '../../redux/actions/facultyActions';
+import { validator } from '../utils/helperFunctions';
+import { 
+  departments, 
+  semesters, 
+  sections,
+  examTypes,
+} from '../utils/defaultValues';
 
 import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
-
-import { validator } from '../utils/helperFunctions';
 
 const initialData = {
   department: '',
@@ -60,9 +65,8 @@ const UploadMarksPage = () => {
   };
 
   const handleSearch = () => {
-    // should contain only required fields
-    const fieldsToCheck = ['department', 'section', 'semester'];
-    const flag = validator(details, fieldsToCheck);
+    const requiredFields = ['department', 'section', 'semester'];
+    const flag = validator(details, requiredFields);
     if (flag === true) {
       const searchedQuery = {
         department: details.department,
@@ -82,10 +86,8 @@ const UploadMarksPage = () => {
   };
 
   const handleUpload = () => {
-    // should contain only required fields
-    const fieldsToCheck = ['subjectCode', 'examType'];
-
-    const flag = validator({ subjectCode: details.subjectCode }, fieldsToCheck);
+    const requiredFields = ['subjectCode', 'examType'];
+    const flag = validator({ subjectCode: details.subjectCode }, requiredFields);
     if (flag === true) {
       setErrors(null);
       const formData = {
@@ -125,11 +127,9 @@ const UploadMarksPage = () => {
                 onChange={handleChangeDetails}
                 label='Department'
               >
-                <MenuItem value={'CS'}>CSE</MenuItem>
-                <MenuItem value={'IT'}>IT</MenuItem>
-                <MenuItem value={'EC'}>ECE</MenuItem>
-                <MenuItem value={'EE'}>EEE</MenuItem>
-                <MenuItem value={'ME'}>ME</MenuItem>
+                {Object.entries(departments).map(([key, value]) => (
+                  <MenuItem value={key}>{value}</MenuItem>
+                ))}
               </Select>
               {errors && <FormHelperText>{errors.department}</FormHelperText>}
             </FormControl>
@@ -149,9 +149,9 @@ const UploadMarksPage = () => {
                 onChange={handleChangeDetails}
                 label='Section'
               >
-                <MenuItem value={'1'}>1</MenuItem>
-                <MenuItem value={'2'}>2</MenuItem>
-                <MenuItem value={'3'}>3</MenuItem>
+                {sections.map(section => (
+                  <MenuItem value={section}>{section}</MenuItem>
+                ))}
               </Select>
               {errors && <FormHelperText>{errors.section}</FormHelperText>}
             </FormControl>
@@ -171,14 +171,9 @@ const UploadMarksPage = () => {
                 onChange={handleChangeDetails}
                 label='Semester'
               >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={6}>6</MenuItem>
-                <MenuItem value={7}>7</MenuItem>
-                <MenuItem value={8}>8</MenuItem>
+                {semesters.map(semester => (
+                  <MenuItem value={semester}>{semester}</MenuItem>
+                ))}
               </Select>
               {errors && <FormHelperText>{errors.semester}</FormHelperText>}
             </FormControl>
@@ -236,8 +231,9 @@ const UploadMarksPage = () => {
                   onChange={handleChangeDetails}
                   label='Exam Type'
                 >
-                  <MenuItem value={'internal'}>Internal</MenuItem>
-                  <MenuItem value={'external'}>External</MenuItem>
+                  {examTypes.map(examType => (
+                    <MenuItem value={examType}>{examType}</MenuItem>
+                  ))}
                 </Select>
                 {errors && <FormHelperText>{errors.examType}</FormHelperText>}
               </FormControl>
