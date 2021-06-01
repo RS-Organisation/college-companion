@@ -4,7 +4,9 @@ import {
   SET_STUDENT_DETAILS,
   GET_STUDENT_MARKS,
   GET_ATTENDANCE,
+  GET_ATTENDANCE_DATA,
   GET_SUBJECTS,
+  CLEAR_Subject_LIST,
 } from '../actionsType';
 import Cookies from 'js-cookie';
 
@@ -56,12 +58,25 @@ const studentReducer = (state = initialState, action) => {
         attendance: action.payload,
       };
 
+    case GET_ATTENDANCE_DATA:
+      return {
+        ...state,
+        attendance: action.payload.attendance,
+        subjects: action.payload.subjects,
+      };
+
     case GET_SUBJECTS:
       return {
         ...state,
         subjects: action?.payload?.subjects,
       };
 
+    case CLEAR_Subject_LIST:
+      return {
+        ...state,
+        subjects: [],
+        attendance: [],
+      };
     default:
       return state;
   }

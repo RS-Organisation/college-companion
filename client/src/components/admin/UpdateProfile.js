@@ -83,10 +83,13 @@ const UpdateProfile = () => {
     let fileSize = Math.round(file.size / 1024);
     if (file) {
       if (fileSize >= 1024) {
-        dispatch(setSnackbar({ 
-          snackbarType: 'error', 
-          snackbarMessage: 'File too big, please select a file less than 1 MB'
-        }));
+        dispatch(
+          setSnackbar({
+            snackbarType: 'error',
+            snackbarMessage:
+              'File too big, please select a file less than 1 MB',
+          })
+        );
         handleCancelUpload();
       } else {
         setChanges({ ...changes, avatar: file });
@@ -129,7 +132,7 @@ const UpdateProfile = () => {
           <div>
             {details.avatar ? (
               <Avatar
-                src={`http://localhost:5000/uploads/${details.avatar}`}
+                src={`${process.env.REACT_APP_SERVER_URL}/uploads/${details.avatar}`}
                 alt='profile-pic'
                 className={classes.avatar}
               />

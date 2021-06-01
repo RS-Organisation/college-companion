@@ -31,7 +31,7 @@ const ProfileDetails = (props) => {
         <Grid item xs={12} lg={4} className={classes.avatarGrid}>
           {student.avatar ? (
             <Avatar
-              src={`http://localhost:5000/uploads/${student.avatar}`}
+              src={`${process.env.REACT_APP_SERVER_URL}/uploads/${student.avatar}`}
               alt='profile-pic'
               className={classes.avatar}
             />
@@ -65,9 +65,10 @@ const ProfileDetails = (props) => {
               <TextField
                 label='Department'
                 margin='normal'
-                value={student.department 
-                  ? departments[student.department] 
-                  : 'Not available'
+                value={
+                  student.department
+                    ? departments[student.department]
+                    : 'Not available'
                 }
                 inputProps={{ readOnly: true }}
                 className={classes.inputTextField}

@@ -15,7 +15,6 @@ import useStylesCommon from '../../styles/CommonStyles';
 
 const ProfileDetails = (props) => {
   const { admin } = props;
-
   const classes = {
     ...useStylesCommon(),
     ...useStyles(),
@@ -31,7 +30,7 @@ const ProfileDetails = (props) => {
         <Grid item xs={12} lg={4} className={classes.avatarGrid}>
           {admin.avatar ? (
             <Avatar
-              src={`http://localhost:5000/uploads/${admin.avatar}`}
+              src={`${process.env.REACT_APP_SERVER_URL}/uploads/${admin.avatar}`}
               alt='profile-pic'
               className={classes.avatar}
             />
@@ -65,9 +64,10 @@ const ProfileDetails = (props) => {
               <TextField
                 label='Department'
                 margin='normal'
-                value={admin.department 
-                  ? departments[admin.department] 
-                  : 'Not available'
+                value={
+                  admin.department
+                    ? departments[admin.department]
+                    : 'Not available'
                 }
                 inputProps={{ readOnly: true }}
                 className={classes.inputTextField}
@@ -101,9 +101,7 @@ const ProfileDetails = (props) => {
                 label='Contact Number'
                 margin='normal'
                 value={
-                  admin.contactNumber
-                    ? admin.contactNumber
-                    : 'Not available'
+                  admin.contactNumber ? admin.contactNumber : 'Not available'
                 }
                 inputProps={{ readOnly: true }}
                 className={classes.inputTextField}

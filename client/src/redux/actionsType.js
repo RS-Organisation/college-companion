@@ -26,7 +26,9 @@ export const GET_STUDENT_LIST = 'GET_STUDENT_LIST';
 export const CLEAR_STUDENT_LIST = 'CLEAR_STUDENT_LIST';
 export const GET_STUDENT_MARKS = 'GET_STUDENT_MARKS';
 export const GET_ATTENDANCE = 'GET_ATTENDANCE';
+export const GET_ATTENDANCE_DATA = 'GET_ATTENDANCE_DATA';
 export const GET_SUBJECTS = 'GET_SUBJECTS';
+export const CLEAR_Subject_LIST = 'CLEAR_Subject_LIST';
 
 // Snackbar
 export const SET_SNACKBAR = 'SET_SNACKBAR';

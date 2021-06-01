@@ -7,7 +7,9 @@ import {
   SET_STUDENT_DETAILS,
   GET_STUDENT_MARKS,
   GET_ATTENDANCE,
+  GET_ATTENDANCE_DATA,
   GET_SUBJECTS,
+  CLEAR_Subject_LIST,
   SET_SNACKBAR,
 } from '../actionsType';
 
@@ -205,6 +207,44 @@ export const getSubjects = () => async (dispatch) => {
       type: SET_SNACKBAR,
       payload: {
         snackbarMessage: err.response.data.message,
+        snackbarType: 'error',
+      },
+    });
+  }
+};
+
+export const getAttendanceData = () => async (dispatch) => {
+  try {
+    const attendance = await api.getAttendance();
+    const subjects = await api.getSubjectsForStudent();
+    dispatch({
+      type: GET_ATTENDANCE_DATA,
+      payload: {
+        attendance: attendance.data.result,
+        subjects: subjects.data.result,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: 'Error in fetching attendance',
+        snackbarType: 'error',
+      },
+    });
+  }
+};
+
+export const clearSubjectList = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLEAR_Subject_LIST,
+    });
+  } catch (err) {
+    dispatch({
+      type: SET_SNACKBAR,
+      payload: {
+        snackbarMessage: 'Something went wrong. Please try again',
         snackbarType: 'error',
       },
     });

@@ -13,7 +13,7 @@ import useStylesCommon from '../../styles/CommonStyles';
 const SubjectsPage = () => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
 
   const dispatch = useDispatch();
@@ -25,11 +25,9 @@ const SubjectsPage = () => {
     if (subjects.length === 0) {
       dispatch(getSubjects());
     } else {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500)
+      setLoading(false);
     }
-  }, [dispatch, subjects.length, loading]);
+  }, [dispatch, subjects]);
 
   return (
     <Header>

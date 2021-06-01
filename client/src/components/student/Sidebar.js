@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
   Drawer,
@@ -22,6 +22,8 @@ import ListIcon from '@material-ui/icons/List';
 import SchoolIcon from '@material-ui/icons/School';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
+import { clearSubjectList } from '../../redux/actions/studentActions';
+
 import useStyles from '../../styles/Sidebar';
 
 export default function Sidebar(props) {
@@ -29,9 +31,16 @@ export default function Sidebar(props) {
 
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
-  const studentName = useSelector((store) => store.studentReducer.studentData.name);
+  const studentName = useSelector(
+    (store) => store.studentReducer.studentData.name
+  );
   const firstName = studentName.split(' ')[0];
+
+  const handleClick = () => {
+    dispatch(clearSubjectList());
+  };
 
   return (
     <div className={classes.root}>
@@ -78,7 +87,12 @@ export default function Sidebar(props) {
           </List>
         </NavLink>
         <Divider />
-        <NavLink to='/student/attendance' exact className={classes.navLink}>
+        <NavLink
+          to='/student/attendance'
+          exact
+          className={classes.navLink}
+          onClick={handleClick}
+        >
           <List className={classes.listItem}>
             <ListItem button className={classes.listItemButton}>
               <ListItemIcon>

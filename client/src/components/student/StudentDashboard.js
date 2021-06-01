@@ -8,6 +8,7 @@ import useStyles from '../../styles/CommonStyles';
 
 const StudentDashboard = () => {
   const classes = useStyles();
+  console.log(`${process.env.REACT_APP_SERVER_URL}/uploads/`);
   const student = useSelector((store) => store.studentReducer.studentData);
   return (
     <Header>

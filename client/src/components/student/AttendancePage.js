@@ -5,7 +5,7 @@ import { Typography, Divider } from '@material-ui/core';
 import Header from './Header';
 import AttendanceTable from './AttendanceTable';
 import LoadingPage from '../utils/LoadingPage';
-import { getAttendance, getSubjects } from '../../redux/actions/studentActions';
+import { getAttendanceData } from '../../redux/actions/studentActions';
 
 import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
@@ -23,14 +23,11 @@ const AttendancePage = () => {
 
   useEffect(() => {
     if (attendance.length === 0 && subjects.length === 0) {
-      dispatch(getAttendance());
-      dispatch(getSubjects());
+      dispatch(getAttendanceData());
     } else {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
+      setLoading(false);
     }
-  }, [dispatch, attendance.length, subjects.length, loading]);
+  }, [dispatch, attendance, subjects]);
 
   return (
     <Header>

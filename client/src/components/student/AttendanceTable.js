@@ -13,8 +13,8 @@ import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissa
 import useStyles from '../../styles/MarkAttendanceTable';
 
 const findSubjectName = (id, subjects) => {
-  return subjects.find(item => item._id === id);
-}
+  return subjects.find((item) => item._id === id);
+};
 
 const getPercentage = (totalLectures, attendedLectures) => {
   var percentage = (attendedLectures / totalLectures) * 100;
@@ -71,7 +71,8 @@ const AttendanceTable = (props) => {
                   <TableCell align='center'>{row.totalLecturesHeld}</TableCell>
                   <TableCell align='center'>{row.lecturesAttended}</TableCell>
                   <TableCell align='center'>
-                    {getPercentage(row.totalLecturesHeld, row.lecturesAttended)} %
+                    {getPercentage(row.totalLecturesHeld, row.lecturesAttended)}{' '}
+                    %
                   </TableCell>
                 </TableRow>
               ))}
