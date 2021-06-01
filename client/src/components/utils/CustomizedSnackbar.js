@@ -36,7 +36,7 @@ const CustomizedSnackbar = () => {
           horizontal: 'left',
         }}
         open={snackbarOpen}
-        autoHideDuration={4000}
+        autoHideDuration={2000}
         onClose={handleClose}
       >
         <Alert

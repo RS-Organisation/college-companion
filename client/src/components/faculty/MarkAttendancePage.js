@@ -21,6 +21,8 @@ import {
 import { validator } from '../utils/helperFunctions';
 import { departments, sections, semesters } from '../utils/defaultValues';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
 
@@ -46,6 +48,7 @@ const MarkAttendancePage = () => {
     markAttendanceFlag,
   } = useSelector((store) => store?.facultyReducer);
 
+  const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState(initialData);
   const [selected, setSelected] = useState([]);
   const [errors, setErrors] = useState(null);
@@ -62,13 +65,14 @@ const MarkAttendancePage = () => {
     const requiredFields = ['department', 'section', 'semester'];
     const flag = validator(details, requiredFields);
     if (flag === true) {
+      setErrors(null);
       const searchedQuery = {
         department: details.department,
         section: details.section,
         semester: details.semester,
       };
-      dispatch(getStudentList(searchedQuery));
-      setErrors(null);
+      setLoading(true);
+      dispatch(getStudentList(searchedQuery)).then(() => setLoading(false));
     } else {
       setErrors(flag);
     }
@@ -81,7 +85,10 @@ const MarkAttendancePage = () => {
 
   const handleSubmit = () => {
     const requiredFields = ['subjectCode'];
-    const flag = validator({ subjectCode: details.subjectCode }, requiredFields);
+    const flag = validator(
+      { subjectCode: details.subjectCode },
+      requiredFields
+    );
     if (flag === true) {
       setErrors(null);
       const formData = {
@@ -90,7 +97,11 @@ const MarkAttendancePage = () => {
         subjectCode: details.subjectCode,
         ...searchQueryForStudents,
       };
-      dispatch(markAttendance(formData)).then(() => handleReset());
+      setLoading(true);
+      dispatch(markAttendance(formData)).then(() => {
+        setLoading(false);
+        handleReset();
+      });
     } else {
       setErrors(flag);
     }
@@ -143,7 +154,7 @@ const MarkAttendancePage = () => {
                 onChange={handleChangeDetails}
                 label='Section'
               >
-                {sections.map(section => (
+                {sections.map((section) => (
                   <MenuItem value={section}>{section}</MenuItem>
                 ))}
               </Select>
@@ -165,19 +176,23 @@ const MarkAttendancePage = () => {
                 onChange={handleChangeDetails}
                 label='Semester'
               >
-                {semesters.map(semester => (
+                {semesters.map((semester) => (
                   <MenuItem value={semester}>{semester}</MenuItem>
                 ))}
               </Select>
               {errors && <FormHelperText>{errors.semester}</FormHelperText>}
             </FormControl>
-            <Button
-              variant='contained'
-              className={classes.filledButton}
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
+            {loading ? (
+              <SubmitLoader />
+            ) : (
+              <Button
+                variant='contained'
+                className={classes.filledButton}
+                onClick={handleSearch}
+              >
+                Search
+              </Button>
+            )}
           </form>
         ) : (
           <div>
@@ -226,14 +241,18 @@ const MarkAttendancePage = () => {
               setSelected={setSelected}
             />
             <div className={classes.buttonDiv}>
-              <Button
-                variant='contained'
-                className={`${classes.filledButton} ${classes.submitButton}`}
-                onClick={handleSubmit}
-                disabled={selected.length === 0}
-              >
-                Submit
-              </Button>
+              {loading ? (
+                <SubmitLoader />
+              ) : (
+                <Button
+                  variant='contained'
+                  className={`${classes.filledButton} ${classes.submitButton}`}
+                  onClick={handleSubmit}
+                  disabled={selected.length === 0}
+                >
+                  Submit
+                </Button>
+              )}
             </div>
           </div>
         )}

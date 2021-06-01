@@ -14,10 +14,11 @@ import {
 
 import Header from './Header';
 import AcademicPerformanceTable from './AcademicPerformanceTable';
-import LoadingPage from '../utils/LoadingPage';
 import { getMarks, getSubjects } from '../../redux/actions/studentActions';
 import { validator } from '../utils/helperFunctions';
 import { examTypes, semesters } from '../utils/defaultValues';
+
+import SubmitLoader from '../utils/SubmitLoader';
 
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
@@ -39,6 +40,7 @@ const AcademicPerformancePage = () => {
     semester: marksSearchedQuery.semester,
   });
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const showMarksTable =
     marksSearchedQuery.examType !== '' && marksSearchedQuery.semester !== '';
@@ -56,9 +58,11 @@ const AcademicPerformancePage = () => {
     const requiredFields = ['semester', 'examType'];
     const flag = validator(details, requiredFields);
     if (flag === true) {
-      dispatch(getMarks(details));
-      dispatch(getSubjects());
       setErrors(null);
+      setLoading(true);
+      dispatch(getMarks(details)).then(() =>
+        dispatch(getSubjects()).then(() => setLoading(false))
+      );
     } else {
       setErrors(flag);
     }
@@ -66,7 +70,9 @@ const AcademicPerformancePage = () => {
 
   return (
     <Header>
-      <div className={showMarksTable ? classes.container95 : classes.container70}>
+      <div
+        className={showMarksTable ? classes.container95 : classes.container70}
+      >
         <div>
           <Typography variant='h4' className={classes.subtitle}>
             Academic Performance
@@ -99,7 +105,7 @@ const AcademicPerformancePage = () => {
                     onChange={handleChangeDetails}
                     label='Exam Type'
                   >
-                    {examTypes.map(examType => (
+                    {examTypes.map((examType) => (
                       <MenuItem value={examType}>{examType}</MenuItem>
                     ))}
                   </Select>
@@ -121,25 +127,31 @@ const AcademicPerformancePage = () => {
                     onChange={handleChangeDetails}
                     label='Semester'
                   >
-                    {semesters.map(semester => (
+                    {semesters.map((semester) => (
                       <MenuItem value={semester}>{semester}</MenuItem>
                     ))}
                   </Select>
                   {errors && <FormHelperText>{errors.semester}</FormHelperText>}
                 </FormControl>
-                <Button
-                  variant='contained'
-                  type='submit'
-                  className={classes.filledButton}
-                >
-                  Search
-                </Button>
+                {loading ? (
+                  <SubmitLoader />
+                ) : (
+                  <Button
+                    variant='contained'
+                    type='submit'
+                    className={classes.filledButton}
+                  >
+                    Search
+                  </Button>
+                )}
               </form>
             </Grid>
             {showMarksTable && (
               <Grid item xs={12} lg={9}>
                 {subjects.length === 0 ? (
-                  <LoadingPage />
+                  <div style={{ marginTop: '4rem' }}>
+                    <SubmitLoader />
+                  </div>
                 ) : (
                   <AcademicPerformanceTable
                     examType={details.examType}

@@ -19,12 +19,14 @@ import {
   uploadMarks,
 } from '../../redux/actions/facultyActions';
 import { validator } from '../utils/helperFunctions';
-import { 
-  departments, 
-  semesters, 
+import {
+  departments,
+  semesters,
   sections,
   examTypes,
 } from '../utils/defaultValues';
+
+import SubmitLoader from '../utils/SubmitLoader';
 
 import useStyles from '../../styles/MarkAttendancePage';
 import useStylesCommon from '../../styles/CommonStyles';
@@ -52,6 +54,7 @@ const UploadMarksPage = () => {
     uploadMarksFlag,
   } = useSelector((store) => store?.facultyReducer);
 
+  const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState(initialData);
   const [marksList, setMarksList] = useState([]);
   const [errors, setErrors] = useState(null);
@@ -68,13 +71,14 @@ const UploadMarksPage = () => {
     const requiredFields = ['department', 'section', 'semester'];
     const flag = validator(details, requiredFields);
     if (flag === true) {
+      setErrors(null);
       const searchedQuery = {
         department: details.department,
         section: details.section,
         semester: details.semester,
       };
-      dispatch(getStudentList(searchedQuery));
-      setErrors(null);
+      setLoading(true);
+      dispatch(getStudentList(searchedQuery)).then(() => setLoading(false));
     } else {
       setErrors(flag);
     }
@@ -87,7 +91,10 @@ const UploadMarksPage = () => {
 
   const handleUpload = () => {
     const requiredFields = ['subjectCode', 'examType'];
-    const flag = validator({ subjectCode: details.subjectCode }, requiredFields);
+    const flag = validator(
+      { subjectCode: details.subjectCode, examType: details.examType },
+      requiredFields
+    );
     if (flag === true) {
       setErrors(null);
       const formData = {
@@ -96,7 +103,11 @@ const UploadMarksPage = () => {
         examType: details.examType,
         ...searchQueryForStudents,
       };
-      dispatch(uploadMarks(formData)).then(() => handleReset());
+      setLoading(true);
+      dispatch(uploadMarks(formData)).then(() => {
+        setLoading(false);
+        handleReset();
+      });
     } else {
       setErrors(flag);
     }
@@ -149,7 +160,7 @@ const UploadMarksPage = () => {
                 onChange={handleChangeDetails}
                 label='Section'
               >
-                {sections.map(section => (
+                {sections.map((section) => (
                   <MenuItem value={section}>{section}</MenuItem>
                 ))}
               </Select>
@@ -171,15 +182,19 @@ const UploadMarksPage = () => {
                 onChange={handleChangeDetails}
                 label='Semester'
               >
-                {semesters.map(semester => (
+                {semesters.map((semester) => (
                   <MenuItem value={semester}>{semester}</MenuItem>
                 ))}
               </Select>
               {errors && <FormHelperText>{errors.semester}</FormHelperText>}
             </FormControl>
-            <Button className={classes.filledButton} onClick={handleSearch}>
-              Search
-            </Button>
+            {loading ? (
+              <SubmitLoader />
+            ) : (
+              <Button className={classes.filledButton} onClick={handleSearch}>
+                Search
+              </Button>
+            )}
           </form>
         ) : (
           <div>
@@ -231,7 +246,7 @@ const UploadMarksPage = () => {
                   onChange={handleChangeDetails}
                   label='Exam Type'
                 >
-                  {examTypes.map(examType => (
+                  {examTypes.map((examType) => (
                     <MenuItem value={examType}>{examType}</MenuItem>
                   ))}
                 </Select>
@@ -251,14 +266,18 @@ const UploadMarksPage = () => {
               setMarksList={setMarksList}
             />
             <div className={classes.buttonDiv}>
-              <Button
-                variant='contained'
-                className={`${classes.filledButton} ${classes.submitButton}`}
-                onClick={handleUpload}
-                disabled={marksList.length === 0}
-              >
-                Upload
-              </Button>
+              {loading ? (
+                <SubmitLoader />
+              ) : (
+                <Button
+                  variant='contained'
+                  className={`${classes.filledButton} ${classes.submitButton}`}
+                  onClick={handleUpload}
+                  disabled={marksList.length === 0}
+                >
+                  Upload
+                </Button>
+              )}
             </div>
           </div>
         )}

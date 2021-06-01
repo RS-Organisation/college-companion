@@ -19,6 +19,8 @@ import { validator } from '../utils/helperFunctions';
 import loginImage from '../../images/loginImage.svg';
 import useStyles from '../../styles/LoginPage';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 const initialDetails = {
   registrationNumber: '',
   password: '',
@@ -121,7 +123,9 @@ const AdminLoginPage = () => {
                     helperText: errors.password,
                   })}
                 />
-                {isLoading ? <p>Loading...</p> : (
+                {isLoading ? (
+                  <SubmitLoader />
+                ) : (
                   <Button
                     type='submit'
                     variant='contained'

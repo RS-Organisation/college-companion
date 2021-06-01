@@ -20,6 +20,8 @@ import { addFaculty } from '../../redux/actions/adminActions';
 import { validator } from '../utils/helperFunctions';
 import { departments, genders, designations } from '../utils/defaultValues';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import useStyles from '../../styles/AddAdmin';
 import useStylesCommon from '../../styles/CommonStyles';
 import materialTheme from '../../styles/MuiTheme';
@@ -42,6 +44,7 @@ const AddFaculty = () => {
     ...useStyles(),
   };
   const [details, setDetails] = useState(initialData);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
 
@@ -73,7 +76,9 @@ const AddFaculty = () => {
     e.preventDefault();
     const flag = validator(details, requiredFields);
     if (flag === true) {
+      setLoading(true);
       dispatch(addFaculty(details)).then(() => {
+        setLoading(false);
         setDetails(initialData);
         setErrors(null);
       });
@@ -196,7 +201,7 @@ const AddFaculty = () => {
                 helperText: errors.designation,
               })}
             >
-              {designations.map(designation => (
+              {designations.map((designation) => (
                 <MenuItem value={designation}>{designation}</MenuItem>
               ))}
             </TextField>
@@ -248,13 +253,17 @@ const AddFaculty = () => {
               })}
             />
           </div>
-          <Button
-            variant='contained'
-            type='submit'
-            className={`${classes.filledButton} ${classes.submitButton}`}
-          >
-            ADD
-          </Button>
+          {loading ? (
+            <SubmitLoader />
+          ) : (
+            <Button
+              variant='contained'
+              type='submit'
+              className={`${classes.filledButton} ${classes.submitButton}`}
+            >
+              ADD
+            </Button>
+          )}
         </form>
       </div>
     </Header>

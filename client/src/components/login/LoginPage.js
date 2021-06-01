@@ -17,6 +17,8 @@ import { facultyLogin } from '../../redux/actions/facultyActions';
 import { studentLogin } from '../../redux/actions/studentActions';
 import { validator } from '../utils/helperFunctions';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import loginImage from '../../images/loginImage.svg';
 import useStyles from '../../styles/LoginPage';
 
@@ -113,20 +115,22 @@ const LoginPage = () => {
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('student')}
-                  className={`${classes.studentButton} ${formData.userType === 'student'
-                    ? classes.selectedButton
-                    : classes.nonSelectedButton
-                    }`}
+                  className={`${classes.studentButton} ${
+                    formData.userType === 'student'
+                      ? classes.selectedButton
+                      : classes.nonSelectedButton
+                  }`}
                 >
                   Student Login
                 </Button>
                 <Button
                   variant='contained'
                   onClick={() => handleSwitch('faculty')}
-                  className={`${classes.facultyButton} ${formData.userType === 'faculty'
-                    ? classes.selectedButton
-                    : classes.nonSelectedButton
-                    }`}
+                  className={`${classes.facultyButton} ${
+                    formData.userType === 'faculty'
+                      ? classes.selectedButton
+                      : classes.nonSelectedButton
+                  }`}
                 >
                   Faculty Login
                 </Button>
@@ -192,7 +196,9 @@ const LoginPage = () => {
                     helperText: errors.password,
                   })}
                 />
-                {isLoading ? <p>Loading...</p> : (
+                {isLoading ? (
+                  <SubmitLoader />
+                ) : (
                   <Button
                     type='submit'
                     variant='contained'

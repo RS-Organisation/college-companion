@@ -24,10 +24,13 @@ export const adminLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/admin');
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -62,10 +65,13 @@ export const setAdminDetails = (history) => async (dispatch) => {
       history.push('/admin/');
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -87,10 +93,13 @@ export const addAdmin = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -112,10 +121,13 @@ export const addFaculty = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -137,10 +149,13 @@ export const addStudent = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -161,10 +176,13 @@ export const addSubject = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -191,10 +209,13 @@ export const getFaculties = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -223,10 +244,13 @@ export const getStudents = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -255,10 +279,13 @@ export const getSubjects = (formData) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -289,10 +316,13 @@ export const updateAdminDetails = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -316,10 +346,13 @@ export const updateAdminImage = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });

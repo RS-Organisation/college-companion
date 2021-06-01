@@ -18,6 +18,8 @@ import { getFaculties } from '../../redux/actions/adminActions';
 import { validator } from '../utils/helperFunctions';
 import { departments } from '../utils/defaultValues';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
 
@@ -28,11 +30,11 @@ const OurFacultiesPage = () => {
   };
   const dispatch = useDispatch();
 
-  const { 
-    allFaculties, 
-    facultiesDepartment 
-  } = useSelector((store) => store.adminReducer);
+  const { allFaculties, facultiesDepartment } = useSelector(
+    (store) => store.adminReducer
+  );
 
+  const [loading, setLoading] = useState(false);
   const [department, setDepartment] = useState(facultiesDepartment);
   const [errors, setErrors] = useState(null);
 
@@ -49,8 +51,9 @@ const OurFacultiesPage = () => {
     e.preventDefault();
     const flag = validator({ department }, requiredFields);
     if (flag === true) {
-      dispatch(getFaculties({ department }));
       setErrors(null);
+      setLoading(true);
+      dispatch(getFaculties({ department })).then(() => setLoading(false));
     } else {
       setErrors(flag);
     }
@@ -60,7 +63,9 @@ const OurFacultiesPage = () => {
 
   return (
     <Header>
-      <div className={showFacultyTable ? classes.container95 : classes.container70}>
+      <div
+        className={showFacultyTable ? classes.container95 : classes.container70}
+      >
         <Typography variant='h4' className={classes.subtitle}>
           Our Faculties
         </Typography>
@@ -96,13 +101,17 @@ const OurFacultiesPage = () => {
                 </Select>
                 {errors && <FormHelperText>{errors.department}</FormHelperText>}
               </FormControl>
-              <Button
-                variant='contained'
-                type='submit'
-                className={classes.filledButton}
-              >
-                Submit
-              </Button>
+              {loading ? (
+                <SubmitLoader />
+              ) : (
+                <Button
+                  variant='contained'
+                  type='submit'
+                  className={classes.filledButton}
+                >
+                  Submit
+                </Button>
+              )}
             </form>
           </Grid>
           {showFacultyTable && (

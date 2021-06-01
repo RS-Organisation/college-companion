@@ -18,6 +18,8 @@ import { getSubjects } from '../../redux/actions/adminActions';
 import { validator } from '../utils/helperFunctions';
 import { departments, semesters } from '../utils/defaultValues';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
 
@@ -29,16 +31,16 @@ const DisplaySubjectsPage = () => {
 
   const dispatch = useDispatch();
 
-  const { 
-    allSubjects, 
-    subjectsDepartment, 
-    subjectsSemester 
-  } = useSelector((store) => store.adminReducer);
+  const { allSubjects, subjectsDepartment, subjectsSemester } = useSelector(
+    (store) => store.adminReducer
+  );
 
   const [details, setDetails] = useState({
     department: subjectsDepartment,
     semester: subjectsSemester,
   });
+
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState(null);
 
@@ -56,8 +58,9 @@ const DisplaySubjectsPage = () => {
     e.preventDefault();
     const flag = validator(details, requiredFields);
     if (flag === true) {
-      dispatch(getSubjects(details));
       setErrors(null);
+      setLoading(true);
+      dispatch(getSubjects(details)).then(() => setLoading(true));
     } else {
       setErrors(flag);
     }
@@ -67,7 +70,9 @@ const DisplaySubjectsPage = () => {
 
   return (
     <Header>
-      <div className={showSubjectTable ? classes.container95 : classes.container70}>
+      <div
+        className={showSubjectTable ? classes.container95 : classes.container70}
+      >
         <Typography variant='h4' className={classes.subtitle}>
           Subjects
         </Typography>
@@ -119,19 +124,23 @@ const DisplaySubjectsPage = () => {
                   onChange={handleChangeDetails}
                   label='Semester'
                 >
-                  {semesters.map(semester => (
+                  {semesters.map((semester) => (
                     <MenuItem value={semester}>{semester}</MenuItem>
                   ))}
                 </Select>
                 {errors && <FormHelperText>{errors.semester}</FormHelperText>}
               </FormControl>
-              <Button
-                variant='contained'
-                type='submit'
-                className={classes.filledButton}
-              >
-                Search
-              </Button>
+              {loading ? (
+                <SubmitLoader />
+              ) : (
+                <Button
+                  variant='contained'
+                  type='submit'
+                  className={classes.filledButton}
+                >
+                  Search
+                </Button>
+              )}
             </form>
           </Grid>
           {showSubjectTable && (

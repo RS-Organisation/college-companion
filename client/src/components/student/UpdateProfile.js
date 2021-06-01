@@ -26,6 +26,8 @@ import { setSnackbar } from '../../redux/actions/snackbarActions';
 import { validator } from '../utils/helperFunctions';
 import { departments, genders, sections } from '../utils/defaultValues';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import blankProfilePic from '../../images/blankProfilePic.svg';
 import useStyles from '../../styles/UpdateProfile';
 import useStylesCommon from '../../styles/CommonStyles';
@@ -45,6 +47,7 @@ const UpdateProfile = () => {
   const [changes, setChanges] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const requiredFields = [
     'name',
@@ -121,8 +124,11 @@ const UpdateProfile = () => {
     if (flag === true) {
       setErrors(null);
       if (changes && Object.keys(changes).length !== 0) {
-        dispatch(updateStudentDetails(changes));
-        setChanges({});
+        setLoading(true);
+        dispatch(updateStudentDetails(changes)).then(() => {
+          setLoading(false);
+          setChanges({});
+        });
       }
     } else {
       setErrors(flag);
@@ -338,14 +344,18 @@ const UpdateProfile = () => {
                 })}
               />
             </div>
-            <Button
-              type='submit'
-              variant='contained'
-              className={`${classes.filledButton} ${classes.submitButton}`}
-              disabled={changes && Object.keys(changes).length === 0}
-            >
-              Save Changes
-            </Button>
+            {loading ? (
+              <SubmitLoader />
+            ) : (
+              <Button
+                type='submit'
+                variant='contained'
+                className={`${classes.filledButton} ${classes.submitButton}`}
+                disabled={changes && Object.keys(changes).length === 0}
+              >
+                Save Changes
+              </Button>
+            )}
           </form>
         </Grid>
       </Grid>

@@ -18,6 +18,8 @@ import { getStudents } from '../../redux/actions/adminActions';
 import { validator } from '../utils/helperFunctions';
 import { departments, years } from '../utils/defaultValues';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import useStyles from '../../styles/OurFacultiesPage';
 import useStylesCommon from '../../styles/CommonStyles';
 
@@ -28,17 +30,15 @@ const OurStudentsPage = () => {
   };
   const dispatch = useDispatch();
 
-  const { 
-    allStudents, 
-    studentsDepartment, 
-    studentsYear 
-  } = useSelector((store) => store.adminReducer);
+  const { allStudents, studentsDepartment, studentsYear } = useSelector(
+    (store) => store.adminReducer
+  );
 
   const [details, setDetails] = useState({
     department: studentsDepartment,
     year: studentsYear,
   });
-
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
 
   const requiredFields = ['department', 'year'];
@@ -55,8 +55,9 @@ const OurStudentsPage = () => {
     e.preventDefault();
     const flag = validator(details, requiredFields);
     if (flag === true) {
-      dispatch(getStudents(details));
       setErrors(null);
+      setLoading(true);
+      dispatch(getStudents(details)).then(() => setLoading(false));
     } else {
       setErrors(flag);
     }
@@ -66,7 +67,9 @@ const OurStudentsPage = () => {
 
   return (
     <Header>
-      <div className={showStudentTable ? classes.container95 : classes.container70}>
+      <div
+        className={showStudentTable ? classes.container95 : classes.container70}
+      >
         <Typography variant='h4' className={classes.subtitle}>
           Our Students
         </Typography>
@@ -118,19 +121,23 @@ const OurStudentsPage = () => {
                   onChange={handleChangeDetails}
                   label='Year'
                 >
-                  {years.map(year => (
+                  {years.map((year) => (
                     <MenuItem value={year}>{year}</MenuItem>
                   ))}
                 </Select>
                 {errors && <FormHelperText>{errors.year}</FormHelperText>}
               </FormControl>
-              <Button
-                variant='contained'
-                type='submit'
-                className={classes.filledButton}
-              >
-                Search
-              </Button>
+              {loading ? (
+                <SubmitLoader />
+              ) : (
+                <Button
+                  variant='contained'
+                  type='submit'
+                  className={classes.filledButton}
+                >
+                  Search
+                </Button>
+              )}
             </form>
           </Grid>
           {showStudentTable && (

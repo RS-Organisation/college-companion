@@ -13,6 +13,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { updateStudentDetails } from '../../redux/actions/studentActions';
 import { validator } from '../utils/helperFunctions';
 
+import SubmitLoader from '../utils/SubmitLoader';
+
 import useStyles from '../../styles/UpdatePassword';
 import useStylesCommon from '../../styles/CommonStyles';
 
@@ -24,6 +26,7 @@ const UpdatePassword = () => {
 
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [newPassword, setNewPassword] = useState('');
@@ -63,9 +66,12 @@ const UpdatePassword = () => {
         const changes = {
           password: newPassword,
         };
-        dispatch(updateStudentDetails(changes));
-        setNewPassword('');
-        setConfirmPassword('');
+        setLoading(true);
+        dispatch(updateStudentDetails(changes)).then(() => {
+          setLoading(true);
+          setNewPassword('');
+          setConfirmPassword('');
+        });
       } else {
         setErrors({
           newPassword: '',
@@ -139,22 +145,26 @@ const UpdatePassword = () => {
                 helperText: errors.confirmPassword,
               })}
             />
-            <div className={classes.buttonDiv}>
-              <Button
-                variant='contained'
-                type='submit'
-                className={classes.filledButton}
-              >
-                Save Changes
-              </Button>
-              <Button
-                variant='contained'
-                onClick={handleCancel}
-                className={classes.outlinedButton}
-              >
-                Cancel
-              </Button>
-            </div>
+            {loading ? (
+              <SubmitLoader />
+            ) : (
+              <div className={classes.buttonDiv}>
+                <Button
+                  variant='contained'
+                  type='submit'
+                  className={classes.filledButton}
+                >
+                  Save Changes
+                </Button>
+                <Button
+                  variant='contained'
+                  onClick={handleCancel}
+                  className={classes.outlinedButton}
+                >
+                  Cancel
+                </Button>
+              </div>
+            )}
           </form>
         )}
       </div>

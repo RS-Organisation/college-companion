@@ -25,10 +25,13 @@ export const studentLogin = (formData, history) => async (dispatch) => {
     });
     history.push('/student');
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -63,10 +66,13 @@ export const setStudentDetails = (history) => async (dispatch) => {
       history.push('/student/');
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -97,10 +103,13 @@ export const updateStudentDetails = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -124,10 +133,13 @@ export const updateStudentImage = (updates) => async (dispatch) => {
       });
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -167,10 +179,13 @@ export const getMarks = (formData) => async (dispatch) => {
       }
     }
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -185,10 +200,13 @@ export const getAttendance = () => async (dispatch) => {
       payload: data.result,
     });
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });
@@ -203,10 +221,13 @@ export const getSubjects = () => async (dispatch) => {
       payload: { subjects: data.result },
     });
   } catch (err) {
+    const message = err?.response?.data?.message
+      ? err.response.data.message
+      : 'Something went wrong';
     dispatch({
       type: SET_SNACKBAR,
       payload: {
-        snackbarMessage: err.response.data.message,
+        snackbarMessage: message,
         snackbarType: 'error',
       },
     });

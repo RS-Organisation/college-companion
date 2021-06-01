@@ -4,7 +4,7 @@ import { Typography, Divider } from '@material-ui/core';
 
 import Header from './Header';
 import SubjectsTable from './SubjectsTable';
-import LoadingPage from '../utils/LoadingPage';
+import SubmitLoader from '../utils/SubmitLoader';
 import { getSubjects } from '../../redux/actions/studentActions';
 
 import useStyles from '../../styles/MarkAttendancePage';
@@ -36,7 +36,13 @@ const SubjectsPage = () => {
           All Subjects
         </Typography>
         <Divider />
-        {loading ? <LoadingPage /> : <SubjectsTable subjects={subjects} />}
+        {loading ? (
+          <div style={{ marginTop: '4rem' }}>
+            <SubmitLoader />
+          </div>
+        ) : (
+          <SubjectsTable subjects={subjects} />
+        )}
       </div>
     </Header>
   );
