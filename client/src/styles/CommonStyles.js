@@ -112,7 +112,7 @@ export default makeStyles((theme) => ({
     justifyContent: 'space-between',
   },
   submitButton: {
-    margin: '1.5rem 0',
+    margin: '2rem 0',
     fontSize: '1.1rem',
   },
   subtitle: {

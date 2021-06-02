@@ -12,13 +12,14 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ForwardIcon from '@material-ui/icons/Forward';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
+import BrandLogo from '../utils/BrandLogo';
 import { facultyLogin } from '../../redux/actions/facultyActions';
 import { studentLogin } from '../../redux/actions/studentActions';
 import { validator } from '../utils/helperFunctions';
 
 import SubmitLoader from '../utils/SubmitLoader';
-
 import loginImage from '../../images/loginImage.svg';
 import useStyles from '../../styles/LoginPage';
 
@@ -100,9 +101,13 @@ const LoginPage = () => {
 
   return (
     <div className={classes.main}>
+      <BrandLogo />
       <Button onClick={handleAdminButton} className={classes.adminButton}>
         Admin <ForwardIcon />
       </Button>
+      <p className={classes.footerText}>
+        Made with <FavoriteIcon className={classes.loveIcon} /> by Roopin Bhadri & Shikhar Rastogi
+      </p>
       <div className={classes.contentBox}>
         <Grid container spacing={0}>
           <Grid item xs={12} lg={6} className={classes.imageGrid}>
@@ -110,7 +115,7 @@ const LoginPage = () => {
           </Grid>
           <Grid item xs={12} lg={6} className={classes.loginGrid}>
             <div className={classes.loginGridDiv}>
-              <h3 className={classes.title}>Welcome</h3>
+              <h3 className={classes.title}>Welcome Back !</h3>
               <div classesName={classes.buttonDiv}>
                 <Button
                   variant='contained'

@@ -29,6 +29,7 @@ export default makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    fontFamily: 'Montserrat, sans-serif',
   },
   grow: {
     flexGrow: 1,

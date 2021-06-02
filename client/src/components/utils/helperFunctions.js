@@ -5,13 +5,13 @@ import isAlpha from 'validator/lib/isAlpha';
 const checkContactNumber = (num) => {
   return num.length === 0 || /^[6-9]\d{9}$/.test(num)
     ? ''
-    : 'Invalid contact number (numbers only)';
+    : 'Invalid contact number (10-digits)';
 };
 
 const checkName = (name) => {
   return isAlpha(name, ['en-US'], { ignore: ' ' })
     ? ''
-    : 'Name should contain aphabets and space only';
+    : 'Name should contain aphabets and spaces only';
 };
 
 export const validator = (details, requiredFields) => {
@@ -34,7 +34,7 @@ export const validator = (details, requiredFields) => {
     else if (field === 'newPassword' || field === 'confirmPassword') {
       errorObj[field] = details[field]
         ? details[field].length < 8
-          ? 'Password must be atleast 8 characters.'
+          ? 'Password must be atleast 8 characters'
           : ''
         : 'Field is required';
     }

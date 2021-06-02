@@ -19,6 +19,7 @@ import StudentProfile from './components/student/StudentProfile';
 import AttendancePage from './components/student/AttendancePage';
 import SubjectsPage from './components/student/SubjectsPage';
 import AcademicPerformancePage from './components/student/AcademicPerformancePage';
+import ChatPage from './components/student/ChatPage';
 
 // Faculty Imports
 import FacultyDashboard from './components/faculty/FacultyDashboard';
@@ -81,6 +82,11 @@ const App = () => {
           path='/student/academics'
           exact
           component={AcademicPerformancePage}
+        />
+        <PrivateStudentRoute
+          path='/student/chat'
+          exact
+          component={ChatPage}
         />
 
         {/* Faculty Routes */}

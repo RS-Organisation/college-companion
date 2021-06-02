@@ -12,7 +12,9 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ForwardIcon from '@material-ui/icons/Forward';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
+import BrandLogo from '../utils/BrandLogo';
 import { adminLogin } from '../../redux/actions/adminActions';
 import { validator } from '../utils/helperFunctions';
 
@@ -68,9 +70,13 @@ const AdminLoginPage = () => {
 
   return (
     <div className={classes.main}>
+      <BrandLogo />
       <Button onClick={handleSwitchLogin} className={classes.adminButton}>
         Student/Faculty <ForwardIcon />
       </Button>
+      <p className={classes.footerText}>
+        Made with <FavoriteIcon className={classes.loveIcon} /> by Roopin Bhadri & Shikhar Rastogi
+      </p>
       <div className={classes.contentBox}>
         <Grid container spacing={0}>
           <Grid item xs={12} lg={6} className={classes.imageGrid}>
@@ -78,7 +84,7 @@ const AdminLoginPage = () => {
           </Grid>
           <Grid item xs={12} lg={6} className={classes.loginGrid}>
             <div className={classes.loginGridDiv}>
-              <h3 className={classes.title}>Welcome</h3>
+              <h3 className={classes.title}>Welcome Back !</h3>
               <Divider variant='middle' className={classes.adminDivider} />
               <form
                 className={classes.root}

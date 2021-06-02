@@ -1,7 +1,14 @@
 import { React, useState } from 'react';
 import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AppBar, Toolbar, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { 
+  AppBar, 
+  Toolbar, 
+  IconButton, 
+  Menu, 
+  MenuItem,
+  Typography
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -70,6 +77,9 @@ const Header = (props) => {
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            CollegeCompanion
+          </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton

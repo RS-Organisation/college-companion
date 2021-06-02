@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Faculty = require('../models/faculty');
+const bcrypt = require('bcryptjs');
 const { generateRegistrationNumber } = require('../util/helperFunctions');
 
 // GET ROUTES

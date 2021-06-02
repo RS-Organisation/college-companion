@@ -119,7 +119,10 @@ export default makeStyles((theme) => ({
   },
   title: {
     fontFamily: 'Nunito Sans, sans-serif',
+    color: '#41aea9',
     fontSize: '2rem',
+    fontWeight: '600',
+    marginBottom: '1.2rem',
   },
   divider: {
     marginTop: '1.5rem',
@@ -136,5 +139,18 @@ export default makeStyles((theme) => ({
   forgotLink: {
     textDecoration: 'none',
     color: '#41aea9',
+  },
+  footerText: {
+    position: 'fixed',
+    bottom: '0',
+    color: '#ffff',
+    fontSize: '1rem',
+    letterSpacing: '1px',
+    lineHeight: '1rem',
+  },
+  loveIcon: {
+    fontSize: '1rem',
+    color: '#eb6383',
+    marginBottom: '-2px',
   },
 }));

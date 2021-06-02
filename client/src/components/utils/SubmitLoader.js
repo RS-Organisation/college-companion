@@ -9,11 +9,12 @@ const useStyles = makeStyles({
   },
 });
 
-const SubmitLoader = () => {
+const SubmitLoader = (props) => {
+  const loader = props?.loaderImage ? props.loaderImage : submitLoader
   const classes = useStyles();
   return (
     <div className={classes.loaderDiv}>
-      <img src={submitLoader} alt='loader' />
+      <img src={loader} alt='loader' />
     </div>
   );
 };

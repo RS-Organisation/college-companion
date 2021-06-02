@@ -17,6 +17,8 @@ import {
 } from '../../redux/actions/api/index';
 import { setSnackbar } from '../../redux/actions/snackbarActions';
 import { validator } from '../utils/helperFunctions';
+import BrandLogo from '../utils/BrandLogo';
+import SubmitLoader from '../utils/SubmitLoader';
 
 import useStyles from '../../styles/ResetPasswordPage';
 
@@ -24,11 +26,13 @@ const ResetPasswordPage = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+
   const [user, setUser] = useState({ id: '', type: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const { userType, token } = props.match.params;
@@ -73,24 +77,27 @@ const ResetPasswordPage = (props) => {
     if (flag === true) {
       setErrors(null);
       if (newPassword === confirmPassword) {
-        try {
-          const { data } = await updatePasswordViaEmail({
-            id: user.id,
-            userType: user.type,
-            password: newPassword
-          });
+        setLoading(true);
+        await updatePasswordViaEmail({
+          id: user.id,
+          userType: user.type,
+          password: newPassword
+        }).then((res) => {
+          user.type === 'admin' ? history.push('/admin/login') : history.push('/');
           dispatch(setSnackbar({
-            snackbarType: 'success', 
-            snackbarMessage: data.message
+            snackbarType: 'success',
+            snackbarMessage: res.data.message
           }));
           setNewPassword('');
           setConfirmPassword('');
-        } catch (error) {
+          setLoading(false);
+        }).catch((error) => {
           dispatch(setSnackbar({
-            snackbarType: 'error', 
+            snackbarType: 'error',
             snackbarMessage: error.response.data.message
           }));
-        }  
+          setLoading(false);
+        });
       } else {
         setErrors({
           newPassword: '',
@@ -104,6 +111,7 @@ const ResetPasswordPage = (props) => {
 
   return (
     <div className={classes.main}>
+      <BrandLogo />
       <div className={classes.contentBox}>
         <Typography variant='h4' className={classes.heading}>
           Reset Password
@@ -153,13 +161,17 @@ const ResetPasswordPage = (props) => {
             />
           </div>
           <div className={classes.textContainer}>
-            <Button
-              variant='contained'
-              type='submit'
-              className={classes.filledButton}
-            >
-              Reset Password
-            </Button>
+            {loading ? (
+              <SubmitLoader />
+            ) : (
+              <Button
+                variant='contained'
+                type='submit'
+                className={classes.filledButton}
+              >
+                Reset Password
+              </Button>
+            )}
           </div>
         </form>
       </div>

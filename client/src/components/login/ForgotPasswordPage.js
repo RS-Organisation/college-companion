@@ -6,7 +6,10 @@ import { TextField, Typography, Button } from '@material-ui/core';
 import { setSnackbar } from '../../redux/actions/snackbarActions';
 import { validator } from '../utils/helperFunctions';
 import { sendEmail } from '../../redux/actions/api/index';
+import BrandLogo from '../utils/BrandLogo';
+import SubmitLoader from '../utils/SubmitLoader';
 
+import resetLoader from '../../images/resetLoader.gif';
 import forgotPasswordIcon from '../../images/forgotPasswordIcon.png';
 import useStyles from '../../styles/ForgotPasswordPage';
 
@@ -14,8 +17,10 @@ const ForgotPasswordPage = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const userType = props?.location?.aboutProps?.userType;
   if (!userType) {
@@ -40,18 +45,20 @@ const ForgotPasswordPage = (props) => {
     const flag = validator({ email }, ['email']);
     if (flag === true) {
       setErrors(null);
-      try {
-        const { data } = await sendEmail({ email, userType });
+      setLoading(true);
+      await sendEmail({ email, userType }).then((res) => {
         dispatch(setSnackbar({
-          snackbarType: 'success', 
-          snackbarMessage: data.message
+          snackbarType: 'success',
+          snackbarMessage: res.data.message
         }));
-      } catch (error) {
+        setLoading(false);
+      }).catch((err) => {
         dispatch(setSnackbar({
-          snackbarType: 'error', 
-          snackbarMessage: error.response.data.message
+          snackbarType: 'error',
+          snackbarMessage: err.response.data.message
         }));
-      }
+        setLoading(false);
+      });
     } else {
       setErrors(flag);
     }
@@ -59,6 +66,7 @@ const ForgotPasswordPage = (props) => {
 
   return (
     <div className={classes.main}>
+      <BrandLogo />
       <Button onClick={handleReturn} className={classes.returnButton}>
         Return to Login
       </Button>
@@ -86,13 +94,17 @@ const ForgotPasswordPage = (props) => {
             })}
           />
           <div className={classes.buttonContainer}>
-            <Button
-              variant='contained'
-              type='submit'
-              className={classes.filledButton}
-            >
-              Send Link
-            </Button>
+            {loading ? (
+              <SubmitLoader loaderImage={resetLoader} />
+            ) : (
+              <Button
+                variant='contained'
+                type='submit'
+                className={classes.filledButton}
+              >
+                Send Link
+              </Button>
+            )}
           </div>
         </form>
       </div>

@@ -220,7 +220,7 @@ export const getStudentList = (formData) => async (dispatch) => {
       dispatch({
         type: SET_SNACKBAR,
         payload: {
-          snackbarMessage: 'Details fetched successfully',
+          snackbarMessage: 'Student List fetched successfully',
           snackbarType: 'success',
         },
       });
