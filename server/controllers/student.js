@@ -15,12 +15,10 @@ const getStudentDetails = async (req, res) => {
     const student = await Student.findById(_id);
     res.status(200).json({ result: student, success: true });
   } catch (err) {
-    res
-      .status(404)
-      .json({
-        success: false,
-        message: 'Error in fetching details. Please try again',
-      });
+    res.status(404).json({
+      success: false,
+      message: 'Error in fetching details. Please try again',
+    });
   }
 };
 
@@ -44,12 +42,10 @@ const getStudents = async (req, res) => {
       message: 'Students fetched successfully',
     });
   } catch (err) {
-    res
-      .status(404)
-      .json({
-        success: false,
-        message: 'Error in fetching students. Please try again',
-      });
+    res.status(404).json({
+      success: false,
+      message: 'Error in fetching students. Please try again',
+    });
   }
 };
 
@@ -81,12 +77,10 @@ const addStudent = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'New student added successfully' });
   } catch (err) {
-    res
-      .status(400)
-      .json({
-        success: false,
-        message: 'Error in adding student. Please try again',
-      });
+    res.status(400).json({
+      success: false,
+      message: 'Error in adding student. Please try again',
+    });
   }
 };
 
@@ -96,10 +90,12 @@ const updateStudent = async (req, res) => {
   try {
     var updates = req.file ? { avatar: req.file.filename } : req.body;
     const { _id } = req.studentDetails;
+    var displayMessage = 'Faculty details updated successfully';
 
     if (updates.password) {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
+      displayMessage = 'Password changed successfully';
     }
 
     const updatedDetails = await Student.findByIdAndUpdate(_id, updates, {
@@ -108,7 +104,7 @@ const updateStudent = async (req, res) => {
     res.status(200).json({
       result: updatedDetails,
       success: true,
-      message: 'Student details updated successfully',
+      message: displayMessage,
     });
   } catch (err) {
     res

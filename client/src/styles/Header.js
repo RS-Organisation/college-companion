@@ -4,7 +4,7 @@ const drawerWidth = 240;
 
 export default makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   hide: {
     display: 'none',
@@ -30,6 +30,9 @@ export default makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     fontFamily: 'Montserrat, sans-serif',
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   grow: {
     flexGrow: 1,
@@ -44,18 +47,18 @@ export default makeStyles((theme) => ({
     marginRight: '1rem',
   },
   settingIcon: {
-    marginRight: '1rem'
+    marginRight: '1rem',
   },
   menuItem: {
     transition: '0.3s ease-in-out',
     '&:hover': {
       backgroundColor: '#41aea9',
-      color: 'white'
+      color: 'white',
     },
-    fontSize: '0.9rem'
+    fontSize: '0.9rem',
   },
   menu: {
-    marginTop: '2.5rem'
+    marginTop: '2.5rem',
   },
   navLink: {
     textDecoration: 'none',

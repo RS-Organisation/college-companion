@@ -7,7 +7,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
@@ -77,7 +77,11 @@ const Header = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography
+            variant='h6'
+            className={classes.title}
+            onClick={() => history.push('/student/')}
+          >
             CollegeCompanion
           </Typography>
           <div className={classes.grow} />

@@ -13,26 +13,59 @@ import {
 import useStyles from '../../styles/MarkAttendanceTable';
 
 const UploadMarksTable = (props) => {
-  const { studentsList, marksList, setMarksList } = props;
+  const {
+    studentsList,
+    marksList,
+    setMarksList,
+    examType,
+    errorMarks,
+    setErrorMarks,
+  } = props;
   const classes = useStyles();
 
-  const handleChange = (e, id) => {
-    const marks = e.target.value;
-    const idx = marksList.findIndex(m => m.id === id);
-    let newMarksList = [];
+  const maxMarks = examType === 'Internal' ? 25 : 75;
 
-    if (idx === -1) {
-      newMarksList = newMarksList.concat(marksList, { id, marks });
+  const getNewArray = (index) => {
+    const isPresent = errorMarks.indexOf(index);
+    let newArray = [];
+
+    if (isPresent === -1) {
+      return errorMarks;
+    } else if (isPresent === 0) {
+      newArray = newArray.concat(errorMarks.slice(1));
+    } else if (isPresent === errorMarks.length - 1) {
+      newArray = newArray.concat(errorMarks.slice(0, -1));
+    } else if (isPresent > 0) {
+      newArray = newArray.concat(
+        errorMarks.slice(0, isPresent),
+        errorMarks.slice(isPresent + 1)
+      );
     }
-    else {
-      newMarksList = [
-        ...marksList.slice(0, idx),
-        Object.assign({}, marksList[idx], { marks }),
-        ...marksList.slice(idx + 1)
-      ];
+    return newArray;
+  };
+
+  const handleChange = (e, id, index) => {
+    const marks = e.target.value;
+    if (marks >= 0 && marks <= maxMarks) {
+      let newArray = getNewArray(index);
+      setErrorMarks(newArray);
+      const idx = marksList.findIndex((m) => m.id === id);
+      let newMarksList = [];
+
+      if (idx === -1) {
+        newMarksList = newMarksList.concat(marksList, { id, marks });
+      } else {
+        newMarksList = [
+          ...marksList.slice(0, idx),
+          Object.assign({}, marksList[idx], { marks }),
+          ...marksList.slice(idx + 1),
+        ];
+      }
+      setMarksList(newMarksList);
+    } else {
+      setErrorMarks([...errorMarks, index]);
     }
-    setMarksList(newMarksList);
-  }
+  };
 
   return (
     <Paper className={classes.root}>
@@ -67,7 +100,13 @@ const UploadMarksTable = (props) => {
                     type='number'
                     margin='dense'
                     className={classes.marksInputTextField}
-                    onChange={(e) => handleChange(e, student._id)}
+                    onChange={(e) => handleChange(e, student._id, index)}
+                    error={errorMarks.includes(index)}
+                    helperText={
+                      errorMarks.includes(index)
+                        ? `Marks should be in range (0-${maxMarks})`
+                        : ''
+                    }
                   />
                 </TableCell>
               </TableRow>

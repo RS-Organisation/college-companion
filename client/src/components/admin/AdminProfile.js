@@ -11,9 +11,13 @@ import useStylesCommon from '../../styles/CommonStyles';
 const AdminProfile = (props) => {
   const classes = {
     ...useStylesCommon(),
-    ...useStyles()
+    ...useStyles(),
   };
-  const selected = props?.location?.aboutProps?.selected || 'profile';
+
+  const selected = props?.location?.aboutProps?.selected
+    ? props?.location?.aboutProps?.selected
+    : 'profile';
+
   const [clickedButton, setClickedButton] = useState(selected);
 
   useEffect(() => {
@@ -30,26 +34,24 @@ const AdminProfile = (props) => {
         </div>
         <div className={classes.header}>
           <span
-            className={`${classes.span} ${clickedButton === 'profile' && classes.clickedButton
-              }`}
+            className={`${classes.span} ${
+              clickedButton === 'profile' && classes.clickedButton
+            }`}
             onClick={() => setClickedButton('profile')}
           >
             Profile
           </span>
           <span
-            className={`${classes.span} ${clickedButton === 'security' && classes.clickedButton
-              }`}
+            className={`${classes.span} ${
+              clickedButton === 'security' && classes.clickedButton
+            }`}
             onClick={() => setClickedButton('security')}
           >
             Security
           </span>
         </div>
         <div>
-          {clickedButton === 'profile' ? (
-            <UpdateProfile />
-          ) : (
-            <UpdatePassword />
-          )}
+          {clickedButton === 'profile' ? <UpdateProfile /> : <UpdatePassword />}
         </div>
       </div>
     </Header>

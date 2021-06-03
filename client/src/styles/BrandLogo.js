@@ -8,6 +8,9 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   brandIcon: {
     width: '48px',

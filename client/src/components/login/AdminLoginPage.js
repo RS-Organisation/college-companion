@@ -75,7 +75,8 @@ const AdminLoginPage = () => {
         Student/Faculty <ForwardIcon />
       </Button>
       <p className={classes.footerText}>
-        Made with <FavoriteIcon className={classes.loveIcon} /> by Roopin Bhadri & Shikhar Rastogi
+        Made with <FavoriteIcon className={classes.loveIcon} /> by Roopin Bhadri
+        & Shikhar Rastogi
       </p>
       <div className={classes.contentBox}>
         <Grid container spacing={0}>

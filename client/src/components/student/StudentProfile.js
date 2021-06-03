@@ -14,7 +14,10 @@ const StudentProfile = (props) => {
     ...useStyles(),
   };
 
-  const selected = props?.location?.aboutProps?.selected || 'profile';
+  const selected = props?.location?.aboutProps?.selected
+    ? props?.location?.aboutProps?.selected
+    : 'profile';
+
   const [clickedButton, setClickedButton] = useState(selected);
 
   useEffect(() => {

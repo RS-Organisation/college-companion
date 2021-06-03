@@ -62,11 +62,13 @@ const addAdmin = async (req, res) => {
 const updateAdmin = async (req, res) => {
   try {
     var updates = req.file ? { avatar: req.file.filename } : req.body;
+    var displayMessage = 'Admin details updated successfully';
     const { _id } = req.adminDetails;
 
     if (updates.password) {
       const hashedPassword = await bcrypt.hash(updates.password, 12);
       updates.password = hashedPassword;
+      displayMessage = 'Password changed successfully';
     }
 
     const updatedDetails = await Admin.findByIdAndUpdate(_id, updates, {
@@ -75,7 +77,7 @@ const updateAdmin = async (req, res) => {
     res.status(200).json({
       result: updatedDetails,
       success: true,
-      message: 'Admin details updated successfully',
+      message: displayMessage,
     });
   } catch (err) {
     res

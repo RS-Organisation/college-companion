@@ -9,52 +9,53 @@ import useStyles from '../../styles/AdminProfile';
 import useStylesCommon from '../../styles/CommonStyles';
 
 const FacultyProfile = (props) => {
-	const classes = {
-		...useStylesCommon(),
-		...useStyles()
-	};
+  const classes = {
+    ...useStylesCommon(),
+    ...useStyles(),
+  };
 
-	const selected = props?.location?.aboutProps?.selected || 'profile';
-	const [clickedButton, setClickedButton] = useState(selected);
+  const selected = props?.location?.aboutProps?.selected
+    ? props?.location?.aboutProps?.selected
+    : 'profile';
 
-	useEffect(() => {
-		setClickedButton(selected);
-	}, [selected]);
+  const [clickedButton, setClickedButton] = useState(selected);
 
-	return (
-		<Header>
-			<div className={classes.container70}>
-				<div className={classes.titleDiv}>
-					<Typography variant='h4' className={classes.subtitle}>
-						My Account
+  useEffect(() => {
+    setClickedButton(selected);
+  }, [selected]);
+
+  return (
+    <Header>
+      <div className={classes.container70}>
+        <div className={classes.titleDiv}>
+          <Typography variant='h4' className={classes.subtitle}>
+            My Account
           </Typography>
-				</div>
-				<div className={classes.header}>
-					<span
-						className={`${classes.span} ${clickedButton === 'profile' && classes.clickedButton
-							}`}
-						onClick={() => setClickedButton('profile')}
-					>
-						Profile
+        </div>
+        <div className={classes.header}>
+          <span
+            className={`${classes.span} ${
+              clickedButton === 'profile' && classes.clickedButton
+            }`}
+            onClick={() => setClickedButton('profile')}
+          >
+            Profile
           </span>
-					<span
-						className={`${classes.span} ${clickedButton === 'security' && classes.clickedButton
-							}`}
-						onClick={() => setClickedButton('security')}
-					>
-						Security
+          <span
+            className={`${classes.span} ${
+              clickedButton === 'security' && classes.clickedButton
+            }`}
+            onClick={() => setClickedButton('security')}
+          >
+            Security
           </span>
-				</div>
-				<div>
-					{clickedButton === 'profile' ? (
-						<UpdateProfile />
-					) : (
-						<UpdatePassword />
-					)}
-				</div>
-			</div>
-		</Header>
-	);
+        </div>
+        <div>
+          {clickedButton === 'profile' ? <UpdateProfile /> : <UpdatePassword />}
+        </div>
+      </div>
+    </Header>
+  );
 };
 
 export default FacultyProfile;

@@ -58,6 +58,8 @@ const UploadMarksPage = () => {
   const [details, setDetails] = useState(initialData);
   const [marksList, setMarksList] = useState([]);
   const [errors, setErrors] = useState(null);
+  const [errorMarks, setErrorMarks] = useState([]);
+  const [errorText, setErrorText] = useState(false);
 
   const handleChangeDetails = (e) => {
     const { name } = e.target;
@@ -97,17 +99,23 @@ const UploadMarksPage = () => {
     );
     if (flag === true) {
       setErrors(null);
-      const formData = {
-        marksList,
-        subjectCode: details.subjectCode,
-        examType: details.examType,
-        ...searchQueryForStudents,
-      };
-      setLoading(true);
-      dispatch(uploadMarks(formData)).then(() => {
-        setLoading(false);
-        handleReset();
-      });
+
+      if (marksList.length === studentsList.length && errorMarks.length === 0) {
+        setErrorText(false);
+        const formData = {
+          marksList,
+          subjectCode: details.subjectCode,
+          examType: details.examType,
+          ...searchQueryForStudents,
+        };
+        setLoading(true);
+        dispatch(uploadMarks(formData)).then(() => {
+          setLoading(false);
+          handleReset();
+        });
+      } else {
+        setErrorText(true);
+      }
     } else {
       setErrors(flag);
     }
@@ -260,10 +268,25 @@ const UploadMarksPage = () => {
                 Back
               </Button>
             </div>
+            {errorText && (
+              <Typography
+                variant='h6'
+                color='error'
+                style={{ fontSize: '15px' }}
+                align='center'
+              >
+                {errorMarks.length !== 0
+                  ? 'Please enter correct marks'
+                  : 'Please fill marks for all students'}
+              </Typography>
+            )}
             <UploadMarksTable
               studentsList={studentsList}
               marksList={marksList}
               setMarksList={setMarksList}
+              examType={details.examType}
+              errorMarks={errorMarks}
+              setErrorMarks={setErrorMarks}
             />
             <div className={classes.buttonDiv}>
               {loading ? (
