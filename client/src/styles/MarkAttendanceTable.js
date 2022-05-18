@@ -5,30 +5,30 @@ export default makeStyles((theme) => ({
     width: '95%',
     margin: '2rem auto',
     '& .MuiTableRow-root.Mui-selected': {
-      backgroundColor: 'rgba(65, 174, 169, 0.1)'
+      backgroundColor: 'rgba(65, 174, 169, 0.1)',
     },
     '& .MuiCheckbox-colorSecondary.Mui-checked': {
-      color: '#41aea9'
+      color: '#41aea9',
     },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#41aea9',
     },
   },
   tableContainer: {
-    maxHeight: '70vh'
+    maxHeight: '70vh',
   },
   tableCell: {
     backgroundColor: '#41aea9',
     color: 'white',
     fontFamily: 'Nunito Sans, sans-serif',
-    fontWeight: '600',
+    fontWeight: '500',
     fontSize: '1rem',
   },
   marksInputTextField: {
-    width: '50%'
+    width: '50%',
   },
   inputTableCell: {
-    padding: '6px 0 9px 0'
+    padding: '6px 0 9px 0',
   },
   noDataDiv: {
     backgroundColor: '#41aea9',

@@ -10,7 +10,7 @@ const useStyles = makeStyles({
 });
 
 const SubmitLoader = (props) => {
-  const loader = props?.loaderImage ? props.loaderImage : submitLoader
+  const loader = props?.loaderImage ? props.loaderImage : submitLoader;
   const classes = useStyles();
   return (
     <div className={classes.loaderDiv}>

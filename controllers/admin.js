@@ -100,6 +100,53 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
+const createFirstAdmin = async () => {
+  const details = {
+    name: 'Admin Admin',
+    dob: '01-01-2022',
+    department: 'CS',
+    joiningYear: '2018',
+    email: 'shikharrastogi36@gmail.com',
+    contactNumber: '8447088311',
+  };
+  try {
+    const count = await Admin.countDocuments({});
+    if (count === 0) {
+      const prefix = 'ADM';
+      var registrationNumber = generateRegistrationNumber(
+        prefix,
+        details.joiningYear,
+        count + 1
+      );
+      const checkExisting = await Admin.findOne({ registrationNumber });
+      if (checkExisting) {
+        const last = await Admin.findOne({}).sort({ createdAt: -1 }).limit(1);
+        const newCount = parseInt(last.registrationNumber.slice(-3));
+        registrationNumber = generateRegistrationNumber(
+          prefix,
+          details.joiningYear,
+          newCount + 1
+        );
+      }
+
+      const newAdmin = new Admin({
+        ...details,
+        password: details.dob,
+        registrationNumber,
+      });
+
+      await newAdmin.save();
+      console.log('New admin added successfully');
+    } else {
+      console.log('One admin already exist!');
+    }
+  } catch (error) {
+    console.log('Error in adding admin', error);
+  }
+};
+
+// createFirstAdmin();
+
 module.exports = {
   getAdminDetails,
   addAdmin,

@@ -27,6 +27,7 @@ export const adminLogin = (formData, history) => async (dispatch) => {
     const message = err?.response?.data?.message
       ? err.response.data.message
       : 'Something went wrong';
+    console.log(err);
     dispatch({
       type: SET_SNACKBAR,
       payload: {

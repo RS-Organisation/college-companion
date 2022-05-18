@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const Admin = require('../models/admin');
 const Student = require('../models/student');
 const Faculty = require('../models/faculty');
+const { Console } = require('console');
 
 // Create New JWT Token
 const createToken = (userData) => {
@@ -18,6 +19,7 @@ const adminLogin = async (req, res) => {
 
   try {
     const existingAdmin = await Admin.findOne({ registrationNumber });
+    // console.log(existingAdmin);
     if (!existingAdmin) {
       return res
         .status(404)
@@ -28,6 +30,7 @@ const adminLogin = async (req, res) => {
       password,
       existingAdmin.password
     );
+
     if (!isPasswordCorrect) {
       return res
         .status(404)
@@ -37,9 +40,9 @@ const adminLogin = async (req, res) => {
     const admin = JSON.parse(JSON.stringify(existingAdmin));
     delete admin.password;
     const token = createToken(admin);
-
     res.status(200).json({ result: existingAdmin, success: true, token });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: 'Something went wrong.' });
   }
 };
